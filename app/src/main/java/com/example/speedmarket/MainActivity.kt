@@ -1,7 +1,8 @@
-package com.example.shoptogether
+package com.example.speedmarket
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.speedmarket.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

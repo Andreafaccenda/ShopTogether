@@ -1,4 +1,4 @@
-package com.example.shoptogether
+package com.example.speedmarket
 
 import org.junit.Test
 
