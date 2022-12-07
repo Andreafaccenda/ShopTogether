@@ -4,19 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".speedmarket.speedmarket.Activity.LoginActivity">
+    android:background="@drawable/sfondo_login"
+    tools:context=".activity.LoginActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="146dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="202dp"
-        android:layout_marginEnd="198dp"
-        android:layout_marginBottom="510dp"
-        android:text="Page Login"
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="407dp"
+        android:layout_height="728dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_login" />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

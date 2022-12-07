@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_login"
+    app:startDestination="@id/accediFragment">
+
+    <fragment
+        android:id="@+id/accediFragment"
+        android:name="com.example.speedmarket.fragment.login.AccediFragment"
+        android:label="fragment_accedi"
+        tools:layout="@layout/fragment_accedi" >
+        <action
+            android:id="@+id/action_accediFragment_to_registrazioneUtenteFragment"
+            app:destination="@id/registrazioneUtenteFragment" />
+        <action
+            android:id="@+id/action_accediFragment_to_recuperaPasswordFragment"
+            app:destination="@id/recuperaPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recuperaPasswordFragment"
+        android:name="com.example.speedmarket.fragment.login.RecuperaPasswordFragment"
+        android:label="fragment_recupera_password"
+        tools:layout="@layout/fragment_recupera_password" >
+        <action
+            android:id="@+id/action_recuperaPasswordFragment_to_accediFragment"
+            app:destination="@id/accediFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrazioneUtenteFragment"
+        android:name="com.example.speedmarket.fragment.login.RegistrazioneUtenteFragment"
+        android:label="fragment_registrazione_utente"
+        tools:layout="@layout/fragment_registrazione_utente" >
+        <action
+            android:id="@+id/action_registrazioneUtenteFragment_to_recuperaPasswordFragment"
+            app:destination="@id/recuperaPasswordFragment" />
+    </fragment>
+</navigation>
