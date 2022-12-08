@@ -34,5 +34,8 @@
         <action
             android:id="@+id/action_registrazioneUtenteFragment_to_recuperaPasswordFragment"
             app:destination="@id/recuperaPasswordFragment" />
+        <action
+            android:id="@+id/action_registrazioneUtenteFragment_to_accediFragment"
+            app:destination="@id/accediFragment" />
     </fragment>
 </navigation>

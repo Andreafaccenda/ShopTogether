@@ -12,7 +12,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.noActionBar" >
+            android:theme="@style/AppTheme.noActionBar"
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -21,7 +22,7 @@
             android:name=".activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.noActionBar" >
+            android:theme="@style/AppTheme.noActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

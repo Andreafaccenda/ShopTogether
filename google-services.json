@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1070261310550",
+    "project_id": "speedmarket-bd3ba",
+    "storage_bucket": "speedmarket-bd3ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070261310550:android:71d49e346edb11918817f7",
+        "android_client_info": {
+          "package_name": "com.example.shoptogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070261310550-blbnjucg0bf0q3aqupkoea0k8aui4gqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shoptogether",
+            "certificate_hash": "309e18468cb80881ebee2ae7835479afe7b40c22"
+          }
+        },
+        {
+          "client_id": "1070261310550-5383fo3pmovhlqk16vh9std7fsjuapa3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmoZ6HLDrZRihFALCo03499An55NA_LWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070261310550-5383fo3pmovhlqk16vh9std7fsjuapa3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
