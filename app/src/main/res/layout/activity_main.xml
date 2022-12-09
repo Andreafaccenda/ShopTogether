@@ -4,41 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_splash"
+    android:background="@drawable/sfondo_main_activity"
+    android:orientation="vertical"
     tools:context="com.example.speedmarket.activity.MainActivity">
 
     <Button
         android:id="@+id/btnAccedi"
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="675dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="516dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="165dp"
         android:layout_weight="1"
-        android:background="@drawable/button_orange"
+        android:background="@drawable/button_white"
         android:text="@string/accedi"
-        android:textColor="@color/white"
+        android:textColor="@color/colorBackgroundOrange"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnRegistrati"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="675dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_white"
-        android:text="@string/registrati"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="185dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="222dp"
+        android:layout_marginEnd="179dp"
+        android:layout_marginBottom="247dp"
+        android:text="@string/ordina_ora"
+        android:textStyle="bold"
         android:textColor="@color/colorBackgroundOrange"
-        android:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAccedi"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/btnAccedi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="122dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="104dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333" />
+        app:srcCompat="@drawable/speed_market_logo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

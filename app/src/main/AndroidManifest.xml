@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopTogether">
         <activity
-            android:name=".HomeActivity"
-            android:exported="false">
+            android:name=".activity.HomeActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.noActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

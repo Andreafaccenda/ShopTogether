@@ -8,7 +8,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
+import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityMainBinding
+import com.example.speedmarket.fragment.login.RegistrazioneUtenteFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,11 +46,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity,LoginActivity::class.java))
             finish()
         }
-        binding.btnRegistrati.setOnClickListener(){
-          /*  val uri = Uri.parse("tel:8005551234")
+
+
+        /* val uri = Uri.parse("tel:8005551234")
             intent = Intent(Intent.ACTION_DIAL, uri)
             startActivity(intent)
             finish()*/
-        }
+
     }
 }

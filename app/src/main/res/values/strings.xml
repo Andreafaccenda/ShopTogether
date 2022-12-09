@@ -28,5 +28,6 @@
     <string name="cognome">Cognome</string>
     <string name="conferma_password">Ripeti password</string>
     <string name="messaggio_registrazione_corretta">Ti sei registrato correttamente</string>
+    <string name="ordina_ora">Ordina ora!</string>
 
 </resources>
