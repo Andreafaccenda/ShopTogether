@@ -26,7 +26,7 @@
             android:id="@+id/etNome"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:hint="Nome"
+            android:hint="@string/nome"
             android:inputType="textPersonName"
             android:padding="20dp"
             android:textColorHint="@color/black" />
@@ -51,7 +51,7 @@
             android:id="@+id/etCognome"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:hint="Cognome"
+            android:hint="@string/cognome"
             android:inputType="textPersonName"
             android:padding="20dp"
             android:textColorHint="@color/black" />
@@ -75,7 +75,7 @@
             android:id="@+id/etEmail"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="20dp"
             android:textColorHint="@color/black" />
@@ -99,7 +99,7 @@
             android:id="@+id/etPassword"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="20dp"
             android:textColorHint="@color/black" />
@@ -123,7 +123,7 @@
             android:id="@+id/et_ripeti_password"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:hint="Ripeti password"
+            android:hint="@string/conferma_password"
             android:inputType="textPassword"
             android:padding="20dp"
             android:textColorHint="@color/black" />
@@ -134,7 +134,7 @@
         android:layout_width="192dp"
         android:layout_height="53dp"
         android:background="@drawable/button_white"
-        android:text="Registrati"
+        android:text="@string/registrati"
         android:textColor="@color/colorBackgroundOrange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

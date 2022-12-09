@@ -1,6 +1,7 @@
 package com.example.speedmarket.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -41,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         binding.btnAccedi.setOnClickListener() {
             startActivity(Intent(this@MainActivity,LoginActivity::class.java))
             finish()
+        }
+        binding.btnRegistrati.setOnClickListener(){
+          /*  val uri = Uri.parse("tel:8005551234")
+            intent = Intent(Intent.ACTION_DIAL, uri)
+            startActivity(intent)
+            finish()*/
         }
     }
 }

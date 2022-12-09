@@ -16,7 +16,7 @@
         android:layout_marginEnd="55dp"
         android:layout_marginBottom="139dp"
         android:background="@drawable/button_orange"
-        android:text="Accedi"
+        android:text="@string/accedi"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
             android:id="@+id/etEmail"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="20dp"
             android:textColorHint="@color/black" />
@@ -62,7 +62,7 @@
             android:id="@+id/etPassword"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="20dp"
             android:textColorHint="@color/black" />
@@ -73,7 +73,7 @@
         android:layout_width="168dp"
         android:layout_height="30dp"
         android:background="@drawable/button_white"
-        android:text="recupera password"
+        android:text="@string/recupera_password"
         android:textColor="@color/colorBackgroundOrange"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -99,9 +99,10 @@
         android:id="@+id/txtRegistrazione"
         android:layout_width="179dp"
         android:layout_height="30dp"
-        android:text="Non sei ancora registrato?"
+        android:text="@string/non_sei_ancora_registrato"
         android:textColor="@color/black"
         android:textSize="15dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.262"
@@ -114,7 +115,7 @@
         android:layout_width="110dp"
         android:layout_height="35dp"
         android:background="@drawable/button_white"
-        android:text="Clicca qui"
+        android:text="@string/btn_registrati"
         android:textColor="@color/colorBackgroundOrange"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -124,18 +125,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.863" />
 
-    <Button
-        android:id="@+id/btnGoogle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="81dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="236dp"
-        android:layout_marginBottom="26dp"
-        android:text="Google"
+    <ImageView
+        android:id="@+id/image_google_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="149dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/google_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_accediGoogle"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegistrati" />
+
+    <TextView
+        android:id="@+id/txt_accediGoogle"
+        android:layout_width="145dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="38dp"
+        android:text="@string/accesso_google"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image_google_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRegistrazione" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.example.speedmarket.R
+import com.example.speedmarket.activity.HomeActivity
+import com.example.speedmarket.activity.LoginActivity
 import com.example.speedmarket.activity.MainActivity
 import com.example.speedmarket.databinding.ActivityMainBinding
 import com.example.speedmarket.databinding.FragmentAccediBinding
@@ -31,6 +33,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 class AccediFragment : UtilsFragment() {
 
     companion object {
+
         private const val TAG = "GoogleActivity"
         private val RC_SIGN_IN = 89
     }
@@ -76,7 +79,7 @@ class AccediFragment : UtilsFragment() {
         binding.btnAccedi.setOnClickListener() {
             loginRegisterUser(it)
         }
-        binding.btnGoogle.setOnClickListener(){
+        binding.imageGoogleIcon.setOnClickListener(){
             signIn()
         }
 
@@ -96,7 +99,7 @@ class AccediFragment : UtilsFragment() {
             val email_da_recuperare = dialog.findViewById<EditText>(R.id.etEmailrecuperaPassword)
             val email : String = email_da_recuperare.text.toString().trim { it <= ' ' }
             if(email.isEmpty()){
-                showErrorSnackbar(it,"Please enter the email",false)
+                showErrorSnackbar(it,getString(R.string.messaggio_email),false)
             }else{
                 showProgressDialog()
                 FirebaseAuth.getInstance().sendPasswordResetEmail(email)
@@ -106,7 +109,7 @@ class AccediFragment : UtilsFragment() {
                         if(task.isSuccessful){
                             Toast.makeText(
                                 requireContext(),
-                                "Email sent success",
+                                getString(R.string.messaggio_invio_riuscito_email),
                                 Toast.LENGTH_LONG)
                                 .show()
                             dialog.dismiss()
@@ -120,9 +123,9 @@ class AccediFragment : UtilsFragment() {
     private fun validateLoginDetails(view: View):Boolean{
 
         return when{
-            binding.etEmail.text.toString().isEmpty() -> {showErrorSnackbar(view,"Please enter the email ",false)
+            binding.etEmail.text.toString().isEmpty() -> {showErrorSnackbar(view,getString(R.string.messaggio_email),false)
                 false}
-            binding.etPassword.text.toString().isEmpty() -> {showErrorSnackbar(view,"Please enter the password ",false)
+            binding.etPassword.text.toString().isEmpty() -> {showErrorSnackbar(view,getString(R.string.messaggio_inserisci_password),false)
                 false}
             else ->{
                 true}
@@ -132,6 +135,7 @@ class AccediFragment : UtilsFragment() {
     private fun loginRegisterUser(view : View){
         if(validateLoginDetails(view)){
             showProgressDialog()
+
             val email = binding.etEmail.text.toString().trim{it <= ' '}
             val password = binding.etPassword.text.toString().trim{it <= ' '}
 
@@ -141,13 +145,10 @@ class AccediFragment : UtilsFragment() {
                     hideProgressDialog()
                     if(task.isSuccessful){
 
-                        showErrorSnackbar(view,"You are logged in successfully!",
-                            true)
-                        /*val intent = Intent(this.activity, MainActivity::class.java)
-                        // Error: "Please specify constructor invocation;
-                        // classifier 'Page2' does not have a companion object"
+                       /* showErrorSnackbar(view,"You are logged in successfully!",
+                            true)*/
+                        startActivity(Intent(requireContext(), HomeActivity::class.java))
 
-                        startActivity(intent)*/
                     }else{
                         showErrorSnackbar(view,task.exception!!.message.toString(),false) }
                 }
@@ -185,8 +186,8 @@ class AccediFragment : UtilsFragment() {
                     //Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     val email = user?.email
-                    showErrorSnackbar(view,"You are logged in successfully!",
-                        true)
+                   /* showErrorSnackbar(view,"You are logged in successfully!",
+                        true)*/
                     googleSignInClient.signOut()
                    /* val intent = Intent(this.activity, MainActivity::class.java)
                     // Error: "Please specify constructor invocation;
@@ -197,7 +198,7 @@ class AccediFragment : UtilsFragment() {
                 } else {
 
                     // Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    showErrorSnackbar(view,"Failure! ${task.exception}",
+                    showErrorSnackbar(view,"Accesso fallito! ${task.exception}",
                         true)
                 }
             }

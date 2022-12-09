@@ -52,16 +52,20 @@ class RegistrazioneUtenteFragment : UtilsFragment() {
     private fun validateRegisterDetails(view : View):Boolean{
 
         return when{
-            binding.etNome.text.toString().isEmpty() -> {showErrorSnackbar(view,"Please enter the first name",false)
+            binding.etNome.text.toString().isEmpty() -> {showErrorSnackbar(view,getString(R.string.messaggio_inserisci_nome),false)
                 false}
-            binding.etCognome.text.toString().isEmpty() -> {showErrorSnackbar(view,"Please enter the second name",false)
+            binding.etCognome.text.toString().isEmpty() -> {showErrorSnackbar(view,getString(R.string.messaggio_inserisci_cognome),false)
                 false}
-            binding.etEmail.text.toString().isEmpty() -> {showErrorSnackbar(view,"Please enter the emailID",false)
+            binding.etEmail.text.toString().isEmpty()  -> {showErrorSnackbar(view,getString(R.string.messaggio_inserisci_email),false)
                 false}
-            binding.etPassword.text.toString().isEmpty() -> {showErrorSnackbar(view,"Please enter the password",false)
+            binding.etPassword.text.toString().isEmpty() -> {showErrorSnackbar(view,getString(R.string.messaggio_inserisci_password),false)
                 false}
-            binding.etRipetiPassword.text.toString().isEmpty() -> {showErrorSnackbar(view,"Please enter the conferm password",false)
+            binding.etRipetiPassword.text.toString().isEmpty() -> {showErrorSnackbar(view,getString(
+                            R.string.messaggio_inserisci_password_conferma),false)
                 false}
+            binding.etPassword.text.toString() != binding.etRipetiPassword.text.toString() -> {showErrorSnackbar(view,getString(
+                            R.string.messaggio_password_diverse),false)
+            false}
             else ->{ true}
         }
         return true
@@ -101,7 +105,7 @@ class RegistrazioneUtenteFragment : UtilsFragment() {
         hideProgressDialog()
         Toast.makeText(
             requireContext(),
-            "You are register successfully",
+            getString(R.string.messaggio_registrazione_corretta),
             Toast.LENGTH_SHORT
         ).show()
     }
