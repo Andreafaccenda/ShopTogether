@@ -117,6 +117,7 @@ class RegistrazioneUtenteFragment : UtilsFragment() {
 
         db = FirebaseFirestore.getInstance()
         val user: MutableMap<String, String> = HashMap()
+
         user["nome"] = utente.nome
         user["cognome"] = utente.cognome
         user["email"] = utente.email
