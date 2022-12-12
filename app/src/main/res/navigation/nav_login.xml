@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_accediFragment_to_registrazioneUtenteFragment"
             app:destination="@id/registrazioneUtenteFragment" />
-        <action
-            android:id="@+id/action_accediFragment_self"
-            app:destination="@id/accediFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrazioneUtenteFragment"
