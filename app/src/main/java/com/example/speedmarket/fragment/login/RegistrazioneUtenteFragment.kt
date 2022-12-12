@@ -1,15 +1,12 @@
 package com.example.speedmarket.fragment.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
-import com.example.speedmarket.FirestoreClass
 import com.example.speedmarket.R
-import com.example.speedmarket.databinding.FragmentAccediBinding
 import com.example.speedmarket.databinding.FragmentRegistrazioneUtenteBinding
 import com.example.speedmarket.fragment.UtilsFragment
 import com.example.speedmarket.model.Utente
@@ -17,11 +14,14 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 
 class RegistrazioneUtenteFragment : UtilsFragment() {
 
     lateinit var binding: FragmentRegistrazioneUtenteBinding
+    lateinit  var db : FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +39,9 @@ class RegistrazioneUtenteFragment : UtilsFragment() {
         binding.btnRegistrati.setOnClickListener(){
 
             registerUser(it)
+        }
+        binding.imageTurnBack.setOnClickListener(){
+            view.findNavController().navigate(R.id.action_registrazioneUtenteFragment_to_accediFragment)
         }
     }
     private fun clear_all(){
@@ -89,10 +92,10 @@ class RegistrazioneUtenteFragment : UtilsFragment() {
                             binding.etCognome.text.toString(),
                             email,password
                         )
+                        add_to_database(user)
+                        //FirestoreClass().registerUser(this,user)
 
-                        FirestoreClass().registerUser(this,user)
-
-                        FirebaseAuth.getInstance().signOut()
+                        //FirebaseAuth.getInstance().signOut()
                         clear_all()
                         view.findNavController().navigate(R.id.action_registrazioneUtenteFragment_to_accediFragment)
                     }else{
@@ -110,4 +113,24 @@ class RegistrazioneUtenteFragment : UtilsFragment() {
         ).show()
     }
 
+    fun add_to_database(utente: Utente){
+
+        db = FirebaseFirestore.getInstance()
+        val user: MutableMap<String, String> = HashMap()
+        user["nome"] = utente.nome
+        user["cognome"] = utente.cognome
+        user["email"] = utente.email
+        user["password"] = utente.password
+        user["immagine_profilo"] = utente.immagine_profilo
+        user["residenza"] = utente.residenza
+        user["numero_telefono"] = utente.numero_telefono.toString()
+        user["genere"] = utente.genere
+        user["profilo_completo"] = utente.profileCompleted.toString()
+
+        db.collection("Utenti")
+            .document(utente.id)
+            .set(user)
+
+
+    }
 }

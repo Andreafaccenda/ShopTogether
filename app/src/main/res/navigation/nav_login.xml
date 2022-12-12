@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_accedi" >
         <action
             android:id="@+id/action_accediFragment_to_registrazioneUtenteFragment"
-            app:destination="@id/registrazioneUtenteFragment" />
+            app:destination="@id/registrazioneUtenteFragment"
+            app:enterAnim="@anim/traslation_r_to_l" />
     </fragment>
     <fragment
         android:id="@+id/registrazioneUtenteFragment"
@@ -21,6 +22,7 @@
         tools:layout="@layout/fragment_registrazione_utente" >
         <action
             android:id="@+id/action_registrazioneUtenteFragment_to_accediFragment"
-            app:destination="@id/accediFragment" />
+            app:destination="@id/accediFragment"
+            app:enterAnim="@anim/traslation_l_to_r" />
     </fragment>
 </navigation>

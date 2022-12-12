@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/sfondo_login"
+    android:orientation="vertical"
     tools:context=".fragment.login.RegistrazioneUtenteFragment">
 
 
@@ -143,5 +143,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_ripeti_password"
         app:layout_constraintVertical_bias="0.215" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="277dp"
+        android:layout_height="219dp"
+        android:layout_marginBottom="51dp"
+        android:src="@drawable/logo_registrazione_sm"
+        app:layout_constraintBottom_toTopOf="@+id/input_layout_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_turn_back"
+        android:layout_width="66dp"
+        android:layout_height="51dp"
+        android:src="@drawable/tunr_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.047" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
