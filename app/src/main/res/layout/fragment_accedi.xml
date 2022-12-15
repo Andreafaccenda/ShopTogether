@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/sfondo_login"
     android:orientation="vertical"
-    tools:context=".ui.AccediFragment">
+    tools:context=".ui.auth.AccediFragment">
 
     <Button
         android:id="@+id/btnAccedi"

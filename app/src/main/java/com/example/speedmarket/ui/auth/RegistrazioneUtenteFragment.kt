@@ -1,7 +1,6 @@
-package com.example.speedmarket.ui
+package com.example.speedmarket.ui.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.navigation.findNavController
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentRegistrazioneUtenteBinding
 import com.example.speedmarket.model.Utente
+import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.util.*
 
 import dagger.hilt.android.AndroidEntryPoint

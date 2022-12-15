@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/sfondo_login"
     android:orientation="vertical"
-    tools:context=".ui.RegistrazioneUtenteFragment">
+    tools:context=".ui.auth.RegistrazioneUtenteFragment">
 
 
     <com.google.android.material.textfield.TextInputLayout

@@ -1,4 +1,4 @@
-package com.example.speedmarket.ui
+package com.example.speedmarket.ui.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -45,6 +45,13 @@ class AuthViewModel @Inject constructor(
         ){
             _login.value = it
         }
+    }
+    fun logout(result: () -> Unit){
+        repository.logout(result)
+    }
+
+    fun getSession(result: (Utente?) -> Unit){
+        repository.getSession(result)
     }
 
 

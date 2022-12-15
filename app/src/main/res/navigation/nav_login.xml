@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/accediFragment"
-        android:name="com.example.speedmarket.ui.AccediFragment"
+        android:name="com.example.speedmarket.ui.auth.AccediFragment"
         android:label="fragment_accedi"
         tools:layout="@layout/fragment_accedi" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrazioneUtenteFragment"
-        android:name="com.example.speedmarket.ui.RegistrazioneUtenteFragment"
+        android:name="com.example.speedmarket.ui.auth.RegistrazioneUtenteFragment"
         android:label="fragment_registrazione_utente"
         tools:layout="@layout/fragment_registrazione_utente" >
         <action
