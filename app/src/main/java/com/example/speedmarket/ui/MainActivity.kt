@@ -1,18 +1,14 @@
 package com.example.speedmarket.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.speedmarket.databinding.ActivityMainBinding
 import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.util.SharedPrefConstants
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -21,9 +17,9 @@ class MainActivity : AppCompatActivity() {
 
 
     lateinit var binding: ActivityMainBinding
-    val objViewModel: AuthViewModel by viewModels()
+    val viewModel: AuthViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
-        autoLogin()
+  //      autoLogin()
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -56,7 +52,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun autoLogin() {
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getSession { user ->
+            if (user != null){
+                val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+ /*   private fun autoLogin() {
         /*val sharedPref = applicationContext.getSharedPreferences(SharedPrefConstants.LOCAL_SHARED_PREF, Context.MODE_PRIVATE)
         val shared = getSharedPreferences("local_shared_pref", MODE_PRIVATE)
         val email = sharedPref.getString("email", "0")
@@ -68,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
         objViewModel.login(email.toString(), password.toString())
         startActivity(Intent(this@MainActivity, HomeActivity::class.java))*/
-    }
+    } */
 }
 
 
