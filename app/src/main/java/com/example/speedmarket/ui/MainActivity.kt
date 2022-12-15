@@ -1,19 +1,21 @@
-package com.example.speedmarket.activity
+package com.example.speedmarket.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityMainBinding
-import com.example.speedmarket.fragment.login.RegistrazioneUtenteFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
 
     lateinit var binding: ActivityMainBinding
 
@@ -24,8 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
-        }
-        else {
+        } else {
             @Suppress("DEPRECATION")
             window.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -34,24 +35,22 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-      /*  @Suppress("DEPRECATION")
+       /* @Suppress("DEPRECATION")
         Handler().postDelayed(
             {
-                startActivity(Intent(this@SplashActivity,HomeActivity::class.java))
+                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
                 finish()
             },
             2000
         )*/
+
         binding.btnAccedi.setOnClickListener() {
-            startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             finish()
         }
 
 
-        /* val uri = Uri.parse("tel:8005551234")
-            intent = Intent(Intent.ACTION_DIAL, uri)
-            startActivity(intent)
-            finish()*/
-
     }
 }
+
+

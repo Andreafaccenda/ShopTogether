@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/sfondo_main_activity"
     android:orientation="vertical"
-    tools:context="com.example.speedmarket.activity.MainActivity">
+    tools:context="com.example.speedmarket.ui.MainActivity">
 
     <Button
         android:id="@+id/btnAccedi"

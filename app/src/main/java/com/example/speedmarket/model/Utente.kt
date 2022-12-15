@@ -1,7 +1,7 @@
 package com.example.speedmarket.model
 
-class Utente(
-    val id: String = "",
+data class Utente(
+    var id: String = "",
     val nome: String = "",
     val cognome: String = "",
     val email: String = "",

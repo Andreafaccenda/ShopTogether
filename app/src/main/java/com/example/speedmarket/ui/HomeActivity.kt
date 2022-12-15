@@ -1,11 +1,11 @@
-package com.example.speedmarket.activity
+package com.example.speedmarket.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityHomeBinding
-import com.example.speedmarket.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     lateinit var binding : ActivityHomeBinding
 

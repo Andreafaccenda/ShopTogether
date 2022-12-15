@@ -29,5 +29,7 @@
     <string name="conferma_password">Ripeti password</string>
     <string name="messaggio_registrazione_corretta">Ti sei registrato correttamente</string>
     <string name="ordina_ora">Ordina ora!</string>
+    <string name="email_invalida">email invalida</string>
+    <string name="messaggio_password_invalida">password con almeno 8 caratteri</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.example.speedmarket.activity
+package com.example.speedmarket.ui
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,9 @@ import android.view.MenuItem
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.example.speedmarket.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
