@@ -14,6 +14,9 @@
             android:id="@+id/action_accediFragment_to_registrazioneUtenteFragment"
             app:destination="@id/registrazioneUtenteFragment"
             app:enterAnim="@anim/traslation_r_to_l" />
+        <action
+            android:id="@+id/action_accediFragment_to_recuperaPasswordFragment"
+            app:destination="@id/recuperaPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrazioneUtenteFragment"
@@ -24,5 +27,14 @@
             android:id="@+id/action_registrazioneUtenteFragment_to_accediFragment"
             app:destination="@id/accediFragment"
             app:enterAnim="@anim/traslation_l_to_r" />
+    </fragment>
+    <fragment
+        android:id="@+id/recuperaPasswordFragment"
+        android:name="com.example.speedmarket.ui.auth.RecuperaPasswordFragment"
+        android:label="fragment_recupera_password"
+        tools:layout="@layout/fragment_recupera_password" >
+        <action
+            android:id="@+id/action_recuperaPasswordFragment_to_accediFragment"
+            app:destination="@id/accediFragment" />
     </fragment>
 </navigation>

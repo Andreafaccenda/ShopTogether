@@ -46,6 +46,13 @@ class AuthViewModel @Inject constructor(
             _login.value = it
         }
     }
+    fun forgotPassword(email: String) {
+        _forgotPassword.value = UiState.Loading
+        repository.forgotPassword(email){
+            _forgotPassword.value = it
+        }
+    }
+
     fun logout(result: () -> Unit){
         repository.logout(result)
     }

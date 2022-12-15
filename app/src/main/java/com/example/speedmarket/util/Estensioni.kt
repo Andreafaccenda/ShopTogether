@@ -35,11 +35,9 @@ fun Fragment.toast(msg: String?){
 
 
 fun Fragment.createDialog(): Dialog {
-    val dialog = Dialog(requireContext(), android.R.style.Theme_Dialog)
-    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    val dialog = Dialog(requireContext())
     dialog.setContentView(R.layout.custom_dialog)
     dialog.setCancelable(true)
-    dialog.window?.setGravity(Gravity.CENTER)
     dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     return dialog
 }
