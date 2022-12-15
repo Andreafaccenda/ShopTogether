@@ -13,7 +13,6 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val profileName=intent.getStringExtra("Username")
         binding.txtAccount.text = profileName.toString()
     }
