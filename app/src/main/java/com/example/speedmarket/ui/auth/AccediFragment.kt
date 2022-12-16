@@ -48,6 +48,7 @@ class AccediFragment : Fragment() {
         }
 
     }
+
     fun observer(){
         viewModel.login.observe(viewLifecycleOwner) { state ->
             when(state){
@@ -71,6 +72,7 @@ class AccediFragment : Fragment() {
             }
         }
     }
+
     fun validation(): Boolean {
         var isValid = true
 

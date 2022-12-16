@@ -52,13 +52,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     override fun onStart() {
         super.onStart()
         viewModel.getSession { user ->
-            if (user != null){
-                val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                startActivity(intent)
+            if (user != null) {
+                if(viewModel.autoLogin(user.email, user.password)) {
+                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }

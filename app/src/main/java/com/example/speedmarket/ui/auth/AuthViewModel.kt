@@ -46,6 +46,11 @@ class AuthViewModel @Inject constructor(
             _login.value = it
         }
     }
+
+    fun autoLogin(email: String, password: String): Boolean {
+        return repository.autoLogin(email, password)
+    }
+
     fun forgotPassword(email: String) {
         _forgotPassword.value = UiState.Loading
         repository.forgotPassword(email){
