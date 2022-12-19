@@ -1,4 +1,4 @@
-package com.example.speedmarket.ui
+package com.example.speedmarket.ui.auth
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity

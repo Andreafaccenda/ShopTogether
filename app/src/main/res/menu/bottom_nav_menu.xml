@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="Home" />
+    <item
+        android:id="@+id/frigorifero"
+        android:icon="@drawable/kitchen"
+        android:title="Frigorifero"/>
+    <item
+        android:id="@+id/carrello"
+        android:icon="@drawable/shopping_cart"
+        android:title="Carrello"/>
+    <item
+        android:id="@+id/catalogo"
+        android:icon="@drawable/catalogo"
+        android:title="Catalogo"/>
+    <item
+        android:id="@+id/profilo"
+        android:icon="@drawable/profile"
+        android:title="Profilo"/>
+
+</menu>

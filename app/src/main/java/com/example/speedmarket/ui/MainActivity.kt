@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.speedmarket.databinding.ActivityMainBinding
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.auth.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.getSession { user ->
             if (user != null) {
                 if(viewModel.autoLogin(user.email, user.password)) {
-                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    val intent = Intent(this@MainActivity, AppActivity::class.java)
                     startActivity(intent)
                 }
             }

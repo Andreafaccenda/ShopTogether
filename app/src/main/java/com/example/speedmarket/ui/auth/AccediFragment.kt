@@ -2,18 +2,15 @@ package com.example.speedmarket.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentAccediBinding
-import com.example.speedmarket.ui.HomeActivity
+import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,7 +62,7 @@ class AccediFragment : Fragment() {
                     binding.btnAccedi.setText("Accedi")
                     binding.accediProgressBar.hide()
                     toast(state.data)
-                    val intent = Intent(requireContext(), HomeActivity::class.java)
+                    val intent = Intent(requireContext(), AppActivity::class.java)
                     intent.putExtra("Username", "Benvenuto,")
                     startActivity(intent)
                 }

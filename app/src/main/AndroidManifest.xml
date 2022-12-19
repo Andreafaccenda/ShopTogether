@@ -12,24 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopTogether">
+
         <activity
-            android:name=".ui.CatalogoActivity"
+            android:name=".ui.AppActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.noActionBar">
+            android:theme="@style/AppTheme.noActionBar"
+            >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.HomeActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.noActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.auth.LoginActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.noActionBar">
