@@ -19,12 +19,17 @@ class AuthRepositoryImp(
     val appPreferences: SharedPreferences,
     val gson: Gson
     ) : AuthRepository {
-    override fun registerUser(email: String, password: String, utente: Utente, result: (UiState<String>) -> Unit) {
-        auth.createUserWithEmailAndPassword(email,password)
+    override fun registerUser(
+        email: String,
+        password: String,
+        utente: Utente,
+        result: (UiState<String>) -> Unit
+    ) {
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
 
-                if (it.isSuccessful){
-                    Log.d("Tag","it.isSuccessfull")
+                if (it.isSuccessful) {
+                    Log.d("Tag", "it.isSuccessfull")
                     utente.id = it.result.user?.uid ?: ""
                     updateUserInfo(utente) { state ->
                         when (state) {
@@ -43,7 +48,7 @@ class AuthRepositoryImp(
                             }
                         }
                     }
-                }else{
+                } else {
                     try {
                         throw it.exception ?: java.lang.Exception("Invalid authentication")
                     } catch (e: FirebaseAuthWeakPasswordException) {
@@ -85,13 +90,13 @@ class AuthRepositoryImp(
     }
 
     override fun loginUser(email: String, password: String, result: (UiState<String>) -> Unit) {
-        auth.signInWithEmailAndPassword(email,password)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    storeSession(id = task.result.user?.uid ?: ""){
-                        if (it == null){
+                    storeSession(id = task.result.user?.uid ?: "") {
+                        if (it == null) {
                             result.invoke(UiState.Failure("Failed to store local session"))
-                        }else{
+                        } else {
                             result.invoke(UiState.Success("Login successfully!"))
                         }
                     }
@@ -99,6 +104,19 @@ class AuthRepositoryImp(
             }.addOnFailureListener {
                 result.invoke(UiState.Failure("Authentication failed, Check email and password"))
             }
+    }
+
+    override fun autoLogin(email: String, password: String): Boolean {
+        var esito = false
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    esito = true
+                }
+            }.addOnFailureListener(){
+        esito = false
+        }
+    return esito
     }
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
         auth.sendPasswordResetEmail(email)
