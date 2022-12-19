@@ -34,16 +34,6 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-
-       /* @Suppress("DEPRECATION")
-        Handler().postDelayed(
-            {
-                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-                finish()
-            },
-            2000
-        )*/
-
         binding.btnAccedi.setOnClickListener() {
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             finish()

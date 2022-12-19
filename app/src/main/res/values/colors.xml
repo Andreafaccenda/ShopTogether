@@ -29,6 +29,12 @@
     <color name="colorSuccess">#4BB543</color>
     <color name="colorWarning">#FFCC00</color>
     <color name="colorError">#CC0000</color>
-    <color name="colorNeutral">#434343</color>>
+    <color name="colorNeutral">#434343</color>
+
+
+    <color name="back_cat1">#fef4e5</color>
+    <color name="back_cat2">#F5E5FE</color>
+
+
 
 </resources>

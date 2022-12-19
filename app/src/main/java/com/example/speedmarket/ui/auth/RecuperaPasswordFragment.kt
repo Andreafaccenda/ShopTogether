@@ -45,12 +45,12 @@ class RecuperaPasswordFragment : Fragment() {
                         binding.recuperaPasswordProgressBar.show()
                     }
                     is UiState.Failure -> {
-                        binding.btnInviaEmail.setText("Send")
+                        binding.btnInviaEmail.setText("Invia email")
                         binding.recuperaPasswordProgressBar.hide()
                         toast(state.error)
                     }
                     is UiState.Success -> {
-                        binding.btnInviaEmail.setText("Send")
+                        binding.btnInviaEmail.setText("Invia email")
                         binding.recuperaPasswordProgressBar.hide()
                         toast(state.data)
                         view?.findNavController()?.navigate(R.id.action_recuperaPasswordFragment_to_accediFragment)
