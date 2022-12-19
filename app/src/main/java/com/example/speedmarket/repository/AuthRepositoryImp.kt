@@ -92,7 +92,7 @@ class AuthRepositoryImp(
                         if (it == null){
                             result.invoke(UiState.Failure("Failed to store local session"))
                         }else{
-                            result.invoke(UiState.Success("Login andato a buon fine!"))
+                            result.invoke(UiState.Success("Login successfully!"))
                         }
                     }
                 }
@@ -104,13 +104,13 @@ class AuthRepositoryImp(
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    result.invoke(UiState.Success("Email inviata correttamente"))
+                    result.invoke(UiState.Success("Email has been sent"))
 
                 } else {
                     result.invoke(UiState.Failure(task.exception?.message))
                 }
             }.addOnFailureListener {
-                result.invoke(UiState.Failure("Autentificazione fallita,email sbagliata"))
+                result.invoke(UiState.Failure("Authentication failed, Check email"))
             }
     }
     override fun logout(result: () -> Unit) {
