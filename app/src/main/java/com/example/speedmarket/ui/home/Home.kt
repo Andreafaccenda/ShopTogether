@@ -1,17 +1,14 @@
 package com.example.speedmarket.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.speedmarket.CategorieAdapter
+import com.example.speedmarket.model.CategorieAdapter
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentHomeBinding
 import com.example.speedmarket.model.Categorie

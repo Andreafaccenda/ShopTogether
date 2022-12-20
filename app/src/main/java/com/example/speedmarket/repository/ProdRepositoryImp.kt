@@ -27,7 +27,7 @@ class ProdRepositoryImp(
         it.asDomainModel()
     }
 
-    override fun getProducts(user: Utente?, result: (UiState<List<Prodotto>>) -> Unit) {
+    override fun getProducts(result: (UiState<List<Prodotto>>) -> Unit){
         val db = database.collection(FireStoreCollection.PRODOTTI)
         db.get()
             .addOnSuccessListener { document ->

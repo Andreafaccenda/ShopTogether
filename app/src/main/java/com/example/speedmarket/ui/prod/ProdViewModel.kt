@@ -34,9 +34,9 @@ class ProdViewModel @Inject constructor(
     val deleteNote: LiveData<UiState<String>>
         get() = _deleteProduct
 
-    fun getProducts(user: Utente?) {
+    fun getProducts() {
         _notes.value = UiState.Loading
-        repository.getProducts(user) { _notes.value = it }
+        repository.getProducts() { _notes.value = it }
     }
 
     fun addProduct(prodotto: Prodotto){

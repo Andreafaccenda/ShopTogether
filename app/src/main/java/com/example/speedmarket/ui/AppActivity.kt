@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityAppBinding
 import com.example.speedmarket.model.Categorie
-import com.example.speedmarket.ui.Catalogo.CatalogoFragment
+import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.home.Home
 import dagger.hilt.android.AndroidEntryPoint
