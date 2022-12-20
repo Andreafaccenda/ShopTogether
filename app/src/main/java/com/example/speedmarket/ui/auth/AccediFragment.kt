@@ -2,6 +2,7 @@ package com.example.speedmarket.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class AccediFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        getDatiSalvati()
         observer()
         binding.btnAccedi.setOnClickListener {
             if (validation()) {
@@ -45,7 +46,15 @@ class AccediFragment : Fragment() {
         }
 
     }
-
+    fun getDatiSalvati() {
+        viewModel.getSession { user ->
+            if (user != null) {
+                binding.etEmail.setText(user.email)
+                binding.etPassword.setText(user.password)
+                viewModel.login(email = binding.etEmail.text.toString(),password = binding.etPassword.text.toString())
+            }
+        }
+    }
     fun observer(){
         viewModel.login.observe(viewLifecycleOwner) { state ->
             when(state){
@@ -72,7 +81,6 @@ class AccediFragment : Fragment() {
 
     fun validation(): Boolean {
         var isValid = true
-
         if (binding.etEmail.text.isNullOrEmpty()){
             isValid = false
             toast(getString(R.string.inserisci_email))

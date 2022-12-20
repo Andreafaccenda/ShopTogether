@@ -106,19 +106,6 @@ class AuthRepositoryImp(
             }
     }
 
-    override fun autoLogin(email: String, password: String): Boolean {
-        var esito = false
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    esito = true
-                }
-            }.addOnFailureListener(){
-        esito = false
-        }
-    return esito
-    }
-
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->

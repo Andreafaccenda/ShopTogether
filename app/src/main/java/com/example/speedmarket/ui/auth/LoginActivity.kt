@@ -3,6 +3,7 @@ package com.example.speedmarket.ui.auth
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -13,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
