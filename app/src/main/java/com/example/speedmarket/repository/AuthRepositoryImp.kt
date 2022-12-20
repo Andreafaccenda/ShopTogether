@@ -118,6 +118,7 @@ class AuthRepositoryImp(
         }
     return esito
     }
+
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->

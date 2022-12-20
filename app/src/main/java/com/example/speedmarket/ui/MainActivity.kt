@@ -3,6 +3,7 @@ package com.example.speedmarket.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -47,13 +48,13 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         viewModel.getSession { user ->
             if (user != null) {
-                if(viewModel.autoLogin(user.email, user.password)) {
+   /*             if(viewModel.autoLogin(user.email, user.password)) {
+                    Log.d("utente", user.email) */
                     val intent = Intent(this@MainActivity, AppActivity::class.java)
                     startActivity(intent)
                 }
             }
         }
-    }
  /*   private fun autoLogin() {
         /*val sharedPref = applicationContext.getSharedPreferences(SharedPrefConstants.LOCAL_SHARED_PREF, Context.MODE_PRIVATE)
         val shared = getSharedPreferences("local_shared_pref", MODE_PRIVATE)

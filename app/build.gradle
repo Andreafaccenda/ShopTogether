@@ -90,6 +90,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.4.1'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
 
+    //ROOM
+    implementation 'androidx.room:room-runtime:2.4.3'
+    kapt 'androidx.room:room-compiler:2.4.3'
+    implementation 'androidx.room:room-ktx:2.4.3'
+    testImplementation 'androidx.room:room-testing:2.4.3'
 
     //LiveData
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'

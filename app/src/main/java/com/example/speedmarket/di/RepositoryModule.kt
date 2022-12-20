@@ -1,8 +1,11 @@
 package com.example.speedmarket.di
 
+import android.app.Application
 import android.content.SharedPreferences
 import com.example.speedmarket.repository.AuthRepository
 import com.example.speedmarket.repository.AuthRepositoryImp
+import com.example.speedmarket.repository.ProdRepository
+import com.example.speedmarket.repository.ProdRepositoryImp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
@@ -25,5 +28,14 @@ object RepositoryModule {
         gson: Gson
     ): AuthRepository {
         return AuthRepositoryImp(auth,database,appPreferences,gson)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProdRepository(
+        database: FirebaseFirestore,
+        application: Application
+    ): ProdRepository {
+        return ProdRepositoryImp(database, application)
     }
 }
