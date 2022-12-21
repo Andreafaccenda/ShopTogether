@@ -1,5 +1,6 @@
 package com.example.speedmarket.model
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,18 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         list.removeAt(position)
         notifyItemChanged(position)
     }
+    fun filtaLista(tipo: String){
+        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
+        Log.d("tiporichiesto",tipo)
+        for (prodotto in this.list){
+            Log.d("categoriaprodtto", prodotto.categoria)
+            if(prodotto.categoria.equals(tipo, true)){
+                lista_aggiornata.add(prodotto)
+            }
+        }
 
+        this.list = lista_aggiornata
+    }
     override fun getItemCount(): Int {
         return list.size
     }

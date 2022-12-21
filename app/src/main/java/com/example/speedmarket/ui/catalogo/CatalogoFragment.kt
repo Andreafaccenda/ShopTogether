@@ -65,7 +65,7 @@ class CatalogoFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     adapter.updateList(state.data.toMutableList())
-
+                    adapter.filtaLista(this.nome_categoria)
                 }
             }
         }
