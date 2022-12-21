@@ -15,6 +15,7 @@ import com.example.speedmarket.model.Categorie
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.home.Home
+import com.example.speedmarket.ui.impostazioni.Impostazioni
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
@@ -48,6 +49,7 @@ class AppActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.home -> replaceFragment(Home())
                 R.id.catalogo->replaceFragment(CatalogoFragment())
+                R.id.impostazioni->replaceFragment(Impostazioni())
                 else->{
 
                 }

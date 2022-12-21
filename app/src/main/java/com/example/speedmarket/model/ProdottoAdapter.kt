@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ViewHolderProdottoBinding
+import com.example.speedmarket.util.hide
+import java.text.DecimalFormat
 import java.util.*
 
 
@@ -27,19 +29,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         this.list = list
         notifyDataSetChanged()
     }
-    fun filterList(filtro : String,list: MutableList<Prodotto>){
-        val lista= mutableListOf<Prodotto>()
-        if(filtro.isNotEmpty()){
-            for(it in list){
-                if (it.nome.toLowerCase(Locale.getDefault()).startsWith(filtro)){
-                    lista.add(it)}
-                }
-            this.list = lista
-            notifyDataSetChanged()
-            }else{
-            this.list = list
-            notifyDataSetChanged()}
-    }
+
     fun removeItem(position: Int){
         list.removeAt(position)
         notifyItemChanged(position)
@@ -52,39 +42,35 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
     inner class ProdottoViewHolder(val binding: ViewHolderProdottoBinding ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Prodotto){
             binding.txtProdotto.setText(item.nome)
-            binding.txtPrezzo.setText(item.prezzo_unitario.toString())
+            binding.txtQuantit.setText(item.quantita.toString()+"Kg")
+            binding.txtPrezzo.setText(item.prezzo_unitario.toString()+"€/Kg")
+            if(item.offerta!! < 1){
+                binding.txtPrezzoUnitario.setText("Offerta:")
+                binding.txtPrezzoOfferta.setText(prezzo_unitario(item.prezzo_unitario,item.quantita,item.offerta)+"€")
+                binding.txtPrezzoOffertaSenzaSconto.setText(prezzo_unitario(item.prezzo_unitario,item.quantita,
+                    1.0F
+                )+"€")
+            }else {
+                binding.txtPrezzoUnitario.hide()
+                binding.txtPrezzoOfferta.setText(prezzo_unitario(item.prezzo_unitario,item.quantita,item.offerta)+"€")
+                binding.txtPrezzoOffertaSenzaSconto.hide()
+                binding.sbarraOfferta.hide()
+            }
+
         }
     }
+    fun prezzo_unitario(prezzo:Float,quantità:Float,offerta:Float):String{
+        if(offerta < 1) {
+            val dec = DecimalFormat("#.##")
+            var result = dec.format(prezzo * quantità * offerta)
+            return result
+        }else{
+            val dec = DecimalFormat("#.##")
+            var result = dec.format(prezzo * quantità)
+            return result
+        }
+
+    }
+
 }
 
-
-
-
-
-
-/*class ProdottoAdapter(private val List: ArrayList<Prodotto>):
-    RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProdottoViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_prodotto,parent,false)
-        return ProdottoViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: ProdottoViewHolder, position: Int) {
-        val currentItem = List[position]
-        //holder.image.setImageResource(currentItem.immagine)
-        holder.title.text= currentItem.nome
-        holder.prezzo.text= "€ " + currentItem.prezzo_unitario.toString()
-    }
-
-    override fun getItemCount(): Int {
-        return List.size
-    }
-    class ProdottoViewHolder(view : View) : RecyclerView.ViewHolder(view){
-
-        //val image : ImageView = itemView.findViewById(R.id.image_prodotto)
-        val title : TextView = itemView.findViewById(R.id.txt_prodotto)
-        val prezzo : TextView = itemView.findViewById(R.id.txt_prezzo)
-
-    }
-}*/

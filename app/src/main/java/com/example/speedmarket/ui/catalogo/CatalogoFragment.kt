@@ -29,8 +29,7 @@ class CatalogoFragment : Fragment() {
 
     lateinit var binding: FragmentCatalogoBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var lista_prodotto_filtrata: MutableList<Prodotto>
-    private lateinit var lista_prodotto: MutableList<Prodotto>
+    private lateinit var nome_categoria :String
     val viewModel: ProdViewModel by viewModels()
     val adapter by lazy { ProdottoAdapter()}
 
@@ -44,6 +43,9 @@ class CatalogoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args = this.arguments
+        this.nome_categoria = args?.get("nome_categoria").toString()
+
         oberver()
         binding.barraDiRicerca.clearFocus()
         viewModel.getProducts()
@@ -53,9 +55,9 @@ class CatalogoFragment : Fragment() {
         binding.recyclerViewCatalogo.adapter=adapter
 
     }
-    private fun oberver(){
+    private fun oberver() {
         viewModel.note.observe(viewLifecycleOwner) { state ->
-            when(state){
+            when (state) {
                 is UiState.Loading -> {
                 }
                 is UiState.Failure -> {
@@ -68,16 +70,5 @@ class CatalogoFragment : Fragment() {
             }
         }
     }
-
-   /* private fun getProdottoData() {
-
-        for(i in nome_prodotto.indices){
-            val prodotto = Prodotto("",nome_prodotto[i],"","","",
-                prezzo_prodotto[i].toFloat(),0.0f,"","",0.0f)
-            lista_prodotto.add(prodotto)
-        }
-            lista_prodotto_filtrata.addAll(lista_prodotto)
-        recyclerView.adapter = ProdottoAdapter(lista_prodotto_filtrata)
-    }*/
 
 }

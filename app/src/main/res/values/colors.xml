@@ -35,6 +35,11 @@
     <color name="back_cat1">#fef4e5</color>
     <color name="back_cat2">#F5E5FE</color>
 
+    <color name="assistenza_clienti">#6124B1</color>
+    <color name="notifiche">#13B2C3</color>
+    <color name="account">#E6A326</color>
+    <color name="sicurezza">#D95F69</color>
+
 
 
 </resources>

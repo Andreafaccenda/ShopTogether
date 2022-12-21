@@ -5,10 +5,6 @@
         android:icon="@drawable/home"
         android:title="Home" />
     <item
-        android:id="@+id/frigorifero"
-        android:icon="@drawable/kitchen"
-        android:title="Frigorifero"/>
-    <item
         android:id="@+id/carrello"
         android:icon="@drawable/shopping_cart"
         android:title="Carrello"/>
@@ -17,8 +13,8 @@
         android:icon="@drawable/catalogo"
         android:title="Catalogo"/>
     <item
-        android:id="@+id/profilo"
-        android:icon="@drawable/profile"
-        android:title="Profilo"/>
+        android:id="@+id/impostazioni"
+        android:icon="@drawable/setting"
+        android:title="Impostazioni"/>
 
 </menu>

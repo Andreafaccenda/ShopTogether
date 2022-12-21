@@ -1,11 +1,13 @@
 package com.example.speedmarket.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.model.CategorieAdapter
@@ -13,6 +15,7 @@ import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentHomeBinding
 import com.example.speedmarket.model.Categorie
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
@@ -26,6 +29,7 @@ class Home : Fragment() {
     private lateinit var immagineId: Array<Int>
     private lateinit var categorie: Array<String>
     private lateinit var sfondo: Array<Int>
+    private lateinit var categorie_adapter : CategorieAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,8 +72,21 @@ class Home : Fragment() {
         getCategoriaData()
 
         binding.editTextTextPersonName.setOnClickListener(){
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frame_layout, CatalogoFragment())
+            transaction?.commit()
+        }
+        categorie_adapter.onItemClick = {
+           val bundle = Bundle()
+            bundle.putString("nome_categoria",it.title.toString())
+            val fragment = CatalogoFragment()
+            fragment.arguments= bundle
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frame_layout, fragment)
+            transaction?.commit()
 
         }
+
 
 
     }
@@ -78,7 +95,8 @@ class Home : Fragment() {
             val categoria = Categorie(immagineId[i],categorie[i],sfondo[i])
             lista_categorie.add(categoria)
         }
-        recyclerView.adapter = CategorieAdapter(lista_categorie)
+        categorie_adapter =CategorieAdapter(lista_categorie)
+        recyclerView.adapter = categorie_adapter
     }
     override fun onStart() {
         super.onStart()
@@ -88,6 +106,7 @@ class Home : Fragment() {
             }
         }
     }
+
 
 
 }

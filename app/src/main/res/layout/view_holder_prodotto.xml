@@ -12,6 +12,24 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_prezzo_offerta_senza_sconto"
+            android:layout_width="42dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="8dp"
+            android:text="€30.90"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+            app:layout_constraintTop_toBottomOf="@+id/txt_prodotto"
+            app:layout_constraintVertical_bias="1.0" />
+
         <ImageView
             android:id="@+id/image_prodotto"
             android:layout_width="120dp"
@@ -19,38 +37,103 @@
             android:scaleType="fitXY"
             android:src="@drawable/cat_1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-        <TextView
-            android:id="@+id/txt_prodotto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Frutta"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txt_prezzo"
+            android:id="@+id/txt_prodotto"
+            android:layout_width="128dp"
+            android:layout_height="53dp"
+            android:text="Frutta"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/txt_quantità"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.419"
+            app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/txt_prezzo_unitario"
             android:layout_width="60dp"
-            android:layout_height="30dp"
+            android:layout_height="17dp"
             android:layout_marginEnd="8dp"
             android:text="$30"
             android:textAlignment="center"
             android:textColor="#FF0000 "
-            android:textSize="20sp"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.758"
+            app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+            app:layout_constraintTop_toBottomOf="@+id/txt_prodotto"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/txt_prezzo_offerta"
+            android:layout_width="42dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="8dp"
+            android:text="$30"
+            android:textAlignment="center"
+            android:textColor="#FF0000 "
+            android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/image_prodotto"
             app:layout_constraintTop_toBottomOf="@+id/txt_prodotto"
-            app:layout_constraintVertical_bias="0.533" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/txt_quantità"
+            android:layout_width="27dp"
+            android:layout_height="14dp"
+            android:text="220g"
+            android:textColor="@color/black"
+            android:textSize="8sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txt_prezzo_unitario"
+            app:layout_constraintHorizontal_bias="0.187"
+            app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.755" />
+
+        <TextView
+            android:id="@+id/txt_prezzo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9,45€/kg"
+            android:textColor="@color/black"
+            android:textSize="8sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txt_prezzo_unitario"
+            app:layout_constraintHorizontal_bias="0.189"
+            app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+            app:layout_constraintTop_toTopOf="@+id/txt_quantità"
+            app:layout_constraintVertical_bias="0.583" />
+
+        <ImageView
+            android:id="@+id/sbarra_offerta"
+            android:layout_width="70dp"
+            android:layout_height="19dp"
+            app:srcCompat="@drawable/close"
+            tools:layout_editor_absoluteX="341dp"
+            tools:layout_editor_absoluteY="81dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+            app:layout_constraintTop_toBottomOf="@+id/txt_prodotto"
+            app:layout_constraintVertical_bias="1.0"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

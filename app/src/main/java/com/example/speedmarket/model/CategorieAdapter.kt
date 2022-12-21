@@ -12,6 +12,8 @@ import com.example.speedmarket.R
 class CategorieAdapter(private val List: ArrayList<Categorie>):
     RecyclerView.Adapter<CategorieAdapter.CategorieViewHolder>() {
 
+    var onItemClick : ((Categorie) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategorieViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_categorie,parent,false)
         return CategorieViewHolder(itemView)
@@ -22,6 +24,10 @@ class CategorieAdapter(private val List: ArrayList<Categorie>):
         holder.titleImage.setImageResource(currentItem.immagine)
         holder.txt_categoria.text= currentItem.title
         holder.background.setBackgroundResource(currentItem.sfondo)
+
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(currentItem)
+        }
     }
 
     override fun getItemCount(): Int {
