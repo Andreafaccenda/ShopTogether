@@ -1,5 +1,7 @@
 package com.example.speedmarket.model
 
+import java.io.Serializable
+
 data class Prodotto(
     var id: String,
     val nome: String,
@@ -11,4 +13,4 @@ data class Prodotto(
     val descrizione: String,
     val data_scadenza: String,
     val offerta: Float?
-)
+) : Serializable

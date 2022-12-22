@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCatalogoBinding
 import com.example.speedmarket.util.UiState
 import com.example.speedmarket.util.toast
@@ -43,6 +44,16 @@ class CatalogoFragment : Fragment() {
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewCatalogo.adapter=adapter
+        adapter.onItemClick = {
+            val bundle = Bundle()
+            bundle.putSerializable("prodotto",it)
+            val fragment = DettagliProdottoFragment()
+            fragment.arguments= bundle
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frame_layout, fragment)
+            transaction?.commit()
+
+        }
         binding.barraDiRicerca.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val testo = query.toString()
