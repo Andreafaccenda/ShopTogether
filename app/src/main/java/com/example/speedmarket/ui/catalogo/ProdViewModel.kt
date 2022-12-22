@@ -16,7 +16,7 @@ class ProdViewModel @Inject constructor(
     private val repository: ProdRepository
 ): ViewModel() {
 
-    private val products = repository.getProductsLocal()
+    val prodottiLocal = repository.getProductsLocal()
 
     private val _prodotto = MutableLiveData<UiState<List<Prodotto>>>()
     val prodotto: LiveData<UiState<List<Prodotto>>>
