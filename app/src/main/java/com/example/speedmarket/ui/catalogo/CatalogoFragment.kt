@@ -1,7 +1,6 @@
 package com.example.speedmarket.ui.catalogo
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,20 +9,11 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCatalogoBinding
-import com.example.speedmarket.databinding.FragmentHomeBinding
-import com.example.speedmarket.model.Categorie
-import com.example.speedmarket.model.CategorieAdapter
-import com.example.speedmarket.model.Prodotto
-import com.example.speedmarket.model.ProdottoAdapter
-import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.ui.prod.ProdViewModel
 import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.hide
 import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+
 @AndroidEntryPoint
 class CatalogoFragment : Fragment() {
 
@@ -31,7 +21,7 @@ class CatalogoFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var nome_categoria :String
     val viewModel: ProdViewModel by viewModels()
-    val adapter by lazy { ProdottoAdapter()}
+    val adapter by lazy { ProdottoAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,10 +43,26 @@ class CatalogoFragment : Fragment() {
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewCatalogo.adapter=adapter
+        binding.barraDiRicerca.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val testo = query.toString()
+                oberver_searchView_text(testo)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                val testo = newText.toString()
+                oberver_searchView_text_change(testo)
+                return false
+
+            }
+
+        })
 
     }
     private fun oberver() {
-        viewModel.note.observe(viewLifecycleOwner) { state ->
+        viewModel.prodotto.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                 }
@@ -65,10 +71,38 @@ class CatalogoFragment : Fragment() {
                 }
                 is UiState.Success -> {
                   if(this.nome_categoria == "null") {adapter.updateList(state.data.toMutableList())}
-                  else{adapter.filtraLista(this.nome_categoria,state.data.toMutableList())}
+                  else{adapter.filtraLista_categoria(this.nome_categoria,state.data.toMutableList())}
                     }
                 }
             }
+    }
+    private fun oberver_searchView_text_change(testo : String) {
+        viewModel.prodotto.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    adapter.filtraLista_nome_change(testo,state.data.toMutableList())
+                }
+            }
         }
+    }
+    private fun oberver_searchView_text(testo : String) {
+        viewModel.prodotto.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    adapter.filtraLista_nome(testo,state.data.toMutableList())
+                }
+            }
+        }
+    }
 }
 

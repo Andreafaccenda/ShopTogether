@@ -1,4 +1,4 @@
-package com.example.speedmarket.model
+package com.example.speedmarket.ui.catalogo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,14 +7,17 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.speedmarket.databinding.ViewHolderProdottoBinding
+import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.util.hide
 import java.text.DecimalFormat
 
 
-class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder>() {
+class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder>(),
+    ProdottoAdapterInt {
 
 
     private var list: MutableList<Prodotto> = arrayListOf()
+    var onItemClick : ((Prodotto) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProdottoViewHolder {
         val itemView = ViewHolderProdottoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -24,18 +27,18 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
     override fun onBindViewHolder(holder: ProdottoViewHolder, position: Int) {
         val item = list[position]
         holder.bind(item)
+
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(item)
+        }
     }
 
-   fun updateList(list: MutableList<Prodotto>){
+   override fun updateList(list: MutableList<Prodotto>){
         this.list = list
         notifyDataSetChanged()
     }
 
-    fun removeItem(position: Int){
-        list.removeAt(position)
-        notifyItemChanged(position)
-    }
-    fun filtraLista(tipo: String,list: MutableList<Prodotto>) {
+    override fun filtraLista_categoria(tipo: String, list: MutableList<Prodotto>) {
 
         val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
             for (prodotto in list) {
@@ -44,6 +47,28 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
                 }
             }
             updateList(lista_aggiornata)
+
+    }
+    override fun filtraLista_nome_change(tipo: String, list: MutableList<Prodotto>) {
+
+        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.nome.startsWith(tipo, true)) {
+                lista_aggiornata.add(prodotto)
+            }
+        }
+        updateList(lista_aggiornata)
+
+    }
+    override fun filtraLista_nome(tipo: String, list: MutableList<Prodotto>) {
+
+        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.nome.contains(tipo, true)) {
+                lista_aggiornata.add(prodotto)
+            }
+        }
+        updateList(lista_aggiornata)
 
     }
     override fun getItemCount(): Int {

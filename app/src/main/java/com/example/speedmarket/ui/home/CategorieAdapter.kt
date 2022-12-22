@@ -1,4 +1,4 @@
-package com.example.speedmarket.model
+package com.example.speedmarket.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
+import com.example.speedmarket.model.Categorie
 
 class CategorieAdapter(private val List: ArrayList<Categorie>):
     RecyclerView.Adapter<CategorieAdapter.CategorieViewHolder>() {

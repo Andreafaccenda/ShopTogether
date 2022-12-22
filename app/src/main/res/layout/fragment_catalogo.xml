@@ -20,7 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:flow_horizontalBias="0.5"
-        app:iconifiedByDefault="false"/>
+        app:iconifiedByDefault="false"
+        />
 
 
     <Button
