@@ -9,6 +9,7 @@ import coil.load
 import com.example.speedmarket.databinding.ViewHolderProdottoBinding
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.util.hide
+import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
@@ -38,37 +39,37 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         notifyDataSetChanged()
     }
 
-    override fun filtraLista_categoria(tipo: String, list: MutableList<Prodotto>) {
-
-        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
+    override fun filtraListaCategoria(tipo: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
             for (prodotto in list) {
                 if (prodotto.categoria.equals(tipo, true)) {
-                    lista_aggiornata.add(prodotto)
+                    listaAggiornata.add(prodotto)
                 }
             }
-            updateList(lista_aggiornata)
+            updateList(listaAggiornata)
 
     }
-    override fun filtraLista_nome_change(tipo: String, list: MutableList<Prodotto>) {
 
-        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
+    override fun filtraListaNomeChange(tipo: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
             if (prodotto.nome.startsWith(tipo, true)) {
-                lista_aggiornata.add(prodotto)
+                listaAggiornata.add(prodotto)
             }
         }
-        updateList(lista_aggiornata)
+        updateList(listaAggiornata)
 
     }
-    override fun filtraLista_nome(tipo: String, list: MutableList<Prodotto>) {
 
-        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
+    override fun filtraListaNome(tipo: String, list: MutableList<Prodotto>) {
+
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
             if (prodotto.nome.contains(tipo, true)) {
-                lista_aggiornata.add(prodotto)
+                listaAggiornata.add(prodotto)
             }
         }
-        updateList(lista_aggiornata)
+        updateList(listaAggiornata)
 
     }
     override fun getItemCount(): Int {
@@ -83,13 +84,13 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
             binding.txtPrezzo.setText(item.prezzo_unitario.toString()+"€/Kg")
             if(item.offerta!! < 1){
                 binding.txtPrezzoUnitario.setText("Offerta:")
-                binding.txtPrezzoOfferta.setText(prezzo_unitario(item.prezzo_unitario,item.quantita,item.offerta)+"€")
-                binding.txtPrezzoOffertaSenzaSconto.setText(prezzo_unitario(item.prezzo_unitario,item.quantita,
+                binding.txtPrezzoOfferta.setText((calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta)+"€"))
+                binding.txtPrezzoOffertaSenzaSconto.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,
                     1.0F
                 )+"€")
             }else {
                 binding.txtPrezzoUnitario.hide()
-                binding.txtPrezzoOfferta.setText(prezzo_unitario(item.prezzo_unitario,item.quantita,item.offerta)+"€")
+                binding.txtPrezzoOfferta.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta)+"€")
                 binding.txtPrezzoOffertaSenzaSconto.hide()
                 binding.sbarraOfferta.hide()
             }
@@ -104,15 +105,17 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         }
     }
 
-    fun prezzo_unitario(prezzo:Float,quantità:Float,offerta:Float):String{
-        if(offerta < 1) {
-            val dec = DecimalFormat("#.##")
-            var result = dec.format(prezzo * quantità * offerta)
-            return result
+    fun calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float): String {
+        val dec = DecimalFormat("#.##")
+        return if(offerta < 1) {
+            dec.roundingMode = RoundingMode.DOWN
+            val prezzo = dec.format(prezzo_unitario * quantita * offerta)
+            prezzo
+
         }else{
-            val dec = DecimalFormat("#.##")
-            var result = dec.format(prezzo * quantità)
-            return result
+            dec.roundingMode = RoundingMode.DOWN
+            val prezzo = dec.format(prezzo_unitario * quantita)
+            prezzo
         }
 
     }

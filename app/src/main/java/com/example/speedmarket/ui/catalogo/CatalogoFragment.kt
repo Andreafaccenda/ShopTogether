@@ -71,7 +71,7 @@ class CatalogoFragment : Fragment() {
                 }
                 is UiState.Success -> {
                   if(this.nome_categoria == "null") {adapter.updateList(state.data.toMutableList())}
-                  else{adapter.filtraLista_categoria(this.nome_categoria,state.data.toMutableList())}
+                  else{adapter.filtraListaCategoria(this.nome_categoria,state.data.toMutableList())}
                     }
                 }
             }
@@ -85,7 +85,7 @@ class CatalogoFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    adapter.filtraLista_nome_change(testo,state.data.toMutableList())
+                    adapter.filtraListaNomeChange(testo,state.data.toMutableList())
                 }
             }
         }
@@ -99,7 +99,7 @@ class CatalogoFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    adapter.filtraLista_nome(testo,state.data.toMutableList())
+                    adapter.filtraListaNome(testo,state.data.toMutableList())
                 }
             }
         }
