@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.model.CategorieAdapter
@@ -42,20 +43,41 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
        immagineId = arrayOf(
-            R.drawable.cat_1,
-            R.drawable.cat_2,
+           R.drawable.cat_1,
+           R.drawable.cat_2,
            R.drawable.cat_3,
            R.drawable.cat_4,
            R.drawable.cat_5,
-           R.drawable.cat_6
+           R.drawable.cat_6,
+           R.drawable.cat_7,
+           R.drawable.cat_8,
+           R.drawable.cat_9,
+           R.drawable.cat_10,
+           R.drawable.cat_11,
+           R.drawable.cat_12,
+           R.drawable.cat_13,
+           R.drawable.cat_14,
+           R.drawable.cat_15,
+           R.drawable.cat_16
+
         )
         categorie = arrayOf(
             "Frutta",
             "Carne",
-            "Pesce",
-            "Formaggi",
+            "Affettati",
+            "Surgelati",
             "Latte",
-            "Cereali"
+            "Cereali",
+            "Caffe",
+            "Dolci",
+            "Snack",
+            "Panneteria",
+            "Condimenti",
+            "Conserve",
+            "Pasta",
+            "Alcolici",
+            "Bibite",
+            "Freschi"
         )
         sfondo = arrayOf(
             R.drawable.background_categorie1,
@@ -63,15 +85,27 @@ class Home : Fragment() {
             R.drawable.background_categorie3,
             R.drawable.background_categorie4,
             R.drawable.background_categorie5,
-            R.drawable.background_categorie6
+            R.drawable.background_categorie6,
+            R.drawable.background_categorie7,
+            R.drawable.background_categorie8,
+            R.drawable.background_categorie9,
+            R.drawable.background_categorie10,
+            R.drawable.background_categorie11,
+            R.drawable.background_categorie12,
+            R.drawable.background_categorie13,
+            R.drawable.background_categorie14,
+            R.drawable.background_categorie15,
+            R.drawable.background_categorie16
+
         )
         recyclerView = binding.recyclerViewCategorie
-        recyclerView.layoutManager =  LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+        //recyclerView.layoutManager =  LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 4)
         recyclerView.setHasFixedSize(true)
         lista_categorie = arrayListOf()
         getCategoriaData()
 
-        binding.editTextTextPersonName.setOnClickListener(){
+        binding.btnRicercaProdotto.setOnClickListener(){
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_layout, CatalogoFragment())
             transaction?.commit()

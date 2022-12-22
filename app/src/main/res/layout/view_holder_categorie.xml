@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
-    android:layout_width="75dp"
-    android:layout_height="75dp"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
     android:layout_margin="8dp"
     android:background="@drawable/background_categorie1">
 
@@ -31,7 +31,7 @@
         android:layout_marginBottom="8dp"
         android:text="Frutta"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/image_category"
