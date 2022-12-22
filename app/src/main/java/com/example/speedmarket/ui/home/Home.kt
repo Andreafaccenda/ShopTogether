@@ -53,7 +53,7 @@ class Home : Fragment() {
             "Frutta",
             "Carne",
             "Pesce",
-            "Formaggio",
+            "Formaggi",
             "Latte",
             "Cereali"
         )

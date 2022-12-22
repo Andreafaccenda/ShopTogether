@@ -2,7 +2,10 @@ package com.example.speedmarket.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.speedmarket.databinding.ViewHolderProdottoBinding
 import com.example.speedmarket.util.hide
 import java.text.DecimalFormat
@@ -49,6 +52,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
 
     inner class ProdottoViewHolder(val binding: ViewHolderProdottoBinding ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Prodotto){
+            bindImage(binding.imageProdotto, item.immagine)
             binding.txtProdotto.setText(item.nome)
             binding.txtQuantit.setText(item.quantita.toString()+"Kg")
             binding.txtPrezzo.setText(item.prezzo_unitario.toString()+"€/Kg")
@@ -67,6 +71,14 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
 
         }
     }
+
+    fun bindImage(imgView: ImageView, imgUrl: String?) {
+        imgUrl?.let {
+            val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+            imgView.load(imgUri)
+        }
+    }
+
     fun prezzo_unitario(prezzo:Float,quantità:Float,offerta:Float):String{
         if(offerta < 1) {
             val dec = DecimalFormat("#.##")

@@ -30,6 +30,9 @@
             app:layout_constraintTop_toBottomOf="@+id/txt_prodotto"
             app:layout_constraintVertical_bias="1.0" />
 
+
+
+
         <ImageView
             android:id="@+id/image_prodotto"
             android:layout_width="120dp"
