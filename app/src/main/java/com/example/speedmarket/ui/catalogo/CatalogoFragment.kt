@@ -64,11 +64,11 @@ class CatalogoFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    adapter.updateList(state.data.toMutableList())
-                    adapter.filtaLista(this.nome_categoria)
+                  if(this.nome_categoria == "null") {adapter.updateList(state.data.toMutableList())}
+                  else{adapter.filtraLista(this.nome_categoria,state.data.toMutableList())}
+                    }
                 }
             }
         }
-    }
-
 }
+

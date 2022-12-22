@@ -1,14 +1,11 @@
 package com.example.speedmarket.model
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ViewHolderProdottoBinding
 import com.example.speedmarket.util.hide
 import java.text.DecimalFormat
-import java.util.*
 
 
 class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder>() {
@@ -35,17 +32,16 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         list.removeAt(position)
         notifyItemChanged(position)
     }
-    fun filtaLista(tipo: String){
-        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
-        Log.d("tiporichiesto",tipo)
-        for (prodotto in this.list){
-            Log.d("categoriaprodtto", prodotto.categoria)
-            if(prodotto.categoria.equals(tipo, true)){
-                lista_aggiornata.add(prodotto)
-            }
-        }
+    fun filtraLista(tipo: String,list: MutableList<Prodotto>) {
 
-        this.list = lista_aggiornata
+        val lista_aggiornata: MutableList<Prodotto> = arrayListOf()
+            for (prodotto in list) {
+                if (prodotto.categoria.equals(tipo, true)) {
+                    lista_aggiornata.add(prodotto)
+                }
+            }
+            updateList(lista_aggiornata)
+
     }
     override fun getItemCount(): Int {
         return list.size
