@@ -36,7 +36,9 @@ class ProdRepositoryImp(
                     for (field in document) {
                         val product = field.toObject(DatabaseProdotto::class.java)
                         products.add(product)
+
                     }
+
                     productDao.insertProdotti(products)
                     result.invoke(
                         UiState.Success(products.asDomainModel())
