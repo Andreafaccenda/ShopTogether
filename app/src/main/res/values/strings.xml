@@ -17,6 +17,7 @@
     <string name="registrati">REGISTRATI</string>
     <string name="recupera_la_tua_password">Recupera la tua password</string>
     <string name="inserisci_email">Inserisci l\'email</string>
+    <string name="no_connection">Impossibile connettersi ad internet</string>
     <string name="invia">Invia</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

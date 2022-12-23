@@ -1,11 +1,15 @@
 package com.example.speedmarket.ui.auth
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -44,7 +48,6 @@ class AccediFragment : Fragment() {
         binding.btnRecuperaPassword.setOnClickListener{
             view.findNavController().navigate(R.id.action_accediFragment_to_recuperaPasswordFragment)
         }
-
     }
     fun getDatiSalvati() {
         viewModel.getSession { user ->
@@ -55,30 +58,32 @@ class AccediFragment : Fragment() {
             }
         }
     }
-    fun observer(){
-        viewModel.login.observe(viewLifecycleOwner) { state ->
-            when(state){
-                is UiState.Loading -> {
-                    binding.btnAccedi.setText("")
-                    binding.accediProgressBar.show()
-                }
-                is UiState.Failure -> {
-                    binding.btnAccedi.setText("Accedi")
-                    binding.accediProgressBar.hide()
-                    toast(state.error)
-                }
-                is UiState.Success -> {
-                    binding.btnAccedi.setText("Accedi")
-                    binding.accediProgressBar.hide()
-                    toast(state.data)
-                    val intent = Intent(requireContext(), AppActivity::class.java)
-                    intent.putExtra("Username", "Benvenuto,")
-                    startActivity(intent)
+    fun observer() {
+        if (isOnline(requireContext())) {
+            viewModel.login.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        binding.btnAccedi.setText("")
+                        binding.accediProgressBar.show()
+                    }
+                    is UiState.Failure -> {
+                        binding.btnAccedi.setText("Accedi")
+                        binding.accediProgressBar.hide()
+                        toast(state.error)
+                    }
+                    is UiState.Success -> {
+                        binding.btnAccedi.setText("Accedi")
+                        binding.accediProgressBar.hide()
+                        toast(state.data)
+                        val intent = Intent(requireContext(), AppActivity::class.java)
+                        intent.putExtra("Username", "Benvenuto,")
+                        startActivity(intent)
+                    }
                 }
             }
         }
+        else toast(getString(R.string.no_connection))
     }
-
     fun validation(): Boolean {
         var isValid = true
         if (binding.etEmail.text.isNullOrEmpty()){
@@ -101,7 +106,25 @@ class AccediFragment : Fragment() {
         }
         return isValid
     }
-
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                return true
+            }
+        }
+        return false
+    }
 
 }
 
