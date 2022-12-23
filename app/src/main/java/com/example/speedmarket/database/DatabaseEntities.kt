@@ -17,9 +17,11 @@ data class DatabaseProdotto(
     val quantita: Float,
     val descrizione: String,
     val data_scadenza: String,
-    val offerta: Float?)  {
+    val offerta: Float?,
+    val disponibilita : Int,
+    val unita_ordinate : Int)  {
     constructor() : this("","","","","",0.0f,
-    0.0f,"","",0.0f)
+    0.0f,"","",0.0f,0,0)
 }
 
 
@@ -35,7 +37,9 @@ fun List<DatabaseProdotto>.asDomainModel(): List<Prodotto> {
             quantita = it.quantita,
             descrizione = it.descrizione,
             data_scadenza = it.data_scadenza,
-            offerta = it.offerta
+            offerta = it.offerta,
+            disponibilita =it.disponibilita,
+            unita_ordinate=it.unita_ordinate
         )
     }
 }

@@ -30,6 +30,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,202 +41,216 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/icona_profilo"/>
+                android:src="@drawable/icona_profilo" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Andrea Faccenda"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:text="Andrea Faccenda"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="andreafaccenda2000@gmail.com"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:text="andreafaccenda2000@gmail.com"
                 android:textColor="@color/black"
                 android:textSize="17sp"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:paddingStart="30dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_white"
+                android:paddingStart="30dp"
                 android:paddingEnd="30dp"
                 android:text="Modifica profilo"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="normal"
-                android:background="@drawable/button_white"
-                />
+                android:textStyle="normal" />
+
             <LinearLayout
-                android:background="@drawable/round_back_white10_20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
                 android:orientation="vertical"
                 android:padding="15dp">
                 <!--Assistenza clienti -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_back_assistenza">
 
                     <ImageView
-                        android:layout_width="40dp"
                         android:id="@+id/assistenza_clienti"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/round_back_assistenza_clienti"
-                        android:src="@drawable/assistenza_clienti_icon"
-                        android:padding="12dp"/>
+                        android:padding="12dp"
+                        android:src="@drawable/assistenza_clienti_icon" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_avanti_assistenza"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_avanti_assistenza" />
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@+id/assistenza_clienti"
                         android:text="Assistenza clienti"
                         android:textColor="@color/assistenza_clienti"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/assistenza_clienti"/>
+                        android:textStyle="bold" />
                 </RelativeLayout>
                 <!--Account -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_back_account">
 
                     <ImageView
-                        android:layout_width="40dp"
                         android:id="@+id/account"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/round_account"
-                        android:src="@drawable/account_icon"
-                        android:padding="12dp"/>
+                        android:padding="12dp"
+                        android:src="@drawable/account_icon" />
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@+id/account"
                         android:text="Account"
                         android:textColor="@color/account"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/account"/>
+                        android:textStyle="bold" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_avanti_account"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_avanti_account" />
                 </RelativeLayout>
                 <!--Notifiche -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_back_notifiche">
 
                     <ImageView
-                        android:layout_width="40dp"
                         android:id="@+id/notifiche"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/round_notifiche"
-                        android:src="@drawable/notiche_icon"
-                        android:padding="12dp"/>
+                        android:padding="12dp"
+                        android:src="@drawable/notiche_icon" />
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@+id/notifiche"
                         android:text="Notifiche"
                         android:textColor="@color/notifiche"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/notifiche"/>
+                        android:textStyle="bold" />
+
                     <androidx.appcompat.widget.SwitchCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:theme="@style/notificationSwitch"
                         app:switchMinWidth="50dp"
-                        android:theme="@style/notificationSwitch"/>
+                        android:background="@drawable/round_back_notifiche"/>
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
-            android:background="@drawable/round_back_white10_20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:padding="15dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
+                android:padding="15dp">
                 <!--Sicurezza -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_back_sicurezza">
 
                     <ImageView
-                        android:layout_width="40dp"
                         android:id="@+id/sicurezza"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/round_sicurezza"
-                        android:src="@drawable/sicurezza_icon"
-                        android:padding="12dp"/>
+                        android:padding="12dp"
+                        android:src="@drawable/sicurezza_icon" />
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@+id/sicurezza"
                         android:text="Sicurezza"
                         android:textColor="@color/sicurezza"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/sicurezza"/>
+                        android:textStyle="bold" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_avanti"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_avanti" />
 
                 </RelativeLayout>
                 <!--Frigorifero -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_back_frigorifero">
 
                     <ImageView
-                        android:layout_width="40dp"
                         android:id="@+id/frigorifero"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/round_frigorifero"
-                        android:src="@drawable/kitchen"
-                        android:padding="12dp"/>
+                        android:padding="12dp"
+                        android:src="@drawable/kitchen" />
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@+id/frigorifero"
                         android:text="Frigorifero"
                         android:textColor="@color/colorBackgroundOrange"
-                        android:textStyle="bold"
-                        android:layout_toEndOf="@+id/frigorifero"/>
+                        android:textStyle="bold" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_avanti"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_avanti" />
 
                 </RelativeLayout>
             </LinearLayout>

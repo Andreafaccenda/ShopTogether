@@ -14,6 +14,7 @@ import com.example.speedmarket.databinding.ActivityAppBinding
 import com.example.speedmarket.model.Categorie
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.home.Home
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +51,7 @@ class AppActivity : AppCompatActivity() {
                 R.id.home -> replaceFragment(Home())
                 R.id.catalogo->replaceFragment(CatalogoFragment())
                 R.id.impostazioni->replaceFragment(Impostazioni())
+                R.id.carrello->replaceFragment(CarrelloFragment())
                 else->{
 
                 }
@@ -66,45 +68,3 @@ class AppActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 }
-
-/*
-        immagineId = arrayOf(
-            R.drawable.cat_1,
-            R.drawable.cat_2
-        )
-        categorie = arrayOf(
-            "Frutta",
-            "Carne"
-        )
-        sfondo = arrayOf(
-            R.drawable.background_categorie1,
-            R.drawable.background_categorie2
-        )
-        recyclerView = findViewById(R.id.recyclerView_categorie)
-        recyclerView.layoutManager =  LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.setHasFixedSize(true)
-        lista_categorie = arrayListOf<Categorie>()
-        getCategoriaData()
-
-        binding.editTextTextPersonName.setOnClickListener(){
-            val intent = Intent(this, CatalogoActivity::class.java)
-            startActivity(intent)
-        }
-
-    }
-    private fun getCategoriaData(){
-        for(i in immagineId.indices){
-            val categoria = Categorie(immagineId[i],categorie[i],sfondo[i])
-            lista_categorie.add(categoria)
-        }
-        recyclerView.adapter = CategorieAdapter(lista_categorie)
-    }
-    override fun onStart() {
-        super.onStart()
-        viewModel.getSession { user ->
-            if (user != null) {
-                binding.txtAccount.text = "Benvenuto," + user.nome.toString()
-            }
-        }
-    }*/
-

@@ -15,6 +15,7 @@ import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentDettagliProdottoBinding
 import com.example.speedmarket.model.Prodotto
+import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.util.UiState
 import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,17 +42,36 @@ class DettagliProdottoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = this.arguments
-        viewModel.prodottiLocal.observe(viewLifecycleOwner) { products ->
+       viewModel.prodottiLocal.observe(viewLifecycleOwner) { products ->
             products?.apply {
                 for (i in products)
-                    Log.d("lista", i.nome)
+                    Log.d("lista", i.disponibilita.toString())
             }
         }
-        val prodotto : Prodotto = args?.getSerializable("prodotto") as Prodotto
+        var prodotto : Prodotto = args?.getSerializable("prodotto") as Prodotto
         this.nome_categoria=prodotto.categoria
         oberver()
         viewModel.getProducts()
         binding.title.text= prodotto.nome
+        binding.imagePiu.setOnClickListener{
+            var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
+            quantita_ordinata += 1
+            binding.txtQuantitProdotto.text= quantita_ordinata.toString()
+            prodotto.unita_ordinate=binding.txtQuantitProdotto.text.toString().toInt()
+
+        }
+        binding.imageMeno.setOnClickListener{
+            if(binding.txtQuantitProdotto.text.toString().toInt() != 1){
+                var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
+                quantita_ordinata-=1
+                binding.txtQuantitProdotto.text= quantita_ordinata.toString()
+                prodotto.unita_ordinate=binding.txtQuantitProdotto.text.toString().toInt()
+            }
+
+        }
+        if(binding.txtQuantitProdotto.text.toString().toInt() == 1) {
+            prodotto.unita_ordinate=binding.txtQuantitProdotto.text.toString().toInt()
+            }
         binding.prezzo.text = "€${calcolaPrezzo(prodotto.prezzo_unitario,prodotto.quantita,prodotto.offerta!!)}"
         bindImage(binding.immagineProdotto,prodotto.immagine)
         binding.txtDescrizione.text= prodotto.descrizione
@@ -61,8 +81,18 @@ class DettagliProdottoFragment : Fragment() {
             transaction?.replace(R.id.frame_layout, CatalogoFragment())
             transaction?.commit()
         }
+        binding.txtAggiungiCarrello.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putSerializable("prodotto",prodotto)
+            val fragment = CarrelloFragment()
+            fragment.arguments= bundle
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frame_layout, fragment)
+            transaction?.commit()
+        }
+
         recyclerView = binding.recyclerViewProdottiSimili
-        recyclerView.layoutManager =  LinearLayoutManager(requireContext())
+        recyclerView.layoutManager =  LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter=adapter
     }
@@ -103,3 +133,4 @@ class DettagliProdottoFragment : Fragment() {
 
 
 }
+
