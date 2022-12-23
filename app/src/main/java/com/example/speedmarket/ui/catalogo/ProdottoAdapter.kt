@@ -60,6 +60,15 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         updateList(listaAggiornata)
 
     }
+    override fun removeItem(id: String){
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+       for(prodotto in this.list){
+           if(prodotto.id == id){
+                listaAggiornata.remove(prodotto)
+               }
+       }
+        updateList(listaAggiornata)
+    }
 
     override fun filtraListaNome(tipo: String, list: MutableList<Prodotto>) {
 
