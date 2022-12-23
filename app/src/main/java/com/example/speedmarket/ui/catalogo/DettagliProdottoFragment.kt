@@ -48,7 +48,7 @@ class DettagliProdottoFragment : Fragment() {
             }
         }
         val prodotto : Prodotto = args?.getSerializable("prodotto") as Prodotto
-        this.nome_categoria=prodotto.nome
+        this.nome_categoria=prodotto.categoria
         oberver()
         viewModel.getProducts()
         binding.title.text= prodotto.nome
