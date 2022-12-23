@@ -1,30 +1,26 @@
 package com.example.speedmarket.repository
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.speedmarket.database.DatabaseProdotto
 import com.example.speedmarket.database.ProductsDatabase
-import com.example.speedmarket.database.asDomainModel
+import com.example.speedmarket.database.asDomainModelProdotto
 import com.example.speedmarket.model.Prodotto
-import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
 import com.example.speedmarket.util.UiState
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 
 class ProdRepositoryImp(
     private val database: FirebaseFirestore,
     application: Application): ProdRepository {
 
     private val productDao = ProductsDatabase.getInstance(application).prodottoDao() //db locale
-    private val storage = FirebaseStorage.getInstance()
 
     // lista dei prodotti nel db locale
     private val products: LiveData<List<Prodotto>> = Transformations.map(productDao
     .getProdotti()) {
-        it.asDomainModel()
+        it.asDomainModelProdotto()
     }
 
     override fun getProducts(result: (UiState<List<Prodotto>>) -> Unit){
@@ -41,7 +37,7 @@ class ProdRepositoryImp(
 
                     productDao.insertProdotti(products)
                     result.invoke(
-                        UiState.Success(products.asDomainModel())
+                        UiState.Success(products.asDomainModelProdotto())
                     )
                 }
                 else {
@@ -75,7 +71,9 @@ class ProdRepositoryImp(
         database.collection(FireStoreCollection.PRODOTTI).document(prodotto.id)
             .delete()
             .addOnSuccessListener {
-     //           productDao.delete(product) // rimuove il prodotto dal db locale
+            /**   convertire prodotto da Prodotto a DatabaseProdotto
+             *   productDao.delete(prodotto)
+             */
                 result.invoke(UiState.Success("Prodotto rimosso con successo!"))
             }
             .addOnFailureListener { error ->
@@ -88,8 +86,10 @@ class ProdRepositoryImp(
         document
             .set(prodotto)
             .addOnSuccessListener {
-   //             productDao.update(prodotto) //aggiorna la copia nel db locale
-                result.invoke(UiState.Success("Note has been update successfully"))
+                /**   convertire prodotto da Prodotto a DatabaseProdotto
+                 *   productDao.update(prodotto)
+                 */
+                result.invoke(UiState.Success("Prodotto aggiornato con successo!"))
             }
             .addOnFailureListener {
                 result.invoke(UiState.Failure(it.localizedMessage))

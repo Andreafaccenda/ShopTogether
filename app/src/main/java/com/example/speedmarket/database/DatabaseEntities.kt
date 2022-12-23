@@ -2,7 +2,9 @@ package com.example.speedmarket.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
+import com.example.speedmarket.model.Utente
 
 
 @Entity
@@ -19,13 +21,23 @@ data class DatabaseProdotto(
     val data_scadenza: String,
     val offerta: Float?,
     val disponibilita : Int,
-    val unita_ordinate : Int)  {
-    constructor() : this("","","","","",0.0f,
+    val unita_ordinate : Int) {
+    constructor(): this("","","","","",0.0f,
     0.0f,"","",0.0f,0,0)
 }
 
+@Entity
+data class DatabaseCarrello(
+    @PrimaryKey
+    val id: String,
+    val utente: Utente?,
+    val lista_prodotti: MutableList<Prodotto>? = arrayListOf(),
+    val prezzo: Float) {
+    constructor(): this("",null,null,0.0f)
+}
 
-fun List<DatabaseProdotto>.asDomainModel(): List<Prodotto> {
+
+fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
     return map {
         Prodotto(
             id = it.id,
@@ -40,6 +52,17 @@ fun List<DatabaseProdotto>.asDomainModel(): List<Prodotto> {
             offerta = it.offerta,
             disponibilita =it.disponibilita,
             unita_ordinate=it.unita_ordinate
+        )
+    }
+}
+
+fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
+    return map {
+        Carrello(
+            id = it.id,
+            utente = it.utente,
+            lista_prodotti = it.lista_prodotti,
+            prezzo = it.prezzo
         )
     }
 }

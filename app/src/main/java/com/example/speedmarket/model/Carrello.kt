@@ -1,8 +1,8 @@
 package com.example.speedmarket.model
 
-class Carrello(
-    var utente: Utente,
-    val lista_prodotti: MutableList<Prodotto>,
+data class Carrello(
+    var id: String,
+    var utente: Utente?,
+    val lista_prodotti: MutableList<Prodotto>? = arrayListOf(),
     val prezzo: Float
-) {
-}
+)
