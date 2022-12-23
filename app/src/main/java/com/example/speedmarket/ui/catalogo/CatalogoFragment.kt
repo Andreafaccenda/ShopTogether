@@ -22,7 +22,7 @@ class CatalogoFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var nome_categoria :String
     val viewModel: ProdViewModel by viewModels()
-    val adapter by lazy { ProdottoAdapter() }
+    private val adapter by lazy { ProdottoAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
