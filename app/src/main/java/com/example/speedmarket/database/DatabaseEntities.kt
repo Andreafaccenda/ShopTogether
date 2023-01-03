@@ -1,10 +1,9 @@
 package com.example.speedmarket.database
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
-import com.example.speedmarket.model.Utente
+import com.google.gson.Gson
 
 
 @Entity
@@ -25,18 +24,17 @@ data class DatabaseProdotto(
     constructor(): this("","","","","",0.0f,
     0.0f,"","",0.0f,0,0)
 }
-/*
+
 @Entity
 data class DatabaseCarrello(
     @PrimaryKey
     val id: String,
-    val utente: Utente?,
-    val lista_prodotti: MutableList<Prodotto>? = arrayListOf(),
+    val lista_prodotti: MutableList<Prodotto>?,
     val prezzo: Float,
     val ordine_completato:Boolean) {
-    constructor(): this("",null,null,0.0f,false)
+    constructor(): this("",null,0.0f,false)
 }
-*/
+
 fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
     return map {
         Prodotto(
@@ -55,16 +53,14 @@ fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
         )
     }
 }
-/*
+
 fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
     return map {
         Carrello(
             id = it.id,
-            utente = it.utente,
             lista_prodotti = it.lista_prodotti,
             prezzo = it.prezzo,
             ordine_completato=it.ordine_completato
-
         )
     }
-}*/
+}

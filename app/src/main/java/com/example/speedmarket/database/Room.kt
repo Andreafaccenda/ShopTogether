@@ -20,7 +20,7 @@ interface DaoProdotto {
     @Update
     fun update(prodotto: DatabaseProdotto)
 }
-/*
+
 @Dao
 interface DaoCarrello {
 
@@ -38,8 +38,9 @@ interface DaoCarrello {
 
     @Update
     fun update(carrello: DatabaseCarrello)
-}*/
-@Database(entities = [DatabaseProdotto::class], version = 1)
+}
+
+@Database(entities = [DatabaseProdotto::class], version = 1, exportSchema = false)
 abstract class ProductsDatabase: RoomDatabase() {
     abstract fun prodottoDao(): DaoProdotto
 
@@ -58,8 +59,9 @@ abstract class ProductsDatabase: RoomDatabase() {
         }
     }
 }
-/*
-@Database(entities = [DatabaseCarrello::class], version = 1)
+
+@Database(entities = [DatabaseCarrello::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class CarrelloDatabase: RoomDatabase() {
     abstract fun carrelloDao(): DaoCarrello
 
@@ -77,4 +79,4 @@ abstract class CarrelloDatabase: RoomDatabase() {
             }
         }
     }
-}*/
+}

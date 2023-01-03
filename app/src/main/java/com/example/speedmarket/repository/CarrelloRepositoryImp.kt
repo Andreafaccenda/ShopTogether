@@ -24,8 +24,7 @@ class CarrelloRepositoryImp(
     }
 */
     override fun getCarrello(utente: Utente?, result: (UiState<List<Carrello>>) -> Unit) {
-       val db = database.collection(FireStoreCollection.CARRELLI)
-            .whereEqualTo(FireStoreDocumentField.ID,utente?.id)
+       val db = database.collection(FireStoreCollection.CARRELLI).whereEqualTo(FireStoreDocumentField.ID,utente?.id)
           db.get()
                .addOnSuccessListener {
                    val carelli = arrayListOf<Carrello>()
