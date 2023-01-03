@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCarrelloBinding
@@ -14,10 +15,10 @@ import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.setupOnBackPressed
-import com.example.speedmarket.util.toast
+import com.example.speedmarket.ui.catalogo.CatalogoFragment
+import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class CarrelloFragment : Fragment() {
@@ -25,7 +26,8 @@ class CarrelloFragment : Fragment() {
     lateinit var binding: FragmentCarrelloBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var utente: Utente
-    private lateinit var carrelli_utente: MutableList<Carrello>
+    private lateinit var prodotto :Prodotto
+    private var inizializzato by Delegates.notNull<Boolean>()
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     private val adapter by lazy { CarrelloAdapter() }
@@ -45,36 +47,18 @@ class CarrelloFragment : Fragment() {
         getUtente()
         oberver()
         viewModelCarrello.getCarrello(utente)
-
         val args = this.arguments
-        if(args.toString() == "null"){
-                binding.txtTitle.text=getString(R.string.carrello_vuoto)
-        }else{
-            var prodotto : Prodotto = args?.getSerializable("prodotto") as Prodotto
-          /* for(carrello in carrelli_utente){
-                if(!carrello.ordine_completato){
-                    //carrello.lista_prodotti?.add(prodotto)
-                    Log.d("Tag",carrello.toString())
-                    //viewModelCarrello.updateCarrello(carrello)
-                }
-
-            }*/
+        if (args.toString() == "null") { inizializzato=false
+            } else{
+                prodotto= args?.getSerializable("prodotto") as Prodotto
+                inizializzato=true
+            }
 
 
-        }
-/*
-            lista_prodotti= arrayListOf()
-            lista_prodotti.add(prodotto)
-            var carrello=Carrello(utente.id,lista_prodotti,0.0f,false)
-            viewModelCarrello.updateCarrello(carrello)
-
-            /* recyclerView = binding.recyclerViewCarrello
-             recyclerView.layoutManager =  LinearLayoutManager(requireContext())
-             recyclerView.setHasFixedSize(true)
-             binding.recyclerViewCarrello.adapter=adapter*/
-
-
-        }*/
+            recyclerView = binding.recyclerViewCarrello
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.setHasFixedSize(true)
+            binding.recyclerViewCarrello.adapter = adapter
     }
 
 
@@ -87,8 +71,19 @@ class CarrelloFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                   carrelli_utente=state.data.toMutableList()
-                    Log.d("Tag",carrelli_utente.toString())
+                    if(state.data.toMutableList().isEmpty()){
+                        binding.scrollViewCarrello.hide()
+                        dialog(CatalogoFragment())
+                    }else {
+                        for (carrello in state.data.toMutableList()) {
+                            if (!carrello.ordine_completato)
+                                if(inizializzato){
+                                    carrello.lista_prodotti?.add(prodotto)
+                                    viewModelCarrello.updateCarrello(carrello)
+                                }
+                                carrello.lista_prodotti?.let { adapter.updateList(it) }
+                        }
+                    }
                 }
             }
         }

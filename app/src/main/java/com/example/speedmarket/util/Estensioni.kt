@@ -13,6 +13,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -71,6 +72,23 @@ fun Fragment.setupOnBackPressedExit() {
 
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
+}
+fun Fragment.dialog(fragment: Fragment) {
+
+    val dialog = createDialog()
+    dialog.show()
+    val button = dialog.findViewById<Button>(R.id.btn_esci)
+    button.setText("Sfoglia")
+    dialog.findViewById<TextView>(R.id.txt_esci).text="Carrello"
+    dialog.findViewById<TextView>(R.id.txt_conferma_di_voler_uscire).text="Il tuo carrello è vuoto,se vuoi aggiungere dei prodotti premi il seguente bottone"
+    button.setOnClickListener{
+        replaceFragment(fragment)
+        dialog.dismiss()
+    }
+    val imageButton = dialog.findViewById<ImageButton>(R.id.image_close)
+    imageButton.setOnClickListener{
+        dialog.dismiss()
+    }
 }
 
 fun Fragment.setupOnBackPressed(){

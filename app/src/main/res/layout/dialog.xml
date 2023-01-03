@@ -19,6 +19,7 @@
             android:layout_gravity="right|top"
             android:background="@android:color/transparent"/>
         <TextView
+            android:id="@+id/txt_esci"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Esci"
@@ -32,6 +33,7 @@
             android:textStyle="italic"
             />
         <TextView
+            android:id="@+id/txt_conferma_di_voler_uscire"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

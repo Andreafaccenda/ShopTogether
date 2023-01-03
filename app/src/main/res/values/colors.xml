@@ -10,6 +10,7 @@
     <color name="colorBackground">#1AFFFFFF</color>
 
     <color name="colorPrimary">#ED2173</color>
+    <color name="yellow">#FF9800</color>
     <color name="colorPrimaryDark">#222934</color>
     <color name="colorAccent">#ED2173</color>
 
@@ -29,7 +30,7 @@
 
     <color name="colorSuccess">#4BB543</color>
     <color name="colorWarning">#FFCC00</color>
-    <color name="colorError">#CC0000</color>
+    <color name="colorError">#ff3d00</color>
     <color name="colorNeutral">#434343</color>
 
 
@@ -40,6 +41,7 @@
     <color name="notifiche">#13B2C3</color>
     <color name="account">#E6A326</color>
     <color name="sicurezza">#D95F69</color>
+    <color name="background_activity">#ECEBE6</color>
 
 
 
