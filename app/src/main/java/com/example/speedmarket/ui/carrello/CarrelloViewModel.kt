@@ -15,7 +15,7 @@ class CarrelloViewModel @Inject constructor(
     private val repository: CarrelloRepository
 ): ViewModel() {
 
-    //val carrelliLocal = repository.getCarrelliLocal()
+    val carrelliLocal = repository.getCarrelliLocal()
 
     private val _carrello = MutableLiveData<UiState<List<Carrello>>>()
     val carrello: LiveData<UiState<List<Carrello>>>

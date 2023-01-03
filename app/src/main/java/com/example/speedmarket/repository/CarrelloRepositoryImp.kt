@@ -1,9 +1,10 @@
 package com.example.speedmarket.repository
 
 import android.app.Application
-import android.util.Log
-import com.example.speedmarket.database.DatabaseProdotto
-import com.example.speedmarket.database.asDomainModelProdotto
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import com.example.speedmarket.database.CarrelloDatabase
+import com.example.speedmarket.database.asDomainModelCarrello
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
@@ -15,14 +16,14 @@ class CarrelloRepositoryImp(
     private val database: FirebaseFirestore,
     application: Application): CarrelloRepository {
 
-   /*private val carrelloDao = CarrelloDatabase.getInstance(application).carrelloDao() //db locale
+    private val carrelloDao = CarrelloDatabase.getInstance(application).carrelloDao() //db locale
 
     // lista carrelli db locale
     private val carrelli: LiveData<List<Carrello>> = Transformations.map(carrelloDao
         .getCarrello()) {
         it.asDomainModelCarrello()
     }
-*/
+
     override fun getCarrello(utente: Utente?, result: (UiState<List<Carrello>>) -> Unit) {
        val db = database.collection(FireStoreCollection.CARRELLI).whereEqualTo(FireStoreDocumentField.ID,utente?.id)
           db.get()
@@ -94,7 +95,7 @@ class CarrelloRepositoryImp(
 
 
 
-  /*  override fun getCarrelliLocal(): LiveData<List<Carrello>> {
+    override fun getCarrelliLocal(): LiveData<List<Carrello>> {
          return carrelli
-     }*/
+     }
 }
