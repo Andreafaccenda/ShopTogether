@@ -18,6 +18,8 @@ import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -26,11 +28,12 @@ class CarrelloFragment : Fragment() {
     lateinit var binding: FragmentCarrelloBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var utente: Utente
-    private lateinit var prodotto :Prodotto
+    private lateinit var prodotto: Prodotto
     private var inizializzato by Delegates.notNull<Boolean>()
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     private val adapter by lazy { CarrelloAdapter() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,21 +47,26 @@ class CarrelloFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressed()
+        binding.txtSpedizione.setOnClickListener{
+            toast("la spedizione ha un prezzo di €5 per ordini inferiori ai €50")
+        }
         getUtente()
         oberver()
         viewModelCarrello.getCarrello(utente)
         val args = this.arguments
-        if (args.toString() == "null") { inizializzato=false
-            } else{
-                prodotto= args?.getSerializable("prodotto") as Prodotto
-                inizializzato=true
-            }
+        if (args.toString() == "null") {
+            inizializzato = false
+        } else {
+            prodotto = args?.getSerializable("prodotto") as Prodotto
+            inizializzato = true
+        }
 
 
-            recyclerView = binding.recyclerViewCarrello
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.setHasFixedSize(true)
-            binding.recyclerViewCarrello.adapter = adapter
+        recyclerView = binding.recyclerViewCarrello
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.setHasFixedSize(true)
+        binding.recyclerViewCarrello.adapter = adapter
+
     }
 
 
@@ -71,29 +79,40 @@ class CarrelloFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    if(state.data.toMutableList().isEmpty()){
-                        binding.scrollViewCarrello.hide()
-                        dialog(CatalogoFragment())
-                    }else {
-                        for (carrello in state.data.toMutableList()) {
-                            if (!carrello.ordine_completato)
-                                if(inizializzato){
-                                    carrello.lista_prodotti?.add(prodotto)
-                                    viewModelCarrello.updateCarrello(carrello)
-                                }
-                                carrello.lista_prodotti?.let { adapter.updateList(it) }
+                    for (carrello in state.data.toMutableList()) {
+                        if (!carrello.ordine_completato) {
+                            for (prodotto in carrello.lista_prodotti!!.iterator()) {
+                                carrello.prezzo += prodotto.prezzo_unitario * prodotto.offerta!! * prodotto.quantita * prodotto.unita_ordinate
+                                binding.txtPrezzoCarrello.text="${calcolaPrezzo(carrello.prezzo)}€"
+                                binding.txtTotaleSpesaCarrello.text="${calcolaPrezzo(carrello.prezzo+5)}€"
+                                binding.txtPrezzoIva.text="${calcolaPrezzo((carrello.prezzo*22)/100)}€"
+                            }
+                            if (inizializzato) {
+                                carrello.lista_prodotti?.add(prodotto)
+                                viewModelCarrello.updateCarrello(carrello)
+                            }
+                            carrello.lista_prodotti?.let { adapter.updateList(it) }
                         }
                     }
                 }
             }
         }
     }
+
     fun getUtente() {
         viewModelAuth.getSession { user ->
             if (user != null) {
-                utente=user
+                utente = user
             }
         }
+    }
+
+
+    fun calcolaPrezzo(prezzo_totale: Float): String {
+        val dec = DecimalFormat("#.##")
+        dec.roundingMode = RoundingMode.DOWN
+        val prezzo = dec.format(prezzo_totale)
+        return prezzo
     }
 
 

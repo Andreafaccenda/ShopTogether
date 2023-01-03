@@ -55,7 +55,7 @@
 
                     <TextView
                         android:id="@+id/txt_prodotti_totali"
-                        android:layout_width="wrap_content"
+                        android:layout_width="328dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Prodotti totali:"
@@ -97,7 +97,7 @@
                         android:id="@+id/txt_prezzo_spedizione"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+€30"
+                        android:text="+5€"
                         android:textColor="#373b54"
                         android:textSize="12sp" />
 

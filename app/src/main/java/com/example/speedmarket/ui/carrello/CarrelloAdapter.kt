@@ -16,7 +16,6 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
 
     private var list: MutableList<Prodotto> = arrayListOf()
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarrelloViewHolder {
         val itemView =
             ViewHolderCarrelloBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -50,6 +49,8 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
                     it,item.unita_ordinate
                 )+"€"
             })
+
+
         }
     }
 
@@ -74,7 +75,6 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
         }
 
     }
-
 
 }
 
