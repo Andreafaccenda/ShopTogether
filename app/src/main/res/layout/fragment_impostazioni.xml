@@ -238,7 +238,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/arrow_avanti" />
+                        android:src="@drawable/arrow_avanti_frigorifero" />
 
                 </RelativeLayout>
                 <!--Frigorifero -->
@@ -274,7 +274,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/arrow_avanti" />
+                        android:src="@drawable/arrow_avanti_frigorifero" />
 
                 </RelativeLayout>
             </LinearLayout>

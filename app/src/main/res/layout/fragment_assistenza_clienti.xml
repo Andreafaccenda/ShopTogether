@@ -23,7 +23,7 @@
             android:layout_weight=".5"
             android:background="@drawable/custom_input_layput"
             android:backgroundTint="@color/white"
-            android:hint="Type a message...."
+            android:hint="Messaggio...."
             android:padding="10dp"
             android:singleLine="true"
             />
@@ -34,7 +34,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_orange"
-            android:text="Send"
+            android:text="INVIA"
             android:textColor="@color/white"/>
 
     </LinearLayout>
@@ -51,6 +51,6 @@
         android:id="@+id/dark_divider"
         android:layout_height="10dp"
         android:layout_width="match_parent"
-        android:background="#42A5F5"/>
+        android:background="@color/colorBackgroundOrange"/>
 
 </RelativeLayout>

@@ -37,7 +37,8 @@ class AssistenzaClientiFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recycleView()
         clickEvents()
-        customMessage("Hello! Today you are speaking with user,how may I help?")
+        customMessage("Buongiorno!Stai parlando con un operatore di Speed market." +
+                "Come posso aiutarti?")
     }
 
     private fun clickEvents() {
