@@ -25,19 +25,20 @@ object BotResponse {
         val message = _message.toLowerCase()
 
         return when{
-            message.contains("Buongiorno")->  {"Buongiorno"}
+            message.toLowerCase().contains("buongiorno")->  {"Buongiorno"}
             message.contains("open") && message.contains("google")-> {
                 OPEN_GOOGLE
             }
             message.contains("search") && message.contains("google")-> {
                 OPEN_SEARCH
             }
-            message.contains("reso") ->{"le modalità di reso"}
+            message.toLowerCase().contains("acquistare") ->{"D"}
+            message.toLowerCase().contains("reso") ->{"le modalità di reso"}
 
-            else -> {"Non ho capito"}
+            else->{"Scusami,non ho capito il tuo problema potresti ripetere"}
         }
 
-        return "I don't understand"
+        return "Scusami,non ho capito il tuo problema potresti ripetere"
     }
 
 }
