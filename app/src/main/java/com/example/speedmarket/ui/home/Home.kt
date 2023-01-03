@@ -1,18 +1,25 @@
 package com.example.speedmarket.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentHomeBinding
 import com.example.speedmarket.model.Categorie
+import com.example.speedmarket.ui.AppActivity
+import com.example.speedmarket.ui.MainActivity
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
+import com.example.speedmarket.util.setupOnBackPressed
+import com.example.speedmarket.util.setupOnBackPressedExit
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
@@ -27,6 +34,7 @@ class Home : Fragment() {
     private lateinit var categorie: Array<String>
     private lateinit var sfondo: Array<Int>
     private lateinit var categorie_adapter : CategorieAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +45,7 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupOnBackPressedExit()
        immagineId = arrayOf(
            R.drawable.cat_1,
            R.drawable.cat_2,
@@ -119,6 +127,9 @@ class Home : Fragment() {
 
 
     }
+
+
+
     private fun getCategoriaData(){
         for(i in immagineId.indices){
             val categoria = Categorie(immagineId[i],categorie[i],sfondo[i])
@@ -135,7 +146,6 @@ class Home : Fragment() {
             }
         }
     }
-
 
 
 }

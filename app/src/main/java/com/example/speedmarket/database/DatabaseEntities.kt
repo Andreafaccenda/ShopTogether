@@ -25,18 +25,18 @@ data class DatabaseProdotto(
     constructor(): this("","","","","",0.0f,
     0.0f,"","",0.0f,0,0)
 }
-
+/*
 @Entity
 data class DatabaseCarrello(
     @PrimaryKey
     val id: String,
     val utente: Utente?,
     val lista_prodotti: MutableList<Prodotto>? = arrayListOf(),
-    val prezzo: Float) {
-    constructor(): this("",null,null,0.0f)
+    val prezzo: Float,
+    val ordine_completato:Boolean) {
+    constructor(): this("",null,null,0.0f,false)
 }
-
-
+*/
 fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
     return map {
         Prodotto(
@@ -55,14 +55,16 @@ fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
         )
     }
 }
-
+/*
 fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
     return map {
         Carrello(
             id = it.id,
             utente = it.utente,
             lista_prodotti = it.lista_prodotti,
-            prezzo = it.prezzo
+            prezzo = it.prezzo,
+            ordine_completato=it.ordine_completato
+
         )
     }
-}
+}*/

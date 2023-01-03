@@ -78,6 +78,7 @@ class AccediFragment : Fragment() {
                         val intent = Intent(requireContext(), AppActivity::class.java)
                         intent.putExtra("Username", "Benvenuto,")
                         startActivity(intent)
+                        activity?.finish()
                     }
                 }
             }

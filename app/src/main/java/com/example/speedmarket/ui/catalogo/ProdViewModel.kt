@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.speedmarket.model.Prodotto
-import com.example.speedmarket.model.Utente
 import com.example.speedmarket.repository.ProdRepository
-import com.example.speedmarket.repository.ProdRepositoryImp
 import com.example.speedmarket.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -22,9 +20,19 @@ class ProdViewModel @Inject constructor(
     val prodotto: LiveData<UiState<List<Prodotto>>>
         get() = _prodotto
 
+    private val _updateProdotto = MutableLiveData<UiState<String>>()
+    val updateProduct: LiveData<UiState<String>>
+        get() = _updateProdotto
+
+
     fun getProducts() {
         _prodotto.value = UiState.Loading
         repository.getProducts() { _prodotto.value = it }
     }
+    fun updateProduct(prodotto: Prodotto){
+        _updateProdotto.value = UiState.Loading
+        repository.updateProduct(prodotto) { _updateProdotto.value = it }
+    }
+
 
 }

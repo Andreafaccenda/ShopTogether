@@ -36,5 +36,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="altri_prodotti_simili">Altri prodotti simili</string>
     <string name="ti_potrebbero_interessare">Ti potrebbero interessare...</string>
+    <string name="carrello_vuoto">Il tuo carrello è vuoto</string>
 
 </resources>

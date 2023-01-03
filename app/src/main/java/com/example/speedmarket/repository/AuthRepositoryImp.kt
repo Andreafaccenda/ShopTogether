@@ -29,7 +29,6 @@ class AuthRepositoryImp(
             .addOnCompleteListener {
 
                 if (it.isSuccessful) {
-                    Log.d("Tag", "it.isSuccessfull")
                     utente.id = it.result.user?.uid ?: ""
                     updateUserInfo(utente) { state ->
                         when (state) {

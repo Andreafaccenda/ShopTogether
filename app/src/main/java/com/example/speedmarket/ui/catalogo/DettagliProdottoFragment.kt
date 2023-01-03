@@ -1,5 +1,6 @@
 package com.example.speedmarket.ui.catalogo
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +16,15 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentDettagliProdottoBinding
+import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
+import com.example.speedmarket.model.Utente
+import com.example.speedmarket.ui.AppActivity
+import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.hide
+import com.example.speedmarket.util.replaceFragment
 import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
@@ -29,7 +37,11 @@ class DettagliProdottoFragment : Fragment() {
     lateinit var binding: FragmentDettagliProdottoBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var nome_categoria :String
+    private lateinit var utente_corrente :Utente
+    private lateinit var prodotto: Prodotto
+    private lateinit var carrello : Carrello
     val viewModel: ProdViewModel by viewModels()
+    val viewModelAuth: AuthViewModel by viewModels()
     private val adapter by lazy { ProdottoSimileAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,60 +53,82 @@ class DettagliProdottoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressed()
         val args = this.arguments
-       viewModel.prodottiLocal.observe(viewLifecycleOwner) { products ->
+       /*viewModelAuth.prodottiLocal.observe(viewLifecycleOwner) { products ->
             products?.apply {
                 for (i in products)
                     Log.d("lista", i.disponibilita.toString())
             }
-        }
-        var prodotto : Prodotto = args?.getSerializable("prodotto") as Prodotto
-        this.nome_categoria=prodotto.categoria
+        }*/
+        this.prodotto = args?.getSerializable("prodotto") as Prodotto
+        this.nome_categoria=this.prodotto.categoria
         oberver()
         viewModel.getProducts()
-        binding.title.text= prodotto.nome
-        binding.imagePiu.setOnClickListener{
-            var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
-            quantita_ordinata += 1
-            binding.txtQuantitProdotto.text= quantita_ordinata.toString()
-            prodotto.unita_ordinate=binding.txtQuantitProdotto.text.toString().toInt()
-
-        }
-        binding.imageMeno.setOnClickListener{
-            if(binding.txtQuantitProdotto.text.toString().toInt() != 1){
-                var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
-                quantita_ordinata-=1
-                binding.txtQuantitProdotto.text= quantita_ordinata.toString()
-                prodotto.unita_ordinate=binding.txtQuantitProdotto.text.toString().toInt()
-            }
-
-        }
-        if(binding.txtQuantitProdotto.text.toString().toInt() == 1) {
-            prodotto.unita_ordinate=binding.txtQuantitProdotto.text.toString().toInt()
-            }
-        binding.prezzo.text = "€${calcolaPrezzo(prodotto.prezzo_unitario,prodotto.quantita,prodotto.offerta!!)}"
-        bindImage(binding.immagineProdotto,prodotto.immagine)
-        binding.txtDescrizione.text= prodotto.descrizione
-        binding.txtDataScadenza.text = "Data di scadenza: ${prodotto.data_scadenza}"
-        binding.txtTornaIndietro.setOnClickListener{
+        binding.title.text = this.prodotto.nome
+        binding.prezzo.text = "€${
+            calcolaPrezzo(
+                this.prodotto.prezzo_unitario,
+                this.prodotto.quantita,
+                this.prodotto.offerta!!
+            )
+        }"
+        bindImage(binding.immagineProdotto, this.prodotto.immagine)
+        binding.txtDescrizione.text = this.prodotto.descrizione
+        binding.txtDataScadenza.text = "Data di scadenza: ${this.prodotto.data_scadenza}"
+        binding.txtTornaIndietro.setOnClickListener {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_layout, CatalogoFragment())
             transaction?.commit()
         }
-        binding.txtAggiungiCarrello.setOnClickListener{
-            val bundle = Bundle()
-            bundle.putSerializable("prodotto",prodotto)
-            val fragment = CarrelloFragment()
-            fragment.arguments= bundle
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_layout, fragment)
-            transaction?.commit()
-        }
+        binding.txtAggiungiCarrello.setOnClickListener {
+            if (check_quantita()) {
+                viewModel.updateProduct(this.prodotto)
+                val bundle = Bundle()
+                bundle.putSerializable("prodotto", this.prodotto)
+                val fragment = CarrelloFragment()
+                fragment.arguments = bundle
+                replaceFragment(fragment)
+            } else {
+                binding.txtQuantitProdotto.text = "1"
+            }
 
+        }
         recyclerView = binding.recyclerViewProdottiSimili
         recyclerView.layoutManager =  LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter=adapter
+
+        if(this.prodotto.disponibilita == 0){
+            binding.imageMeno.hide()
+            binding.imagePiu.hide()
+            binding.txtQuantitProdotto.text="Non disponibile al momento"
+            binding.txtAggiungiCarrello.isClickable=false
+        }else {
+
+            binding.imagePiu.setOnClickListener {
+                var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
+                quantita_ordinata += 1
+                binding.txtQuantitProdotto.text = quantita_ordinata.toString()
+                this.prodotto.unita_ordinate = binding.txtQuantitProdotto.text.toString().toInt()
+
+            }
+            binding.imageMeno.setOnClickListener {
+                if (binding.txtQuantitProdotto.text.toString().toInt() != 1) {
+                    var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
+                    quantita_ordinata -= 1
+                    binding.txtQuantitProdotto.text = quantita_ordinata.toString()
+                    this.prodotto.unita_ordinate =
+                        binding.txtQuantitProdotto.text.toString().toInt()
+                }
+
+            }
+
+            if (binding.txtQuantitProdotto.text.toString().toInt() == 1) {
+                this.prodotto.unita_ordinate = binding.txtQuantitProdotto.text.toString().toInt()
+            }
+
+        }
     }
     private fun oberver() {
         viewModel.prodotto.observe(viewLifecycleOwner) { state ->
@@ -110,6 +144,7 @@ class DettagliProdottoFragment : Fragment() {
             }
         }
     }
+
     private fun calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float): String {
         val dec = DecimalFormat("#.##")
         return if(offerta < 1) {
@@ -130,7 +165,35 @@ class DettagliProdottoFragment : Fragment() {
             imgView.load(imgUri)
         }
     }
+    private fun check_quantita():Boolean{
 
+                if(this.prodotto.unita_ordinate<=this.prodotto.disponibilita){
+                    this.prodotto.disponibilita-=this.prodotto.unita_ordinate
+                    return true
+                }else{
+                        toast("la quantità selezionata è maggiore della disponibilitò del prodotto nel supermercato")
+                }
+        return false
+    }
+    override fun onStart() {
+        super.onStart()
+        viewModelAuth.getSession { user ->
+            if (user != null) {
+                this.utente_corrente=user
 
+            }
+        }
+    }
+    private fun setupOnBackPressed(){
+        val callback=object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val fragment = CatalogoFragment()
+                replaceFragment(fragment)
+            }
+
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
 }
+
 

@@ -1,11 +1,9 @@
 package com.example.speedmarket.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import com.example.speedmarket.database.CarrelloDatabase
-import com.example.speedmarket.database.DatabaseCarrello
-import com.example.speedmarket.database.asDomainModelCarrello
+import android.util.Log
+import com.example.speedmarket.database.DatabaseProdotto
+import com.example.speedmarket.database.asDomainModelProdotto
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.util.FireStoreCollection
 import com.example.speedmarket.util.UiState
@@ -15,43 +13,54 @@ class CarrelloRepositoryImp(
     private val database: FirebaseFirestore,
     application: Application): CarrelloRepository {
 
-    private val carrelloDao = CarrelloDatabase.getInstance(application).carrelloDao() //db locale
+   /*private val carrelloDao = CarrelloDatabase.getInstance(application).carrelloDao() //db locale
 
     // lista carrelli db locale
     private val carrelli: LiveData<List<Carrello>> = Transformations.map(carrelloDao
-        .getListaCarrelli()) {
+        .getCarrello()) {
         it.asDomainModelCarrello()
     }
+*/
+    override fun getCarrello(result: (UiState<List<Carrello>>) -> Unit) {
+       val db = database.collection(FireStoreCollection.CARRELLI)
+       db.get()
+           .addOnSuccessListener { document ->
+               if (document != null) {
+                   val products = arrayListOf<Carrello>()
+                   for (field in document) {
+                       val product = field.toObject(Carrello::class.java)
+                       products.add(product)
 
-    override fun getListaCarrelli(result: (UiState<List<Carrello>>) -> Unit) {
-        val db = database.collection(FireStoreCollection.CARRELLI)
-        db.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val carrelli = arrayListOf<DatabaseCarrello>()
-                    for (field in document) {
-                        val carrello = field.toObject(DatabaseCarrello::class.java)
-                        carrelli.add(carrello)
-                    }
-                    carrelloDao.insertListaCarrelli(carrelli)
-                    result.invoke(
-                        UiState.Success(carrelli.asDomainModelCarrello())
-                    )
-                }
-            }
-    }
+                   }
+
+
+                   result.invoke(
+                       UiState.Success(products)
+                   )
+               }
+               else {
+                   result.invoke(UiState.Failure("No such document"))
+               }
+           }.addOnFailureListener {
+               result.invoke(UiState.Failure(
+                   it.localizedMessage))
+           }
+   }
 
     override fun addCarrello(
         carrello: Carrello,
-        result: (UiState<Pair<Carrello, String>>) -> Unit
+        result: (UiState<String>) -> Unit
     ) {
         val document = database.collection(FireStoreCollection.CARRELLI).document()
         carrello.id = document.id
         document
             .set(carrello)
             .addOnSuccessListener {
+                /**   convertire prodotto da Prodotto a DatabaseProdotto
+                 *   productDao.update(prodotto)
+                 */
                 result.invoke(
-                    UiState.Success(Pair(carrello, "Carrello registrato con successo!")))
+                    UiState.Success("Carrello registrato con successo!"))
             }
             .addOnFailureListener {
                 result.invoke(UiState.Failure(it.localizedMessage))
@@ -73,7 +82,7 @@ class CarrelloRepositoryImp(
     }
 
     override fun updateCarrello(carrello: Carrello, result: (UiState<String>) -> Unit) {
-        val document = database.collection(FireStoreCollection.PRODOTTI).document(carrello.id)
+        val document = database.collection(FireStoreCollection.CARRELLI).document(carrello.id)
         document
             .set(carrello)
             .addOnSuccessListener {
@@ -87,7 +96,9 @@ class CarrelloRepositoryImp(
             }
     }
 
-    override fun getCarrelliLocal(): LiveData<List<Carrello>> {
-        return carrelli
-    }
+
+
+  /*  override fun getCarrelliLocal(): LiveData<List<Carrello>> {
+         return carrelli
+     }*/
 }

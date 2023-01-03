@@ -13,6 +13,7 @@ data class Prodotto(
     val descrizione: String,
     val data_scadenza: String,
     val offerta: Float?,
-    val disponibilita : Int,
+    var disponibilita : Int,
     var unita_ordinate : Int
 ) : Serializable
+

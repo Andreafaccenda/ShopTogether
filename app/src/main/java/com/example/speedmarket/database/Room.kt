@@ -20,12 +20,12 @@ interface DaoProdotto {
     @Update
     fun update(prodotto: DatabaseProdotto)
 }
-
+/*
 @Dao
 interface DaoCarrello {
 
     @Query("select * from databasecarrello")
-    fun getListaCarrelli(): LiveData<List<DatabaseCarrello>>
+    fun getCarrello(): LiveData<List<DatabaseCarrello>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertListaCarrelli(carrello: List<DatabaseCarrello>)
@@ -38,8 +38,7 @@ interface DaoCarrello {
 
     @Update
     fun update(carrello: DatabaseCarrello)
-}
-
+}*/
 @Database(entities = [DatabaseProdotto::class], version = 1)
 abstract class ProductsDatabase: RoomDatabase() {
     abstract fun prodottoDao(): DaoProdotto
@@ -59,7 +58,7 @@ abstract class ProductsDatabase: RoomDatabase() {
         }
     }
 }
-
+/*
 @Database(entities = [DatabaseCarrello::class], version = 1)
 abstract class CarrelloDatabase: RoomDatabase() {
     abstract fun carrelloDao(): DaoCarrello
@@ -78,4 +77,4 @@ abstract class CarrelloDatabase: RoomDatabase() {
             }
         }
     }
-}
+}*/

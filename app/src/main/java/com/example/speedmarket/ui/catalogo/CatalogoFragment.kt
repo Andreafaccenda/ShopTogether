@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCatalogoBinding
 import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.replaceFragment
+import com.example.speedmarket.util.setupOnBackPressed
 import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +36,7 @@ class CatalogoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressed()
         val args = this.arguments
         this.nome_categoria = args?.get("nome_categoria").toString()
 
@@ -49,9 +52,7 @@ class CatalogoFragment : Fragment() {
             bundle.putSerializable("prodotto",it)
             val fragment = DettagliProdottoFragment()
             fragment.arguments= bundle
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_layout, fragment)
-            transaction?.commit()
+            replaceFragment(fragment)
 
         }
         binding.barraDiRicerca.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
