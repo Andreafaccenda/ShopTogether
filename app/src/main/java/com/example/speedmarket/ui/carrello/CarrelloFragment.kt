@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCarrelloBinding
+import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
@@ -23,8 +24,8 @@ class CarrelloFragment : Fragment() {
 
     lateinit var binding: FragmentCarrelloBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var lista_prodotti: MutableList<Prodotto>
     private lateinit var utente: Utente
+    private lateinit var carrelli_utente: MutableList<Carrello>
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     private val adapter by lazy { CarrelloAdapter() }
@@ -42,15 +43,26 @@ class CarrelloFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressed()
         getUtente()
-        //oberver()
-        //viewModelCarrello.getCarrello()
+        oberver()
+        viewModelCarrello.getCarrello(utente)
+
         val args = this.arguments
         if(args.toString() == "null"){
                 binding.txtTitle.text=getString(R.string.carrello_vuoto)
         }else{
             var prodotto : Prodotto = args?.getSerializable("prodotto") as Prodotto
-        Log.d("Tag",prodotto.toString())}
-            /*
+          /* for(carrello in carrelli_utente){
+                if(!carrello.ordine_completato){
+                    //carrello.lista_prodotti?.add(prodotto)
+                    Log.d("Tag",carrello.toString())
+                    //viewModelCarrello.updateCarrello(carrello)
+                }
+
+            }*/
+
+
+        }
+/*
             lista_prodotti= arrayListOf()
             lista_prodotti.add(prodotto)
             var carrello=Carrello(utente.id,lista_prodotti,0.0f,false)
@@ -75,7 +87,8 @@ class CarrelloFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                   toast("non ce riesco ${state.data.toMutableList()}")
+                   carrelli_utente=state.data.toMutableList()
+                    Log.d("Tag",carrelli_utente.toString())
                 }
             }
         }

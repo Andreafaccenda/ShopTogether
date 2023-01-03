@@ -5,7 +5,9 @@ import android.util.Log
 import com.example.speedmarket.database.DatabaseProdotto
 import com.example.speedmarket.database.asDomainModelProdotto
 import com.example.speedmarket.model.Carrello
+import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
+import com.example.speedmarket.util.FireStoreDocumentField
 import com.example.speedmarket.util.UiState
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -21,31 +23,26 @@ class CarrelloRepositoryImp(
         it.asDomainModelCarrello()
     }
 */
-    override fun getCarrello(result: (UiState<List<Carrello>>) -> Unit) {
+    override fun getCarrello(utente: Utente?, result: (UiState<List<Carrello>>) -> Unit) {
        val db = database.collection(FireStoreCollection.CARRELLI)
-       db.get()
-           .addOnSuccessListener { document ->
-               if (document != null) {
-                   val products = arrayListOf<Carrello>()
-                   for (field in document) {
-                       val product = field.toObject(Carrello::class.java)
-                       products.add(product)
-
+            .whereEqualTo(FireStoreDocumentField.ID,utente?.id)
+          db.get()
+               .addOnSuccessListener {
+                   val carelli = arrayListOf<Carrello>()
+                   for (document in it) {
+                       val carrello = document.toObject(Carrello::class.java)
+                       carelli.add(carrello)
+                       carelli.size.toString()
                    }
-
-
                    result.invoke(
-                       UiState.Success(products)
+                       UiState.Success(carelli)
                    )
+
+               }.addOnFailureListener {
+                   result.invoke(UiState.Failure(
+                       it.localizedMessage))
                }
-               else {
-                   result.invoke(UiState.Failure("No such document"))
-               }
-           }.addOnFailureListener {
-               result.invoke(UiState.Failure(
-                   it.localizedMessage))
-           }
-   }
+       }
 
     override fun addCarrello(
         carrello: Carrello,

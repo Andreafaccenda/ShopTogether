@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.speedmarket.model.Carrello
 import androidx.lifecycle.LiveData
+import com.example.speedmarket.model.Utente
 import com.example.speedmarket.repository.CarrelloRepository
 import com.example.speedmarket.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,9 +31,9 @@ class CarrelloViewModel @Inject constructor(
         repository.updateCarrello(carrello) { _updateCarrello.value = it }
     }
 
-  fun getCarrello() {
+  fun getCarrello(utente: Utente) {
         _carrello.value = UiState.Loading
-        repository.getCarrello { _carrello.value = it }
+        repository.getCarrello(utente) { _carrello.value = it }
     }
 
 

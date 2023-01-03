@@ -6,5 +6,6 @@ data class Carrello(
     var prezzo: Float,
     var ordine_completato:Boolean){
 
+    constructor(): this("",null,0.0f,false)
 
 }

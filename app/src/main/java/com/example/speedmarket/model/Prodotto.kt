@@ -16,4 +16,8 @@ data class Prodotto(
     var disponibilita : Int,
     var unita_ordinate : Int
 ) : Serializable
+{
+    constructor(): this("","","","","",0.0f,
+        0.0f,"","",0.0f,0,0)
+}
 

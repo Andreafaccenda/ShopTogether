@@ -12,6 +12,9 @@ object SharedPrefConstants {
     val LOCAL_SHARED_PREF = "local_shared_pref"
     val USER_SESSION = "user_session"
 }
+object FireStoreDocumentField {
+    val ID = "id"
+}
 object Constants {
     const val SEND_ID = "SEND_ID"
     const val RECEIVE_ID= "RECEIVE_ID"
