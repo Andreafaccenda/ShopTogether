@@ -43,7 +43,7 @@ class CarrelloFragment : Fragment() {
         setupOnBackPressed()
         getUtente()
         //oberver()
-        viewModelCarrello.getCarrello()
+        //viewModelCarrello.getCarrello()
         val args = this.arguments
         if(args.toString() == "null"){
                 binding.txtTitle.text=getString(R.string.carrello_vuoto)
