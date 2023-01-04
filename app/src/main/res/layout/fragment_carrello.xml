@@ -26,8 +26,8 @@
 
     <ImageView
         android:id="@+id/btn_delete"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/delete"
         app:layout_constraintBottom_toTopOf="@+id/scrollView_carrello"
         app:layout_constraintEnd_toEndOf="parent"

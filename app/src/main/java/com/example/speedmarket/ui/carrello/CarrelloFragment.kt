@@ -1,6 +1,7 @@
 package com.example.speedmarket.ui.carrello
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,35 +87,34 @@ class CarrelloFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    var esiste:Boolean=false
+                    var esiste=false
                     this.carrello=state.data
-                    if (inizializzato) {
-                        for(elem in this.carrello.lista_prodotti!!){
-                            if(elem.id == prodotto.id) {
-                                esiste=true
+                    if(!this.carrello.ordine_completato) {
+                        if (inizializzato) {
+                            for (elem in this.carrello.lista_prodotti!!) {
+                                if (elem.id == prodotto.id) {
+                                    esiste = true
+                                }
+                            }
+                            if (esiste) {
+                                toast("il tuo prodotto è gia inserito nel carrello")
+                            } else {
+
+                                this.carrello.lista_prodotti?.add(prodotto)
+                                viewModelCarrello.updateCarrello(this.carrello)
                             }
                         }
-                        if(esiste){
-                            toast("il tuo prodotto è gia inserito nel carrello")
-                        }else{
+                        update_price_cart(this.carrello)
+                        /** metodo per rimuovere un oggetto prodotto dalla recycler view
+                         */
+                        swipe_delete(this.carrello)
 
-                            this.carrello.lista_prodotti?.add(prodotto)
-                            viewModelCarrello.updateCarrello(this.carrello)
-                        }
+
+                        this.carrello.lista_prodotti?.let { adapter.updateList(it) }
+                    }else{
+                        binding.scrollViewCarrello.hide()
+                        dialog(CatalogoFragment())
                     }
-                    this.carrello.prezzo=0.0F
-                    for(elem in this.carrello.lista_prodotti!!){
-                        this.carrello.prezzo+=(elem.quantita*elem.unita_ordinate* elem.offerta!! *elem.prezzo_unitario)
-                        binding.txtPrezzoCarrello.text="${calcolaPrezzo(carrello.prezzo)}€"
-                        binding.txtTotaleSpesaCarrello.text="${calcolaPrezzo(carrello.prezzo+5)}€"
-                        binding.txtPrezzoIva.text="${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}€"
-                    }
-                    /** metodo per rimuovere un oggetto prodotto dalla recycler view
-                     */
-                    swipe_delete(this.carrello)
-
-
-                    this.carrello.lista_prodotti?.let { adapter.updateList(it) }
 
                 }
             }
@@ -142,20 +143,35 @@ class CarrelloFragment : Fragment() {
                 val position= viewHolder.adapterPosition
                 deleteProduc= carrello.lista_prodotti?.get(position)
                 carrello.lista_prodotti?.removeAt(position)
+                viewModelCarrello.updateCarrello(carrello)
                 adapter.notifyItemRemoved(position)
+                update_price_cart(carrello)
                 Snackbar.make(recyclerView,
                     deleteProduc!!.nome,Snackbar.LENGTH_LONG)
-                    .setAction("Annulla",View.OnClickListener() {
-                        carrello.lista_prodotti?.add(position, deleteProduc!!)
+                    .setAction("Annulla") {
+                        carrello.lista_prodotti?.add(position,deleteProduc!!)
+                        viewModelCarrello.updateCarrello(carrello)
                         adapter.notifyItemInserted(position)
-                    }).show()
-                viewModelCarrello.updateCarrello(carrello)
+                        update_price_cart(carrello)
+                    }.show()
+
+
             }
         }
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
+    }
+    fun update_price_cart(carrello:Carrello){
+
+        this.carrello.prezzo=0.0F
+        for(elem in this.carrello.lista_prodotti!!){
+            this.carrello.prezzo+=(elem.quantita*elem.unita_ordinate* elem.offerta!! *elem.prezzo_unitario)
+            binding.txtPrezzoCarrello.text="${calcolaPrezzo(carrello.prezzo)}€"
+            binding.txtTotaleSpesaCarrello.text="${calcolaPrezzo(carrello.prezzo+5)}€"
+            binding.txtPrezzoIva.text="${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}€"
+        }
     }
 
 
