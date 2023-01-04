@@ -36,17 +36,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cat_1" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/prezzo_totale"
-        app:layout_constraintStart_toEndOf="@+id/nome_prodotto"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.181" />
-
     <TextView
         android:id="@+id/nome_prodotto"
         android:layout_width="wrap_content"
@@ -59,6 +48,21 @@
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/image_prodotto"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_remove"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/prezzo_totale"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/image_prodotto"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.054"
+        app:srcCompat="@drawable/ic_close" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="70dp"
