@@ -1,22 +1,21 @@
 package com.example.speedmarket.ui.carrello
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCarrelloBinding
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.util.*
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -49,7 +48,10 @@ class CarrelloFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressed()
         binding.txtSpedizione.setOnClickListener{
-            toast("la spedizione ha un prezzo di €5 per ordini inferiori ai €50")
+            toast("La spedizione ha un prezzo di €5 per ordini inferiori ai €50")
+        }
+        binding.btnDelete.setOnClickListener{
+            toast("Per eliminare dei prodotti scorri da sinistra verso destra")
         }
         getUtente()
         oberver()
@@ -68,6 +70,8 @@ class CarrelloFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewCarrello.adapter = adapter
+
+
 
     }
 
@@ -104,6 +108,11 @@ class CarrelloFragment : Fragment() {
                         binding.txtTotaleSpesaCarrello.text="${calcolaPrezzo(carrello.prezzo+5)}€"
                         binding.txtPrezzoIva.text="${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}€"
                     }
+                    /** metodo per rimuovere un oggetto prodotto dalla recycler view
+                     */
+                    swipe_delete(this.carrello)
+
+
                     this.carrello.lista_prodotti?.let { adapter.updateList(it) }
 
                 }
@@ -124,6 +133,29 @@ class CarrelloFragment : Fragment() {
         dec.roundingMode = RoundingMode.DOWN
         val prezzo = dec.format(prezzo_totale)
         return prezzo
+    }
+    private fun swipe_delete(carrello: Carrello){
+
+        var deleteProduc: Prodotto? = null
+        val swipeToDeleteCallback =  object : SwipeToDeleteCallback() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position= viewHolder.adapterPosition
+                deleteProduc= carrello.lista_prodotti?.get(position)
+                carrello.lista_prodotti?.removeAt(position)
+                adapter.notifyItemRemoved(position)
+                Snackbar.make(recyclerView,
+                    deleteProduc!!.nome,Snackbar.LENGTH_LONG)
+                    .setAction("Annulla",View.OnClickListener() {
+                        carrello.lista_prodotti?.add(position, deleteProduc!!)
+                        adapter.notifyItemInserted(position)
+                    }).show()
+                viewModelCarrello.updateCarrello(carrello)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
     }
 
 

@@ -17,6 +17,7 @@ import com.example.speedmarket.util.Constants.OPEN_GOOGLE
 import com.example.speedmarket.util.Constants.OPEN_SEARCH
 import com.example.speedmarket.util.Constants.RECEIVE_ID
 import com.example.speedmarket.util.Constants.SEND_ID
+import com.example.speedmarket.util.setupOnBackPressed
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
@@ -35,6 +36,7 @@ class AssistenzaClientiFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressed()
         recycleView()
         clickEvents()
         customMessage("Ciao! Sono l’assistente della chat di Speed Market." +

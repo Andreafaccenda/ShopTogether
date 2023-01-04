@@ -37,6 +37,7 @@ fun View.enabled(){
 }
 
 fun Fragment.toast(msg: String?){
+
     Toast.makeText(requireContext(),msg,Toast.LENGTH_LONG).show()
 }
 

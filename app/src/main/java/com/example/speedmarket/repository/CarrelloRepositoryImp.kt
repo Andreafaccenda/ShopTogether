@@ -2,9 +2,6 @@ package com.example.speedmarket.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import com.example.speedmarket.database.CarrelloDatabase
-import com.example.speedmarket.database.asDomainModelCarrello
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
@@ -25,8 +22,8 @@ class CarrelloRepositoryImp(
     }*/
 
     override fun getCarrello(utente: Utente?, result: (UiState<Carrello>) -> Unit) {
-       val db = database.collection(FireStoreCollection.CARRELLI).whereEqualTo(FireStoreDocumentField.ID,utente?.id)
-          db.get()
+        database.collection(FireStoreCollection.CARRELLI).whereEqualTo(FireStoreDocumentField.ID,utente?.id)
+            .get()
                .addOnSuccessListener {
                    /*val carrelli = arrayListOf<Carrello>()
                    for (document in it) {
