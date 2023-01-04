@@ -29,6 +29,7 @@ class CarrelloFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var utente: Utente
     private lateinit var prodotto: Prodotto
+    private lateinit var carrello: Carrello
     private var inizializzato by Delegates.notNull<Boolean>()
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
@@ -62,6 +63,7 @@ class CarrelloFragment : Fragment() {
         }
 
 
+
         recyclerView = binding.recyclerViewCarrello
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
@@ -79,26 +81,35 @@ class CarrelloFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    for (carrello in state.data.toMutableList()) {
-                        if (!carrello.ordine_completato) {
-                            for (prodotto in carrello.lista_prodotti!!.iterator()) {
-                                carrello.prezzo += prodotto.prezzo_unitario * prodotto.offerta!! * prodotto.quantita * prodotto.unita_ordinate
-                                binding.txtPrezzoCarrello.text="${calcolaPrezzo(carrello.prezzo)}€"
-                                binding.txtTotaleSpesaCarrello.text="${calcolaPrezzo(carrello.prezzo+5)}€"
-                                binding.txtPrezzoIva.text="${calcolaPrezzo((carrello.prezzo*22)/100)}€"
+                    var esiste:Boolean=false
+                    this.carrello=state.data
+                    if (inizializzato) {
+                        for(elem in this.carrello.lista_prodotti!!){
+                            if(elem.id == prodotto.id) {
+                                esiste=true
                             }
-                            if (inizializzato) {
-                                carrello.lista_prodotti?.add(prodotto)
-                                viewModelCarrello.updateCarrello(carrello)
-                            }
-                            carrello.lista_prodotti?.let { adapter.updateList(it) }
+                        }
+                        if(esiste){
+                            toast("il tuo prodotto è gia inserito nel carrello")
+                        }else{
+
+                            this.carrello.lista_prodotti?.add(prodotto)
+                            viewModelCarrello.updateCarrello(this.carrello)
                         }
                     }
+                    this.carrello.prezzo=0.0F
+                    for(elem in this.carrello.lista_prodotti!!){
+                        this.carrello.prezzo+=(elem.quantita*elem.unita_ordinate* elem.offerta!! *elem.prezzo_unitario)
+                        binding.txtPrezzoCarrello.text="${calcolaPrezzo(carrello.prezzo)}€"
+                        binding.txtTotaleSpesaCarrello.text="${calcolaPrezzo(carrello.prezzo+5)}€"
+                        binding.txtPrezzoIva.text="${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}€"
+                    }
+                    this.carrello.lista_prodotti?.let { adapter.updateList(it) }
+
                 }
             }
         }
     }
-
     fun getUtente() {
         viewModelAuth.getSession { user ->
             if (user != null) {

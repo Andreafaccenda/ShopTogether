@@ -16,26 +16,29 @@ class CarrelloRepositoryImp(
     private val database: FirebaseFirestore,
     application: Application): CarrelloRepository {
 
-    private val carrelloDao = CarrelloDatabase.getInstance(application).carrelloDao() //db locale
+    /*private val carrelloDao = CarrelloDatabase.getInstance(application).carrelloDao() //db locale
 
     // lista carrelli db locale
     private val carrelli: LiveData<List<Carrello>> = Transformations.map(carrelloDao
         .getCarrello()) {
         it.asDomainModelCarrello()
-    }
+    }*/
 
-    override fun getCarrello(utente: Utente?, result: (UiState<List<Carrello>>) -> Unit) {
+    override fun getCarrello(utente: Utente?, result: (UiState<Carrello>) -> Unit) {
        val db = database.collection(FireStoreCollection.CARRELLI).whereEqualTo(FireStoreDocumentField.ID,utente?.id)
           db.get()
                .addOnSuccessListener {
-                   val carelli = arrayListOf<Carrello>()
+                   /*val carrelli = arrayListOf<Carrello>()
                    for (document in it) {
                        val carrello = document.toObject(Carrello::class.java)
                        carelli.add(carrello)
-                       carelli.size.toString()
+                       carelli.size.toString()*/
+                   var carrello = Carrello()
+                   for (document in it) {
+                       carrello = document.toObject(Carrello::class.java)
                    }
                    result.invoke(
-                       UiState.Success(carelli)
+                       UiState.Success(carrello)
                    )
 
                }.addOnFailureListener {
@@ -93,9 +96,12 @@ class CarrelloRepositoryImp(
             }
     }
 
-
-
     override fun getCarrelliLocal(): LiveData<List<Carrello>> {
-         return carrelli
-     }
+        TODO("Not yet implemented")
+    }
+
+
+    /* override fun getCarrelliLocal(): LiveData<List<Carrello>> {
+          return carrelli
+      }*/
 }
