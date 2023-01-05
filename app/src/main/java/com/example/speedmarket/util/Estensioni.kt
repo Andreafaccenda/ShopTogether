@@ -19,6 +19,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.speedmarket.R
 import com.example.speedmarket.ui.AppActivity
+import com.example.speedmarket.ui.impostazioni.Impostazioni
 
 fun View.hide(){
     visibility = View.GONE
@@ -101,7 +102,6 @@ fun Fragment.setupOnBackPressed(){
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
-
 fun Fragment.replaceFragment(fragment: Fragment){
     val transaction = fragmentManager?.beginTransaction()
     transaction?.replace(R.id.frame_layout, fragment)

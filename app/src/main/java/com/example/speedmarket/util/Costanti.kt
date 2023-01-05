@@ -23,6 +23,10 @@ object Constants {
     const val OPEN_SEARCH= "Searching...."
 
 }
+object IMAGE {
+    const val IMAGE_PICK_CODE = 100
+    private val PERMISSION_CODE = 101
+}
 object BotResponse {
     fun basicResponses(_message: String):String{
         val message = _message.toLowerCase()

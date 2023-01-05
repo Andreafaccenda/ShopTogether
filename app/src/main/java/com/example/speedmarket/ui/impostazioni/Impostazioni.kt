@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentHomeBinding
 import com.example.speedmarket.databinding.FragmentImpostazioniBinding
-import com.example.speedmarket.ui.assistenzaClienti.AssistenzaClientiFragment
+import com.example.speedmarket.ui.impostazioni.assistenzaClienti.AssistenzaClientiFragment
+import com.example.speedmarket.ui.impostazioni.profile.Profile
+import com.example.speedmarket.util.replaceFragment
 import com.example.speedmarket.util.setupOnBackPressed
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,11 +33,10 @@ class Impostazioni : Fragment() {
         binding.assistenzaClientiLayout.setOnClickListener{
             replaceFragment(AssistenzaClientiFragment())
         }
+        binding.accountLayout.setOnClickListener {
+            replaceFragment(Profile())
+        }
     }
-    fun replaceFragment(fragment: Fragment){
-        val transaction = fragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frame_layout, fragment)
-        transaction?.commit()
-    }
+
 
 }

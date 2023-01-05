@@ -20,7 +20,7 @@
     <string name="no_connection">Impossibile connettersi ad internet</string>
     <string name="invia">Invia</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="password">Password:</string>
     <string name="recupera_password">recupera password</string>
     <string name="non_sei_ancora_registrato">Non sei ancora registrato?</string>
     <string name="btn_registrati">Clicca qui</string>
@@ -41,5 +41,9 @@
     <string name="filtri">Filtri</string>
     <string name="elementi_trovati_n">Elementi trovati n.</string>
     <string name="_0">€0</string>
+    <string name="benvenuto">Benvenuto,</string>
+    <string name="pagamento">Pagamento</string>
+    <string name="upload_image">Upload image</string>
+    <string name="i_tuoi_ordini">I tuoi ordini</string>
 
 </resources>
