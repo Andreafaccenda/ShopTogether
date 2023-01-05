@@ -1,9 +1,11 @@
 package com.example.speedmarket.ui.carrello
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ import com.example.speedmarket.databinding.ViewHolderCarrelloBinding
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.catalogo.ProdViewModel
+import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -37,20 +40,21 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
                 if(item.unita_ordinate < item.disponibilita){
                     item.unita_ordinate+=1
                     holder.binding.quantita.setText(item.unita_ordinate.toString())
+                    holder.binding.prezzoTotale.setText("€"+calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta!!,item.unita_ordinate))
                     onItemClick?.invoke(item)
-                    }else{
-                        holder.binding.quantita.isEnabled=false
-                }
+                    }
+                else Toast.makeText(it.context,"Prodotto esaurito",Toast.LENGTH_SHORT).show()
             }
             holder.binding.meno.setOnClickListener {
                 if(item.unita_ordinate > 1){
                     item.unita_ordinate-=1
+                    holder.binding.prezzoTotale.setText("€"+calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta!!,item.unita_ordinate))
                     holder.binding.quantita.setText(item.unita_ordinate.toString())
                     onItemClick?.invoke(item)
-                }else{
-                    holder.binding.quantita.isEnabled=false
                 }
-
+                else {
+                    //Togliere dal carrello
+                }
             }
         }
     }
@@ -71,9 +75,9 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
             binding.nomeProdotto.setText(item.nome)
             binding.quantita.setText(item.unita_ordinate.toString())
             binding.prezzoTotale.setText(item.offerta?.let {
-                calcolaPrezzo(item.prezzo_unitario,item.quantita,
+                "€"+calcolaPrezzo(item.prezzo_unitario,item.quantita,
                     it,item.unita_ordinate
-                )+"€"
+                )
             })
         }
     }

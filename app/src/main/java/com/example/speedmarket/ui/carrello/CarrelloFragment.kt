@@ -164,17 +164,15 @@ class CarrelloFragment : Fragment() {
 
     }
     fun update_price_cart(carrello:Carrello){
-
         this.carrello.prezzo=0.0F
         for(elem in this.carrello.lista_prodotti!!){
-            this.carrello.prezzo+=(elem.quantita*elem.unita_ordinate* elem.offerta!! *elem.prezzo_unitario)
-            binding.txtPrezzoCarrello.text="${calcolaPrezzo(carrello.prezzo)}€"
-            binding.txtTotaleSpesaCarrello.text="${calcolaPrezzo(carrello.prezzo+5)}€"
-            binding.txtPrezzoIva.text="${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}€"
+            this.carrello.prezzo+=(elem.quantita*elem.unita_ordinate*elem.offerta!!*elem.prezzo_unitario)
+            binding.txtPrezzoCarrello.text="€${calcolaPrezzo(carrello.prezzo)}"
+            binding.txtTotaleSpesaCarrello.text="€${calcolaPrezzo(carrello.prezzo+5)}"
+            binding.txtPrezzoIva.text="€${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}"
         }
     }
     fun update_quantita_ordine(carrello: Carrello,it:Prodotto){
-
             var position = 0
             var prodotto: Prodotto? =null
             viewModel.updateProduct(it)
@@ -191,6 +189,7 @@ class CarrelloFragment : Fragment() {
                 //adapter.notifyItemInserted(position)
                 viewModelCarrello.updateCarrello(carrello)
             }
+        update_price_cart(carrello)
     }
 }
 
