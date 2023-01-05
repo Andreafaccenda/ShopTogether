@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import com.example.speedmarket.database.DatabaseProdotto
 import com.example.speedmarket.database.ProductsDatabase
 import com.example.speedmarket.database.asDomainModelProdotto
+import com.example.speedmarket.database.toDatabaseProdotto
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.util.FireStoreCollection
 import com.example.speedmarket.util.UiState
@@ -32,10 +33,7 @@ class ProdRepositoryImp(
                     for (field in document) {
                         val product = field.toObject(DatabaseProdotto::class.java)
                         products.add(product)
-
                     }
-
-                    productDao.insertProdotti(products)
                     result.invoke(
                         UiState.Success(products.asDomainModelProdotto())
                     )
@@ -59,6 +57,7 @@ class ProdRepositoryImp(
         document
             .set(prodotto)
             .addOnSuccessListener {
+                productDao.insertProdotti(prodotto.toDatabaseProdotto())
                 result.invoke(
                     UiState.Success(Pair(prodotto, "Prodotto registrato con successo!")))
             }
@@ -71,9 +70,7 @@ class ProdRepositoryImp(
         database.collection(FireStoreCollection.PRODOTTI).document(prodotto.id)
             .delete()
             .addOnSuccessListener {
-            /**   convertire prodotto da Prodotto a DatabaseProdotto
-             *   productDao.delete(prodotto)
-             */
+                productDao.delete(prodotto.toDatabaseProdotto())
                 result.invoke(UiState.Success("Prodotto rimosso con successo!"))
             }
             .addOnFailureListener { error ->
@@ -86,9 +83,7 @@ class ProdRepositoryImp(
         document
             .set(prodotto)
             .addOnSuccessListener {
-                /**   convertire prodotto da Prodotto a DatabaseProdotto
-                 *   productDao.update(prodotto)
-                 */
+                productDao.update(prodotto.toDatabaseProdotto())
                 result.invoke(UiState.Success("Prodotto aggiornato con successo!"))
             }
             .addOnFailureListener {

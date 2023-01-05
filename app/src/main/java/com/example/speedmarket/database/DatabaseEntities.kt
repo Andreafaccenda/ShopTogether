@@ -3,7 +3,6 @@ package com.example.speedmarket.database
 import androidx.room.*
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
-import com.google.gson.Gson
 
 
 @Entity
@@ -54,6 +53,11 @@ fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
     }
 }
 
+fun Prodotto.toDatabaseProdotto() = DatabaseProdotto(id=id, nome=nome, produttore=produttore,
+    categoria=categoria, immagine=immagine, prezzo_unitario=prezzo_unitario, quantita=quantita,
+    descrizione=descrizione, data_scadenza=data_scadenza, offerta=offerta,
+    disponibilita=disponibilita, unita_ordinate=disponibilita)
+
 fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
     return map {
         Carrello(
@@ -64,3 +68,17 @@ fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
         )
     }
 }
+
+fun DatabaseCarrello.toCarrello() = Carrello(
+    id=id,
+    lista_prodotti=lista_prodotti,
+    prezzo=prezzo,
+    ordine_completato=ordine_completato
+)
+
+fun Carrello.toDatabaseCarrello() = DatabaseCarrello(
+    id=id,
+    lista_prodotti=lista_prodotti,
+    prezzo=prezzo,
+    ordine_completato=ordine_completato
+)

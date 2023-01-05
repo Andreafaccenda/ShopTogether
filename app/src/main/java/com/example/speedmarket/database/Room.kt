@@ -1,6 +1,7 @@
 package com.example.speedmarket.database
 
 import android.content.Context
+import android.provider.ContactsContract.Data
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.speedmarket.model.Carrello
@@ -12,7 +13,7 @@ interface DaoProdotto {
     fun getProdotti(): LiveData<List<DatabaseProdotto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertProdotti(prodotti: List<DatabaseProdotto>)
+    fun insertProdotti(prodotti: DatabaseProdotto)
 
     @Delete
     fun delete(prodotto: DatabaseProdotto)
@@ -25,13 +26,10 @@ interface DaoProdotto {
 interface DaoCarrello {
 
     @Query("select * from databasecarrello")
-    fun getCarrello(): LiveData<List<DatabaseCarrello>>
+    fun getCarrelli(): LiveData<List<DatabaseCarrello>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertListaCarrelli(carrello: List<DatabaseCarrello>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCarrello(carrello: DatabaseCarrello)
+    @Query("select * from databasecarrello where id=:id")
+    fun getCarrello(id: String): LiveData<DatabaseCarrello>
 
     @Delete
     fun delete(carrello: DatabaseCarrello)
