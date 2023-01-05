@@ -27,8 +27,9 @@
     <ImageView
         android:id="@+id/btn_delete"
         android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_height="20dp"
         android:src="@drawable/delete"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView_carrello"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.958"
@@ -89,7 +90,7 @@
                         android:id="@+id/txt_prezzo_carrello"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="€30"
+                        android:text="@string/_0"
                         android:textColor="#373b54"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -119,7 +120,7 @@
                         android:id="@+id/txt_prezzo_spedizione"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+5€"
+                        android:text="€5"
                         android:textColor="#373b54"
                         android:textSize="12sp" />
 
@@ -158,7 +159,7 @@
                         android:id="@+id/txt_totale_spesa_carrello"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="€30"
+                        android:text="@string/_0"
                         android:textColor="#373b54"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -186,7 +187,7 @@
                         android:id="@+id/txt_prezzo_iva"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="€30"
+                        android:text="@string/_0"
                         android:textColor="#373b54"
                         android:textSize="10sp" />
 

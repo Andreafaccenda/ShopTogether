@@ -82,17 +82,13 @@ class DettagliProdottoFragment : Fragment() {
             transaction?.commit()
         }
         binding.txtAggiungiCarrello.setOnClickListener {
-            if (check_quantita()) {
+
                 viewModel.updateProduct(this.prodotto)
                 val bundle = Bundle()
                 bundle.putSerializable("prodotto", this.prodotto)
                 val fragment = CarrelloFragment()
                 fragment.arguments = bundle
                 replaceFragment(fragment)
-            } else {
-                binding.txtQuantitProdotto.text = "1"
-            }
-
         }
         recyclerView = binding.recyclerViewProdottiSimili
         recyclerView.layoutManager =  LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
@@ -107,17 +103,20 @@ class DettagliProdottoFragment : Fragment() {
         }else {
 
             binding.imagePiu.setOnClickListener {
-                var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
-                quantita_ordinata += 1
-                binding.txtQuantitProdotto.text = quantita_ordinata.toString()
-                this.prodotto.unita_ordinate = binding.txtQuantitProdotto.text.toString().toInt()
+                if(check_quantita(binding.txtQuantitProdotto.text.toString().toInt())){
+                        var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
+                        quantita_ordinata += 1
+                        binding.txtQuantitProdotto.text = quantita_ordinata.toString()
+                        this.prodotto.unita_ordinate = binding.txtQuantitProdotto.text.toString().toInt()
+                    }
 
             }
             binding.imageMeno.setOnClickListener {
-                if (binding.txtQuantitProdotto.text.toString().toInt() != 1) {
+                if (binding.txtQuantitProdotto.text.toString().toInt() > 1) {
                     var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
                     quantita_ordinata -= 1
                     binding.txtQuantitProdotto.text = quantita_ordinata.toString()
+
                     this.prodotto.unita_ordinate =
                         binding.txtQuantitProdotto.text.toString().toInt()
                 }
@@ -165,13 +164,13 @@ class DettagliProdottoFragment : Fragment() {
             imgView.load(imgUri)
         }
     }
-    private fun check_quantita():Boolean{
+    private fun check_quantita(numero:Int):Boolean{
 
-                if(this.prodotto.unita_ordinate<=this.prodotto.disponibilita){
-                    this.prodotto.disponibilita-=this.prodotto.unita_ordinate
+                if(numero<this.prodotto.disponibilita){
                     return true
                 }else{
-                        toast("la quantità selezionata è maggiore della disponibilitò del prodotto nel supermercato")
+                        binding.txtQuantitProdotto.isEnabled=false
+                        binding.imagePiu.isClickable=false
                 }
         return false
     }

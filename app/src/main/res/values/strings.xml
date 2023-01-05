@@ -40,5 +40,6 @@
     <string name="catalogo">CATALOGO</string>
     <string name="filtri">Filtri</string>
     <string name="elementi_trovati_n">Elementi trovati n.</string>
+    <string name="_0">€0</string>
 
 </resources>

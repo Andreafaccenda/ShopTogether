@@ -9,7 +9,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCatalogoBinding
 import com.example.speedmarket.util.UiState
 import com.example.speedmarket.util.replaceFragment

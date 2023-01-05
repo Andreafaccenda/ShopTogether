@@ -16,6 +16,8 @@ import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
+import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
+import com.example.speedmarket.ui.catalogo.ProdViewModel
 import com.example.speedmarket.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +36,7 @@ class CarrelloFragment : Fragment() {
     private var inizializzato by Delegates.notNull<Boolean>()
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
+    val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { CarrelloAdapter() }
 
 
@@ -66,17 +69,13 @@ class CarrelloFragment : Fragment() {
             inizializzato = true
         }
 
-
-
         recyclerView = binding.recyclerViewCarrello
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewCarrello.adapter = adapter
 
 
-
     }
-
 
     private fun oberver() {
         viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
@@ -104,6 +103,11 @@ class CarrelloFragment : Fragment() {
                                 viewModelCarrello.updateCarrello(this.carrello)
                             }
                         }
+                        adapter.onItemClick = {
+                            update_quantita_ordine(this.carrello,it)
+                        }
+
+
                         update_price_cart(this.carrello)
                         /** metodo per rimuovere un oggetto prodotto dalla recycler view
                          */
@@ -111,11 +115,7 @@ class CarrelloFragment : Fragment() {
 
 
                         this.carrello.lista_prodotti?.let { adapter.updateList(it) }
-                    }else{
-                        binding.scrollViewCarrello.hide()
-                        dialog(CatalogoFragment())
                     }
-
                 }
             }
         }
@@ -173,6 +173,20 @@ class CarrelloFragment : Fragment() {
             binding.txtPrezzoIva.text="${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}€"
         }
     }
+    fun update_quantita_ordine(carrello: Carrello,it:Prodotto){
 
-
+            viewModel.updateProduct(it)
+            for(product in carrello.lista_prodotti!!){
+                if(product.id == it.id){
+                    val position = carrello.lista_prodotti!!.indexOf(product)
+                    carrello.lista_prodotti!!.removeAt(position)
+                    adapter.notifyItemRemoved(position)
+                    carrello.lista_prodotti!!.add(position,it)
+                    adapter.notifyItemInserted(position)
+                    viewModelCarrello.updateCarrello(carrello)
+                }
+            }
+        }
 }
+
+

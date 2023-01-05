@@ -16,7 +16,7 @@
             android:id="@+id/prezzo_totale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="272dp"
+            android:layout_marginStart="250dp"
             android:layout_marginTop="70dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
@@ -66,6 +66,7 @@
             app:layout_constraintVertical_bias="0.644">
 
             <ImageView
+                android:id="@+id/piu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -75,6 +76,7 @@
                 app:srcCompat="@drawable/piu" />
 
             <ImageView
+                android:id="@+id/meno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_yellow"
