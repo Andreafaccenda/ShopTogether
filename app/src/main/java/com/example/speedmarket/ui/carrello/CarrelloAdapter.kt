@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.speedmarket.databinding.ViewHolderCarrelloBinding
+import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.catalogo.ProdViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -175,18 +175,23 @@ class CarrelloFragment : Fragment() {
     }
     fun update_quantita_ordine(carrello: Carrello,it:Prodotto){
 
+            var position = 0
+            var prodotto: Prodotto? =null
             viewModel.updateProduct(it)
             for(product in carrello.lista_prodotti!!){
                 if(product.id == it.id){
-                    val position = carrello.lista_prodotti!!.indexOf(product)
-                    carrello.lista_prodotti!!.removeAt(position)
-                    adapter.notifyItemRemoved(position)
-                    carrello.lista_prodotti!!.add(position,it)
-                    adapter.notifyItemInserted(position)
-                    viewModelCarrello.updateCarrello(carrello)
+                    prodotto=product
+                    position = carrello.lista_prodotti!!.indexOf(product)
                 }
             }
-        }
+            if(prodotto != null){
+                carrello.lista_prodotti!!.remove(prodotto)
+                //adapter.notifyItemRemoved(position)
+                carrello.lista_prodotti!!.add(it)
+                //adapter.notifyItemInserted(position)
+                viewModelCarrello.updateCarrello(carrello)
+            }
+    }
 }
 
 
