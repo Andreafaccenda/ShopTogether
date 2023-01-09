@@ -16,7 +16,7 @@
         android:text="@string/catalogo"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

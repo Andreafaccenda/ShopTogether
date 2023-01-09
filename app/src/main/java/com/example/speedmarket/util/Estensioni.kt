@@ -102,6 +102,15 @@ fun Fragment.setupOnBackPressed(){
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
+fun Fragment.setupOnBackPressedFragment(fragment:Fragment){
+    val callback=object : OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
+            replaceFragment(fragment)
+        }
+
+    }
+    requireActivity().onBackPressedDispatcher.addCallback(callback)
+}
 fun Fragment.replaceFragment(fragment: Fragment){
     val transaction = fragmentManager?.beginTransaction()
     transaction?.replace(R.id.frame_layout, fragment)

@@ -8,14 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentAssistenzaClientiBinding
 import com.example.speedmarket.model.Messaggio
+import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.BotResponse
 import com.example.speedmarket.util.Constants.OPEN_GOOGLE
 import com.example.speedmarket.util.Constants.OPEN_SEARCH
 import com.example.speedmarket.util.Constants.RECEIVE_ID
 import com.example.speedmarket.util.Constants.SEND_ID
 import com.example.speedmarket.util.setupOnBackPressed
+import com.example.speedmarket.util.setupOnBackPressedFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
@@ -34,11 +37,10 @@ class AssistenzaClientiFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressed()
+        setupOnBackPressedFragment(Impostazioni())
         recycleView()
         clickEvents()
-        customMessage("Ciao! Sono l’assistente della chat di Speed Market." +
-                "Quindi, con cosa ti posso aiutare?")
+        customMessage(getString(R.string.message_default))
     }
 
     private fun clickEvents() {

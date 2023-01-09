@@ -43,9 +43,13 @@
         <item name="android:colorForeground">@color/white</item>
 
     </style>
+
     <style name="alertDialogExit" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/colorAccent</item>
-
-
     </style>
+
+    <style name="radioButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/yellow</item>
+    </style>
+
 </resources>

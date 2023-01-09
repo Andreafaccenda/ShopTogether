@@ -21,7 +21,9 @@
                 android:id="@+id/txt_torna_indietro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/arrow_back" />
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/arrow_back_orange" />
 
             <TextView
                 android:id="@+id/title"

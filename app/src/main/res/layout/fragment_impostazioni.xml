@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/arrow_back"
+            android:src="@drawable/arrow_back_orange"
             android:padding="14dp"/>
 
         <TextView
@@ -69,19 +69,6 @@
                 android:text="andreafaccenda2000@gmail.com"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="italic" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_orange"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="Modifica profilo"
-                android:textColor="@color/white"
-                android:textSize="15sp"
                 android:textStyle="italic" />
 
             <LinearLayout

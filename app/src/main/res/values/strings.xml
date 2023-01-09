@@ -37,7 +37,7 @@
     <string name="altri_prodotti_simili">Altri prodotti simili</string>
     <string name="ti_potrebbero_interessare">Ti potrebbero interessare...</string>
     <string name="carrello_vuoto">Il tuo carrello è vuoto</string>
-    <string name="catalogo">CATALOGO</string>
+    <string name="catalogo">Catalogo prodotti</string>
     <string name="filtri">Filtri</string>
     <string name="elementi_trovati_n">Elementi trovati n.</string>
     <string name="_0">€0</string>
@@ -45,5 +45,23 @@
     <string name="pagamento">Pagamento</string>
     <string name="upload_image">Upload image</string>
     <string name="i_tuoi_ordini">I tuoi ordini</string>
+    <string name="telefono">Telefono</string>
+    <string name="residenza">Residenza:</string>
+    <string name="citt">-Città</string>
+    <string name="cap">-Cap </string>
+    <string name="via">-Via  </string>
+    <string name="numero_civico">-Civico</string>
+    <string name="modifica_profilo">Modifica profilo</string>
+    <string name="salva">Salva</string>
+    <string name="per_modificare_premere"><![CDATA[Per modificare premere ->]]></string>
+    <string name="modifica">Modifica</string>
+    <string name="message_default">Ciao! Sono l’assistente della chat di Speed Market.Quindi, con cosa ti posso aiutare?</string>
+    <string name="messaggio_inserisci_telefono">Perfavore,inserisci il numero di telefono</string>
+    <string name="messaggio_inserisci_citta">Perfavore,inserisci la città</string>
+    <string name="messaggio_cap">Perfavore,inserisci il cap della tua città</string>
+    <string name="messaggio_via">Perfavore,inserisci la via</string>
+    <string name="messaggio_numerocivico">Perfavore,inserisci il numero civico della tua residenza</string>
+    <string name="messaggio_seleziona_genere">Perfavore,seleziona il genere</string>
+    <string name="messaggio_inserisci_immagine">Perfavore,inserisci la tua immagine di profile,selezionando upload image nella finestra corrente</string>
 
 </resources>

@@ -1,13 +1,15 @@
 package com.example.speedmarket.model
 
+import android.net.Uri
+
 data class Utente(
     var id: String = "",
     val nome: String = "",
     val cognome: String = "",
     val email: String = "",
     val password: String = "",
-    val immagine_profilo: String = "",
-    val residenza: String = "",
-    val numero_telefono: Long = 0,
-    val genere: String = "",
+    var immagine_profilo: String = "",
+    var residenza: String = "",
+    var numero_telefono: Long = 0,
+    var genere: String = "",
     val profileCompleted: Boolean = false)

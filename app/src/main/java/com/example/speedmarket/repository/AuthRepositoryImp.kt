@@ -76,7 +76,7 @@ class AuthRepositoryImp(
             .set(utente)
             .addOnSuccessListener {
                 result.invoke(
-                    UiState.Success("User has been update successfully")
+                    UiState.Success("Utente modificato correttamente")
                 )
             }
             .addOnFailureListener {
