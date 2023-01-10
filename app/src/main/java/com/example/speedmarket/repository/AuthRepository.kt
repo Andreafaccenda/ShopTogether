@@ -1,5 +1,7 @@
 package com.example.speedmarket.repository
 
+import android.graphics.Bitmap
+import android.net.Uri
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.UiState
 
@@ -11,4 +13,6 @@ interface AuthRepository {
     fun logout(result: () -> Unit)
     fun storeSession(id: String, result: (Utente?) -> Unit)
     fun getSession(result: (Utente?) -> Unit)
+    suspend fun uploadImage(uri: Uri, utente: Utente, result: (UiState<Uri>) -> Unit)
+    suspend fun getImage(utente: Utente, result: (Bitmap?) -> Unit)
 }

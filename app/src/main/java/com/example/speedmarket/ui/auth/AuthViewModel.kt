@@ -1,5 +1,6 @@
 package com.example.speedmarket.ui.auth
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,9 @@ import com.example.speedmarket.repository.AuthRepository
 import com.example.speedmarket.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import android.net.Uri
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 
 @HiltViewModel
@@ -70,7 +74,18 @@ class AuthViewModel @Inject constructor(
         repository.updateUserInfo(utente) { _updateUserInfo.value = it }
     }
 
+    fun uploadImage(uri: Uri, utente: Utente, result: (UiState<Uri>) -> Unit) {
+        result.invoke(UiState.Loading)
+        viewModelScope.launch {
+            repository.uploadImage(uri, utente,result)
+        }
+    }
 
+    fun getImage(utente: Utente, result: (Bitmap?) -> Unit) {
+        viewModelScope.launch {
+            repository.getImage(utente, result)
+        }
+    }
 
 
 

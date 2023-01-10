@@ -1,7 +1,10 @@
 package com.example.speedmarket.di
 
+import com.example.speedmarket.util.FirebaseStorageConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +29,11 @@ object FirebaseModule {
         return FirebaseAuth.getInstance()
     }
 
+    @Singleton
+    @Provides
+    fun provideFirebaseStorageInstance(): StorageReference {
+        return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.ROOT_DIRECTORY)
+    }
 
 
 }

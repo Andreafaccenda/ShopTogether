@@ -4,19 +4,19 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Base64
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentProfileBinding
@@ -24,8 +24,8 @@ import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.*
-import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class Profile : Fragment() {
@@ -55,7 +55,7 @@ class Profile : Fragment() {
         setupOnBackPressedFragment(Impostazioni())
         getUtente()
         oberver()
-        load_profile(this.utente)
+        loadProfile(this.utente)
         editText_modify(modify)
         binding.layoutUploadImage.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -135,12 +135,16 @@ class Profile : Fragment() {
         startActivityForResult(intent,IMAGE_REQUEST_CODE)
     }
 
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == IMAGE_REQUEST_CODE && resultCode==RESULT_OK){
-            var imageUri: Uri? =data?.data
+            val imageUri: Uri? =data?.data
                 utente.immagine_profilo=imageUri.toString()
-
+            if (imageUri != null) {
+                uploadImage(imageUri)
+            }
         }
     }
     fun getUtente() {
@@ -150,8 +154,32 @@ class Profile : Fragment() {
             }
         }
     }
-    fun load_profile(utente : Utente){
+    private fun uploadImage(uri: Uri) {
+        viewModelAuth.uploadImage(uri, this.utente) { state ->
+            when (state) {
+                is UiState.Loading -> {
 
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    toast("immagine caricata")
+                    binding.imageProfile.setImageURI(uri)
+                }
+            }
+        }
+    }
+
+    private fun setImage(utente: Utente) {
+        viewModelAuth.getImage(utente) { image ->
+            if (image != null) {
+                binding.imageProfile.setImageBitmap(image)
+            }
+        }
+    }
+
+    private fun loadProfile(utente : Utente){
         binding.etNome.setText(utente.nome)
         binding.etCognome.setText(utente.cognome)
         if(utente.numero_telefono <=0){
@@ -174,7 +202,7 @@ class Profile : Fragment() {
             binding.etVia.setText(utente.residenza)
             binding.etNumeroCivico.setText(utente.residenza)
         }
-        //binding.imageProfile.setImageURI(Uri.parse(utente.immagine_profilo))
+       setImage(utente)
 
         /****
          * genera errore Looper

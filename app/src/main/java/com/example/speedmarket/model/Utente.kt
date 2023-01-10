@@ -1,7 +1,5 @@
 package com.example.speedmarket.model
 
-import android.net.Uri
-
 data class Utente(
     var id: String = "",
     val nome: String = "",

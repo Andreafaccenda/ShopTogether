@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.example.speedmarket.repository.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -21,10 +22,11 @@ object RepositoryModule {
     fun provideAuthRepository(
         database: FirebaseFirestore,
         auth: FirebaseAuth,
+        storage: StorageReference,
         appPreferences: SharedPreferences,
         gson: Gson
     ): AuthRepository {
-        return AuthRepositoryImp(auth,database,appPreferences,gson)
+        return AuthRepositoryImp(auth,database,storage,appPreferences,gson)
     }
 
     @Provides

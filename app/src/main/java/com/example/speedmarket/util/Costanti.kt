@@ -15,6 +15,9 @@ object SharedPrefConstants {
 object FireStoreDocumentField {
     val ID = "id"
 }
+object FirebaseStorageConstants {
+    val ROOT_DIRECTORY = "immagini"
+}
 object Constants {
     const val SEND_ID = "SEND_ID"
     const val RECEIVE_ID= "RECEIVE_ID"

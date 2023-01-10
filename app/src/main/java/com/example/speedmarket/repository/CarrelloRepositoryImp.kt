@@ -37,7 +37,6 @@ class CarrelloRepositoryImp(
                    var carrello = DatabaseCarrello()
                    for (document in it) {
                        carrello = document.toObject(DatabaseCarrello::class.java)
-                       Log.d("Oggetto", carrello.id)
                    }
                    result.invoke(
                        UiState.Success(carrello.toCarrello())

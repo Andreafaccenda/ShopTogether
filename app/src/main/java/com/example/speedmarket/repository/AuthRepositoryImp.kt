@@ -1,21 +1,33 @@
 package com.example.speedmarket.repository
 
 import android.content.SharedPreferences
-import android.util.Log
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Base64
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
+import com.example.speedmarket.util.FireStoreDocumentField
 import com.example.speedmarket.util.SharedPrefConstants
 import com.example.speedmarket.util.UiState
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.io.File
 
 class AuthRepositoryImp(
     val auth: FirebaseAuth,
     val database: FirebaseFirestore,
+    val storage: StorageReference,
     val appPreferences: SharedPreferences,
     val gson: Gson
     ) : AuthRepository {
@@ -151,7 +163,49 @@ class AuthRepositoryImp(
         }
     }
 
+    override suspend fun uploadImage(uri: Uri, utente: Utente, result: (UiState<Uri>) -> Unit) {
+        try {
+            val uriFile: Uri = withContext(Dispatchers.IO) {
+                storage
+                    .child(utente.id)
+                    .putFile(uri)
+                    .await()
+                    .storage
+                    .downloadUrl
+                    .await()
+            }
+            utente.immagine_profilo = uriFile.toString()
+            result.invoke(UiState.Success(uriFile))
+        } catch (e: FirebaseException){
+            result.invoke(UiState.Failure(e.message))
+        }catch (e: Exception){
+            result.invoke(UiState.Failure(e.message))
+        }
+    }
 
+    override suspend fun getImage(utente: Utente, result: (Bitmap?) -> Unit) {
+        val localFile = withContext(Dispatchers.IO) {
+            File.createTempFile("tempImage", "jpg")
+        }
+        storage
+            .child(utente.id)
+            .getFile(localFile).addOnSuccessListener {
+                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                result.invoke(bitmap)
+        }.addOnFailureListener {
+            result.invoke(null)
+        }
+    }
 
+/*    override suspend fun getImage(utente: Utente, result: (Bitmap?) -> Unit) {
+        database.collection(FireStoreCollection.UTENTI).document(utente.id)
+            .get().addOnSuccessListener {
+                val user: Utente = it.toObject(Utente::class.java)!!
+                val bitmap = BitmapFactory.decodeFile(user.immagine_profilo)
+                result.invoke(bitmap)
+            }.addOnSuccessListener {
+                result.invoke(null)
+            }
+    } */
 
 }
