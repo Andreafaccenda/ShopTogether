@@ -68,5 +68,6 @@
     <string name="provincia">-Provincia:</string>
     <string name="utilizza_un_indirizzo_differente_da_quello_di_residenza">Utilizza un indirizzo differente da quello di residenza</string>
     <string name="messaggio_provincia">Perfavore,inserisci la provincia</string>
+    <string name="carta_di_credito">Carta di credito</string>
 
 </resources>

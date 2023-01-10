@@ -73,6 +73,9 @@ class Profile : Fragment() {
         binding.etPassword.setOnClickListener{
             binding.etPassword.inputType= InputType.TYPE_CLASS_TEXT
         }
+        binding.layoutPayment.setOnClickListener{
+            replaceFragment(DettagliaCartaCreditoFragment())
+        }
         binding.btnSave.setOnClickListener{
             binding.btnSave.setText(getString(R.string.salva))
             binding.btnSave.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.salva,context!!.theme), null, null, null)

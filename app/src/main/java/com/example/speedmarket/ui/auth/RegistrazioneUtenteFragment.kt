@@ -77,6 +77,7 @@ class RegistrazioneUtenteFragment : Fragment() {
             password = binding.etPassword.text.toString(),
             immagine_profilo = "",
             residenza = "",
+            indirizzo_spedizione= "",
             numero_telefono = 0,
             genere = "",
             profileCompleted = false
