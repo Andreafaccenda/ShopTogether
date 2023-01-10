@@ -73,6 +73,9 @@ class Profile : Fragment() {
         binding.etPassword.setOnClickListener{
             binding.etPassword.inputType= InputType.TYPE_CLASS_TEXT
         }
+        binding.layoutPayment.setOnClickListener{
+            replaceFragment(DettagliaCartaCreditoFragment())
+        }
         binding.btnSave.setOnClickListener{
             binding.btnSave.setText(getString(R.string.salva))
             binding.btnSave.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.salva,context!!.theme), null, null, null)
@@ -84,6 +87,7 @@ class Profile : Fragment() {
                     utente.numero_telefono = binding.etTelefono.text.toString().toLong()
                     utente.residenza = binding.etCitta.text.toString() + "-" +
                             binding.etCap.text.toString() + "-" +
+                            binding.etProvincia.text.toString() + "-"+
                             binding.etVia.text.toString() + "-" +
                             binding.etNumeroCivico.text.toString()
                     if(binding.roundM.isChecked){utente.genere="Maschio"}
@@ -193,12 +197,14 @@ class Profile : Fragment() {
         if(!utente.residenza.isNullOrEmpty()){
             binding.etCitta.setText(utente.residenza.split("-").get(0))
             binding.etCap.setText(utente.residenza.split("-").get(1))
-            binding.etVia.setText(utente.residenza.split("-").get(2))
-            binding.etNumeroCivico.setText(utente.residenza.split("-").get(3))
+            binding.etProvincia.setText(utente.residenza.split("-").get(2))
+            binding.etVia.setText(utente.residenza.split("-").get(3))
+            binding.etNumeroCivico.setText(utente.residenza.split("-").get(4))
 
         }else{
             binding.etCitta.setText(utente.residenza)
             binding.etCap.setText(utente.residenza)
+            binding.etProvincia.setText(utente.residenza)
             binding.etVia.setText(utente.residenza)
             binding.etNumeroCivico.setText(utente.residenza)
         }
@@ -220,6 +226,7 @@ class Profile : Fragment() {
         binding.etCitta.isEnabled=modify
         binding.etCap.isEnabled=modify
         binding.etVia.isEnabled=modify
+        binding.etProvincia.isEnabled=modify
         binding.etNumeroCivico.isEnabled=modify
 
     }
@@ -237,6 +244,8 @@ class Profile : Fragment() {
             binding.etCap.text.isNullOrEmpty() -> { toast(getString(R.string.messaggio_cap))
                 false}
             binding.etVia.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_via))
+                false}
+            binding.etProvincia.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_provincia))
                 false}
             binding.etNumeroCivico.text.isNullOrEmpty()->{toast(getString(R.string.messaggio_numerocivico))
                 false}

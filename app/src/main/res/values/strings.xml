@@ -63,5 +63,11 @@
     <string name="messaggio_numerocivico">Perfavore,inserisci il numero civico della tua residenza</string>
     <string name="messaggio_seleziona_genere">Perfavore,seleziona il genere</string>
     <string name="messaggio_inserisci_immagine">Perfavore,inserisci la tua immagine di profile,selezionando upload image nella finestra corrente</string>
+    <string name="spedizione">Spedizione:</string>
+    <string name="citta">Città:</string>
+    <string name="provincia">-Provincia:</string>
+    <string name="utilizza_un_indirizzo_differente_da_quello_di_residenza">Utilizza un indirizzo differente da quello di residenza</string>
+    <string name="messaggio_provincia">Perfavore,inserisci la provincia</string>
+    <string name="carta_di_credito">Carta di credito</string>
 
 </resources>
