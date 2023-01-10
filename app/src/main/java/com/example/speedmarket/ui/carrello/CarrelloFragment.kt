@@ -15,6 +15,7 @@ import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.carrello.checkOut.CheckOutFragment
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
 import com.example.speedmarket.ui.catalogo.ProdViewModel
@@ -74,7 +75,9 @@ class CarrelloFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewCarrello.adapter = adapter
 
-
+        binding.btnCheckOut.setOnClickListener{
+            replaceFragment(CheckOutFragment())
+        }
     }
 
     private fun oberver() {
