@@ -11,9 +11,12 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentProfileBinding
 import com.example.speedmarket.model.Utente
@@ -165,14 +168,15 @@ class Profile : Fragment() {
         viewModelAuth.uploadImage(uri, this.utente) { state ->
             when (state) {
                 is UiState.Loading -> {
-
+                    toast("Caricamento...")
                 }
                 is UiState.Failure -> {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    toast("immagine caricata")
+                    toast("Immagine caricata")
                     binding.imageProfile.setImageURI(uri)
+                    viewModelAuth.updateUserInfo(utente)
                 }
             }
         }
@@ -181,8 +185,15 @@ class Profile : Fragment() {
     private fun setImage(utente: Utente) {
         viewModelAuth.getImage(utente) { image ->
             if (image != null) {
-                binding.imageProfile.setImageBitmap(image)
+                bindImage(binding.imageProfile, image)
             }
+        }
+    }
+
+    private fun bindImage(imgView: ImageView, imgUrl: String?) {
+        imgUrl?.let {
+            val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+            imgView.load(imgUri)
         }
     }
 

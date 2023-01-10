@@ -81,7 +81,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun getImage(utente: Utente, result: (Bitmap?) -> Unit) {
+    fun getImage(utente: Utente, result: (String?) -> Unit) {
         viewModelScope.launch {
             repository.getImage(utente, result)
         }

@@ -14,5 +14,5 @@ interface AuthRepository {
     fun storeSession(id: String, result: (Utente?) -> Unit)
     fun getSession(result: (Utente?) -> Unit)
     suspend fun uploadImage(uri: Uri, utente: Utente, result: (UiState<Uri>) -> Unit)
-    suspend fun getImage(utente: Utente, result: (Bitmap?) -> Unit)
+    suspend fun getImage(utente: Utente, result: (String?) -> Unit)
 }

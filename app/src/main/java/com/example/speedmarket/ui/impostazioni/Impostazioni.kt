@@ -5,9 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.net.toUri
+import androidx.fragment.app.viewModels
+import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentHomeBinding
 import com.example.speedmarket.databinding.FragmentImpostazioniBinding
+import com.example.speedmarket.model.Utente
+import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.assistenzaClienti.AssistenzaClientiFragment
 import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.example.speedmarket.util.replaceFragment
@@ -16,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Impostazioni : Fragment() {
+    private val viewModelAuth: AuthViewModel by viewModels()
     lateinit var binding: FragmentImpostazioniBinding
 
     override fun onCreateView(
@@ -39,5 +46,22 @@ class Impostazioni : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModelAuth.getSession { user ->
+            if (user != null) {
+                binding.txtEmailUser.text = user.email
+                binding.txtNome.text = "${user.nome} ${user.cognome}"
+                bindImage(binding.imageProfile, user.immagine_profilo)
+            }
+        }
+    }
+
+    private fun bindImage(imgView: ImageView, imgUrl: String?) {
+        imgUrl?.let {
+            val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+            imgView.load(imgUri)
+        }
+    }
 
 }

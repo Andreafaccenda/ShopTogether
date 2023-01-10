@@ -5,13 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.OnBackPressedDispatcher
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentHomeBinding
 import com.example.speedmarket.model.Categorie
+import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.MainActivity
 import com.example.speedmarket.ui.auth.AuthViewModel
@@ -126,7 +130,12 @@ class Home : Fragment() {
 
     }
 
-
+    private fun bindImage(imgView: ImageView, imgUrl: String?) {
+        imgUrl?.let {
+            val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+            imgView.load(imgUri)
+        }
+    }
 
     private fun getCategoriaData(){
         for(i in immagineId.indices){
@@ -140,7 +149,8 @@ class Home : Fragment() {
         super.onStart()
         viewModel.getSession { user ->
             if (user != null) {
-                binding.txtAccount.text = "Benvenuto," + user.nome.toString()
+                binding.txtAccount.text = "Ciao, ${user.nome}"
+                bindImage(binding.imageProfile, user.immagine_profilo)
             }
         }
     }

@@ -53,20 +53,22 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/txt_nome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Andrea Faccenda"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/txt_email_user"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:text="andreafaccenda2000@gmail.com"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="italic" />

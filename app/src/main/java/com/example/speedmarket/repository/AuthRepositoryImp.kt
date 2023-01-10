@@ -1,28 +1,31 @@
 package com.example.speedmarket.repository
 
+import android.app.Application
+import android.content.ContentResolver
+import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Base64
+import android.provider.MediaStore
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
-import com.example.speedmarket.util.FireStoreDocumentField
 import com.example.speedmarket.util.SharedPrefConstants
 import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.toast
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.File
+
 
 class AuthRepositoryImp(
     val auth: FirebaseAuth,
@@ -183,7 +186,7 @@ class AuthRepositoryImp(
         }
     }
 
-    override suspend fun getImage(utente: Utente, result: (Bitmap?) -> Unit) {
+  /*  override suspend fun getImage(utente: Utente, result: (Bitmap?) -> Unit) {
         val localFile = withContext(Dispatchers.IO) {
             File.createTempFile("tempImage", "jpg")
         }
@@ -195,17 +198,16 @@ class AuthRepositoryImp(
         }.addOnFailureListener {
             result.invoke(null)
         }
-    }
+    } */
 
-/*    override suspend fun getImage(utente: Utente, result: (Bitmap?) -> Unit) {
+    override suspend fun getImage(utente: Utente, result: (String?) -> Unit) {
         database.collection(FireStoreCollection.UTENTI).document(utente.id)
             .get().addOnSuccessListener {
                 val user: Utente = it.toObject(Utente::class.java)!!
-                val bitmap = BitmapFactory.decodeFile(user.immagine_profilo)
-                result.invoke(bitmap)
+                result.invoke(user.immagine_profilo)
             }.addOnSuccessListener {
                 result.invoke(null)
             }
-    } */
+    }
 
 }
