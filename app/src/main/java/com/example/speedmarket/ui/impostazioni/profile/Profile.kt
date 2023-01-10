@@ -4,14 +4,10 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class Profile : Fragment() {
 
-    companion  object{
+    companion object {
         const val IMAGE_PICK_CODE = 100
         const val IMAGE_REQUEST_CODE = 100
         private val PERMISSION_CODE = 101
@@ -38,7 +34,7 @@ class Profile : Fragment() {
 
     lateinit var binding: FragmentProfileBinding
     val viewModelAuth: AuthViewModel by viewModels()
-    var modify:Boolean=false
+    var modify: Boolean = false
 
     private lateinit var utente: Utente
 
@@ -50,6 +46,7 @@ class Profile : Fragment() {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(Impostazioni())
@@ -85,13 +82,11 @@ class Profile : Fragment() {
             binding.btnSave.setOnClickListener{
                 if(validation()) {
                     utente.numero_telefono = binding.etTelefono.text.toString().toLong()
-                    utente.residenza = binding.etCitta.text.toString() + "-" +
-                            binding.etCap.text.toString() + "-" +
-                            binding.etProvincia.text.toString() + "-"+
-                            binding.etVia.text.toString() + "-" +
-                            binding.etNumeroCivico.text.toString()
-                    if(binding.roundM.isChecked){utente.genere="Maschio"}
-                    if(binding.roundF.isChecked){utente.genere="Femmina"}
+                    /**
+                     * da inserire la residenza
+                     */
+                    if(binding.roundM.isChecked){utente.genere ="Maschio"}
+                    if(binding.roundF.isChecked){utente.genere ="Femmina"}
                     viewModelAuth.updateUserInfo(utente)
                 }
             }
@@ -194,20 +189,9 @@ class Profile : Fragment() {
         }
         binding.etEmail.setText(utente.email)
         binding.etPassword.setText(utente.password)
-        if(!utente.residenza.isNullOrEmpty()){
-            binding.etCitta.setText(utente.residenza.split("-").get(0))
-            binding.etCap.setText(utente.residenza.split("-").get(1))
-            binding.etProvincia.setText(utente.residenza.split("-").get(2))
-            binding.etVia.setText(utente.residenza.split("-").get(3))
-            binding.etNumeroCivico.setText(utente.residenza.split("-").get(4))
-
-        }else{
-            binding.etCitta.setText(utente.residenza)
-            binding.etCap.setText(utente.residenza)
-            binding.etProvincia.setText(utente.residenza)
-            binding.etVia.setText(utente.residenza)
-            binding.etNumeroCivico.setText(utente.residenza)
-        }
+        /***
+         * da inserire la residenza dell utente
+         */
        setImage(utente)
 
         /****

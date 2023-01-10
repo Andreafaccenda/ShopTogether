@@ -9,8 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentRegistrazioneUtenteBinding
+import com.example.speedmarket.model.Indirizzo
+import com.example.speedmarket.model.Pagamento
 import com.example.speedmarket.model.Utente
-import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.util.*
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -76,8 +77,10 @@ class RegistrazioneUtenteFragment : Fragment() {
             email = binding.etEmail.text.toString(),
             password = binding.etPassword.text.toString(),
             immagine_profilo = "",
-            residenza = "",
-            indirizzo_spedizione= "",
+            residenza = Indirizzo("","","","",""),
+            pagamento = Pagamento("",""),
+            indirizzo_spedizione = Indirizzo("","","","",""),
+            lista_carrelli = arrayListOf(),
             numero_telefono = 0,
             genere = "",
             profileCompleted = false

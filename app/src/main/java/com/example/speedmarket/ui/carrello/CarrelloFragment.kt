@@ -34,7 +34,7 @@ class CarrelloFragment : Fragment() {
     private lateinit var utente: Utente
     private lateinit var prodotto: Prodotto
     private lateinit var carrello: Carrello
-    private var inizializzato by Delegates.notNull<Boolean>()
+    private var inizializzato =false
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     val viewModel: ProdViewModel by viewModels()
@@ -89,36 +89,59 @@ class CarrelloFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    var esiste=false
-                    this.carrello=state.data
-                    if(!this.carrello.ordine_completato) {
-                        if (inizializzato) {
-                            for (elem in this.carrello.lista_prodotti!!) {
-                                if (elem.id == prodotto.id) {
-                                    esiste = true
+                    var esiste = false
+                    this.carrello = state.data
+                    if (this.carrello.id != "") {
+                        if (!this.carrello.ordine_completato) {
+                            if (inizializzato) {
+                                if (this.carrello.lista_prodotti != null) {
+                                    for (elem in this.carrello.lista_prodotti!!) {
+                                        if (elem.id == prodotto.id) {
+                                            esiste = true
+                                        }
+                                    }
+                                    if (esiste) {
+                                        toast("il tuo prodotto è gia inserito nel carrello")
+                                    } else {
+
+                                        this.carrello.lista_prodotti?.add(prodotto)
+                                        viewModelCarrello.updateCarrello(this.carrello)
+                                    }
                                 }
                             }
-                            if (esiste) {
-                                toast("il tuo prodotto è gia inserito nel carrello")
-                            } else {
 
-                                this.carrello.lista_prodotti?.add(prodotto)
-                                viewModelCarrello.updateCarrello(this.carrello)
+                            adapter.onItemClick = {
+                                update_quantita_ordine(this.carrello, it)
                             }
+
+
+                            update_price_cart(this.carrello)
+                            /** metodo per rimuovere un oggetto prodotto dalla recycler view
+                             */
+                            swipe_delete(this.carrello)
+
+
+                            this.carrello.lista_prodotti?.let { adapter.updateList(it) }
                         }
-                        adapter.onItemClick = {
-                            update_quantita_ordine(this.carrello,it)
+                    } else {
+                        if (inizializzato) {
+                            this.carrello.lista_prodotti = arrayListOf()
+                            this.carrello.lista_prodotti?.add(prodotto)
+                            this.carrello.id = utente.id
+                            this.carrello.ordine_completato = false
+                            adapter.onItemClick = {
+                                update_quantita_ordine(this.carrello, it)
+                            }
+                            update_price_cart(this.carrello)
+                            viewModelCarrello.updateCarrello(carrello)
+                            /** metodo per rimuovere un oggetto prodotto dalla recycler view
+                             */
+                            swipe_delete(this.carrello)
+                            this.carrello.lista_prodotti?.let { adapter.updateList(it) }
                         }
 
-
-                        update_price_cart(this.carrello)
-                        /** metodo per rimuovere un oggetto prodotto dalla recycler view
-                         */
-                        swipe_delete(this.carrello)
-
-
-                        this.carrello.lista_prodotti?.let { adapter.updateList(it) }
                     }
+
                 }
             }
         }
@@ -157,8 +180,6 @@ class CarrelloFragment : Fragment() {
                         adapter.notifyItemInserted(position)
                         update_price_cart(carrello)
                     }.show()
-
-
             }
         }
 
@@ -168,31 +189,35 @@ class CarrelloFragment : Fragment() {
     }
     fun update_price_cart(carrello:Carrello){
         this.carrello.prezzo=0.0F
-        for(elem in this.carrello.lista_prodotti!!){
-            this.carrello.prezzo+=(elem.quantita*elem.unita_ordinate*elem.offerta!!*elem.prezzo_unitario)
-            binding.txtPrezzoCarrello.text="€${calcolaPrezzo(carrello.prezzo)}"
-            binding.txtTotaleSpesaCarrello.text="€${calcolaPrezzo(carrello.prezzo+5)}"
-            binding.txtPrezzoIva.text="€${calcolaPrezzo(((carrello.prezzo+5)*22)/100)}"
+        if(this.carrello.lista_prodotti != null) {
+            for (elem in this.carrello.lista_prodotti!!) {
+                this.carrello.prezzo += (elem.quantita * elem.unita_ordinate * elem.offerta!! * elem.prezzo_unitario)
+                binding.txtPrezzoCarrello.text = "€${calcolaPrezzo(carrello.prezzo)}"
+                binding.txtTotaleSpesaCarrello.text = "€${calcolaPrezzo(carrello.prezzo + 5)}"
+                binding.txtPrezzoIva.text = "€${calcolaPrezzo(((carrello.prezzo + 5) * 22) / 100)}"
+            }
+        }else{
+            this.carrello.prezzo=0.0F
         }
     }
     fun update_quantita_ordine(carrello: Carrello,it:Prodotto){
             var position = 0
             var prodotto: Prodotto? =null
             viewModel.updateProduct(it)
-            for(product in carrello.lista_prodotti!!){
-                if(product.id == it.id){
-                    prodotto=product
+            for (product in carrello.lista_prodotti!!) {
+                if (product.id == it.id) {
+                    prodotto = product
                     position = carrello.lista_prodotti!!.indexOf(product)
                 }
             }
-            if(prodotto != null){
+            if (prodotto != null) {
                 carrello.lista_prodotti!!.remove(prodotto)
                 //adapter.notifyItemRemoved(position)
                 carrello.lista_prodotti!!.add(it)
                 //adapter.notifyItemInserted(position)
                 viewModelCarrello.updateCarrello(carrello)
             }
-        update_price_cart(carrello)
+            update_price_cart(carrello)
     }
 }
 
