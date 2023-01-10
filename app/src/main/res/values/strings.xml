@@ -70,5 +70,6 @@
     <string name="messaggio_provincia">Perfavore,inserisci la provincia</string>
     <string name="carta_di_credito">Carta di credito</string>
     <string name="salva_carta">Salva questa carta per acquisti futuri su SpeedMarket</string>
+    <string name="esci">esci</string>
 
 </resources>

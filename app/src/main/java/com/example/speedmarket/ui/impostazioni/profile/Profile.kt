@@ -17,6 +17,8 @@ import androidx.fragment.app.viewModels
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentProfileBinding
 import com.example.speedmarket.model.Utente
+import com.example.speedmarket.ui.AppActivity
+import com.example.speedmarket.ui.MainActivity
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.*
@@ -67,8 +69,17 @@ class Profile : Fragment() {
                 immagineGalleria()
             }
         }
-        binding.etPassword.setOnClickListener{
+        binding.password.setOnClickListener{
             binding.etPassword.inputType= InputType.TYPE_CLASS_TEXT
+            binding.password.setOnClickListener{
+                binding.etPassword.inputType= InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+
+        }
+        binding.btnEsci.setOnClickListener{
+                viewModelAuth.logout {
+                        startActivity(Intent(requireContext(),MainActivity::class.java))
+                }
         }
         binding.layoutPayment.setOnClickListener{
             replaceFragment(DettagliaCartaCreditoFragment())
@@ -82,9 +93,11 @@ class Profile : Fragment() {
             binding.btnSave.setOnClickListener{
                 if(validation()) {
                     utente.numero_telefono = binding.etTelefono.text.toString().toLong()
-                    /**
-                     * da inserire la residenza
-                     */
+                    utente.residenza.citta = binding.etCitta.text.toString()
+                    utente.residenza.provincia = binding.etProvincia.text.toString()
+                    utente.residenza.cap = binding.etCap.text.toString()
+                    utente.residenza.numero_civico = binding.etNumeroCivico.text.toString()
+                    utente.residenza.via = binding.etVia.text.toString()
                     if(binding.roundM.isChecked){utente.genere ="Maschio"}
                     if(binding.roundF.isChecked){utente.genere ="Femmina"}
                     viewModelAuth.updateUserInfo(utente)
@@ -189,15 +202,14 @@ class Profile : Fragment() {
         }
         binding.etEmail.setText(utente.email)
         binding.etPassword.setText(utente.password)
-        /***
-         * da inserire la residenza dell utente
-         */
+        if(utente.residenza != null){
+            binding.etCitta.setText(utente.residenza.citta)
+            binding.etProvincia.setText(utente.residenza.provincia)
+            binding.etCap.setText(utente.residenza.cap)
+            binding.etVia.setText(utente.residenza.via)
+            binding.etNumeroCivico.setText(utente.residenza.numero_civico)
+        }
        setImage(utente)
-
-        /****
-         * genera errore Looper
-         *
-         */
     }
     fun editText_modify(modify : Boolean){
         binding.etNome.isEnabled=false
@@ -221,8 +233,9 @@ class Profile : Fragment() {
                 false}
             binding.etCitta.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_citta))
                 false}
-            utente.immagine_profilo.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_immagine))
+            /**utente.immagine_profilo.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_immagine))
                 false}
+            */
             !binding.roundM.isChecked && !binding.roundF.isChecked -> {toast(getString(R.string.messaggio_seleziona_genere))
                 false}
             binding.etCap.text.isNullOrEmpty() -> { toast(getString(R.string.messaggio_cap))
