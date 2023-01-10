@@ -71,15 +71,10 @@ class Profile : Fragment() {
         }
         binding.password.setOnClickListener{
             binding.etPassword.inputType= InputType.TYPE_CLASS_TEXT
-            binding.password.setOnClickListener{
-                binding.etPassword.inputType= InputType.TYPE_TEXT_VARIATION_PASSWORD
-            }
-
         }
         binding.btnEsci.setOnClickListener{
                 viewModelAuth.logout {
-                        startActivity(Intent(requireContext(),MainActivity::class.java))
-                }
+                        startActivity(Intent(requireContext(),MainActivity::class.java))}
         }
         binding.layoutPayment.setOnClickListener{
             replaceFragment(DettagliaCartaCreditoFragment())
