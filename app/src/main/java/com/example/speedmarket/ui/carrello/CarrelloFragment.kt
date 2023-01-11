@@ -89,68 +89,61 @@ class CarrelloFragment : Fragment() {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    var esiste = false
                     this.carrello = state.data
-                    if (this.carrello.id != "") {
-                        if (!this.carrello.ordine_completato) {
-                            if (inizializzato) {
-                                if (this.carrello.lista_prodotti != null) {
-                                    for (elem in this.carrello.lista_prodotti!!) {
-                                        if (elem.id == prodotto.id) {
-                                            esiste = true
-                                        }
-                                    }
-                                    if (esiste) {
-                                        toast("il tuo prodotto è gia inserito nel carrello")
-                                    } else {
-
-                                        this.carrello.lista_prodotti?.add(prodotto)
-                                        viewModelCarrello.updateCarrello(this.carrello)
-                                    }
+                    if(this.carrello.id != ""){
+                        if(!this.carrello.ordine_completato){
+                            if(inizializzato && this.carrello.lista_prodotti != null) {
+                                if (controlloRidondanzaCarrello(prodotto))
+                                    toast("il tuo prodotto è gia inserito nel carrello")
+                                else {
+                                    this.carrello.lista_prodotti?.add(prodotto)
+                                    viewModelCarrello.updateCarrello(this.carrello)
                                 }
                             }
-
-                            adapter.onItemClick = {
-                                update_quantita_ordine(this.carrello, it)
-                            }
-
-
-                            update_price_cart(this.carrello)
-                            /** metodo per rimuovere un oggetto prodotto dalla recycler view
-                             */
-                            swipe_delete(this.carrello)
-
-
-                            this.carrello.lista_prodotti?.let { adapter.updateList(it) }
+                            FunzioneAdapter()
+                            controlloCoerenzaCarrello()
                         }
                     } else {
                         if (inizializzato) {
-                            this.carrello.lista_prodotti = arrayListOf()
-                            this.carrello.lista_prodotti?.add(prodotto)
-                            this.carrello.id = utente.id
-                            this.carrello.ordine_completato = false
-                            adapter.onItemClick = {
-                                update_quantita_ordine(this.carrello, it)
-                            }
-                            update_price_cart(this.carrello)
+                            aggiornaCarrello(prodotto, utente)
+                            FunzioneAdapter()
                             viewModelCarrello.updateCarrello(carrello)
-                            /** metodo per rimuovere un oggetto prodotto dalla recycler view
-                             */
-                            swipe_delete(this.carrello)
-                            this.carrello.lista_prodotti?.let { adapter.updateList(it) }
+                            controlloCoerenzaCarrello()
                         }
-
                     }
-
                 }
             }
         }
     }
+
+    fun FunzioneAdapter(){
+        adapter.onItemClick = {
+            update_quantita_ordine(this.carrello, it)
+        }
+    }
+
+    fun controlloRidondanzaCarrello(prodotto: Prodotto):Boolean {
+        for (elem in this.carrello.lista_prodotti!!)
+            if (elem.id == prodotto.id) return true
+        return false
+    }
+
+    fun controlloCoerenzaCarrello(){
+        update_price_cart(this.carrello)
+        swipe_delete(this.carrello)
+        this.carrello.lista_prodotti?.let { adapter.updateList(it) }
+    }
+
+    fun aggiornaCarrello(prodotto: Prodotto, utente: Utente){
+        this.carrello.lista_prodotti = arrayListOf()
+        this.carrello.lista_prodotti?.add(prodotto)
+        this.carrello.id = utente.id
+        this.carrello.ordine_completato = false
+    }
+
     fun getUtente() {
         viewModelAuth.getSession { user ->
-            if (user != null) {
-                utente = user
-            }
+            if (user != null) utente = user
         }
     }
 
@@ -159,10 +152,9 @@ class CarrelloFragment : Fragment() {
         val dec = DecimalFormat("#.##")
         dec.roundingMode = RoundingMode.DOWN
         val prezzo = dec.format(prezzo_totale)
-        return prezzo
+        return "€$prezzo"
     }
     private fun swipe_delete(carrello: Carrello){
-
         var deleteProduc: Prodotto? = null
         val swipeToDeleteCallback =  object : SwipeToDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -192,22 +184,19 @@ class CarrelloFragment : Fragment() {
         if(this.carrello.lista_prodotti != null) {
             for (elem in this.carrello.lista_prodotti!!) {
                 this.carrello.prezzo += (elem.quantita * elem.unita_ordinate * elem.offerta!! * elem.prezzo_unitario)
-                binding.txtPrezzoCarrello.text = "€${calcolaPrezzo(carrello.prezzo)}"
-                binding.txtTotaleSpesaCarrello.text = "€${calcolaPrezzo(carrello.prezzo + 5)}"
-                binding.txtPrezzoIva.text = "€${calcolaPrezzo(((carrello.prezzo + 5) * 22) / 100)}"
+                binding.txtPrezzoCarrello.text = calcolaPrezzo(carrello.prezzo)
+                binding.txtTotaleSpesaCarrello.text = calcolaPrezzo(carrello.prezzo + 5)
+                binding.txtPrezzoIva.text = calcolaPrezzo(((carrello.prezzo + 5) * 22) / 100)
             }
-        }else{
-            this.carrello.prezzo=0.0F
-        }
+        }else this.carrello.prezzo=0.0F
     }
+
     fun update_quantita_ordine(carrello: Carrello,it:Prodotto){
-            var position = 0
             var prodotto: Prodotto? =null
             viewModel.updateProduct(it)
             for (product in carrello.lista_prodotti!!) {
                 if (product.id == it.id) {
                     prodotto = product
-                    position = carrello.lista_prodotti!!.indexOf(product)
                 }
             }
             if (prodotto != null) {

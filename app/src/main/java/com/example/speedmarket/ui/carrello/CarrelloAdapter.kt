@@ -40,7 +40,7 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
                 if(item.unita_ordinate < item.disponibilita){
                     item.unita_ordinate+=1
                     holder.binding.quantita.setText(item.unita_ordinate.toString())
-                    holder.binding.prezzoTotale.setText("€"+calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta!!,item.unita_ordinate))
+                    holder.binding.prezzoTotale.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta!!,item.unita_ordinate))
                     onItemClick?.invoke(item)
                     }
                 else Toast.makeText(it.context,"Prodotto esaurito",Toast.LENGTH_SHORT).show()
@@ -48,7 +48,7 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
             holder.binding.meno.setOnClickListener {
                 if(item.unita_ordinate > 1){
                     item.unita_ordinate-=1
-                    holder.binding.prezzoTotale.setText("€"+calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta!!,item.unita_ordinate))
+                    holder.binding.prezzoTotale.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta!!,item.unita_ordinate))
                     holder.binding.quantita.setText(item.unita_ordinate.toString())
                     onItemClick?.invoke(item)
                 }
@@ -75,8 +75,7 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
             binding.nomeProdotto.setText(item.nome)
             binding.quantita.setText(item.unita_ordinate.toString())
             binding.prezzoTotale.setText(item.offerta?.let {
-                "€"+calcolaPrezzo(item.prezzo_unitario,item.quantita,
-                    it,item.unita_ordinate
+                calcolaPrezzo(item.prezzo_unitario,item.quantita,it,item.unita_ordinate
                 )
             })
         }
@@ -94,12 +93,12 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
         return if(offerta < 1) {
             dec.roundingMode = RoundingMode.DOWN
             val prezzo = dec.format(prezzo_unitario * quantita * offerta*unita_ordinate)
-            prezzo
+            "€$prezzo"
 
         }else{
             dec.roundingMode = RoundingMode.DOWN
             val prezzo = dec.format(prezzo_unitario * quantita*unita_ordinate)
-            prezzo
+            "€$prezzo"
         }
 
     }
