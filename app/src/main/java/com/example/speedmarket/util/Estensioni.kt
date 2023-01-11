@@ -1,5 +1,6 @@
 package com.example.speedmarket.util
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -19,7 +20,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.speedmarket.R
 import com.example.speedmarket.ui.AppActivity
-import com.example.speedmarket.ui.impostazioni.Impostazioni
+import kotlin.system.exitProcess
+
 
 fun View.hide(){
     visibility = View.GONE
@@ -58,16 +60,16 @@ fun Fragment.createDialog(): Dialog {
     }
 
 fun Fragment.setupOnBackPressedExit() {
-    val callback=object : OnBackPressedCallback(true){
+    val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val dialog = createDialog()
             dialog.show()
             val button = dialog.findViewById<Button>(R.id.btn_esci)
-            button.setOnClickListener{
-                System.exit(-1)
+            button.setOnClickListener {
+                exitProcess(-1)
             }
             val imageButton = dialog.findViewById<ImageButton>(R.id.image_close)
-            imageButton.setOnClickListener{
+            imageButton.setOnClickListener {
                 dialog.dismiss()
             }
         }
@@ -75,14 +77,15 @@ fun Fragment.setupOnBackPressedExit() {
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
-fun Fragment.dialog(fragment: Fragment) {
+
+fun Fragment.dialog(fragment: Fragment,str1:String,str2:String,str3:String) {
 
     val dialog = createDialog()
     dialog.show()
     val button = dialog.findViewById<Button>(R.id.btn_esci)
-    button.setText("Sfoglia")
-    dialog.findViewById<TextView>(R.id.txt_esci).text="Carrello"
-    dialog.findViewById<TextView>(R.id.txt_conferma_di_voler_uscire).text="Il tuo carrello è vuoto,se vuoi aggiungere dei prodotti premi il seguente bottone"
+    button.setText(str3)
+    dialog.findViewById<TextView>(R.id.txt_esci).text=str1
+    dialog.findViewById<TextView>(R.id.txt_conferma_di_voler_uscire).text=str2
     button.setOnClickListener{
         replaceFragment(fragment)
         dialog.dismiss()

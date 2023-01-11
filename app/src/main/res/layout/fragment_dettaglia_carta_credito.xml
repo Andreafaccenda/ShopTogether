@@ -8,6 +8,7 @@
     tools:context=".ui.impostazioni.profile.DettagliaCartaCreditoFragment">
 
     <LinearLayout
+        android:id="@+id/layout_pagamento"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"

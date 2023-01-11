@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,6 +91,7 @@ class Profile : Fragment() {
             binding.etCitta.requestFocus()
             binding.btnSave.setOnClickListener{
                 if(validation()) {
+                    utente.profileCompleted=true
                     utente.numero_telefono = binding.etTelefono.text.toString().toLong()
                     utente.residenza.citta = binding.etCitta.text.toString()
                     utente.residenza.provincia = binding.etProvincia.text.toString()
@@ -239,9 +241,8 @@ class Profile : Fragment() {
                 false}
             binding.etCitta.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_citta))
                 false}
-            /**utente.immagine_profilo.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_immagine))
+            utente.immagine_profilo.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_immagine))
                 false}
-            */
             !binding.roundM.isChecked && !binding.roundF.isChecked -> {toast(getString(R.string.messaggio_seleziona_genere))
                 false}
             binding.etCap.text.isNullOrEmpty() -> { toast(getString(R.string.messaggio_cap))

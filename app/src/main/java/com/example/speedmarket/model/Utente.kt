@@ -13,7 +13,7 @@ data class Utente(
     var lista_carrelli: MutableList<Carrello>? = arrayListOf(),
     var numero_telefono: Long = 0,
     var genere: String = "",
-    val profileCompleted: Boolean = false){
+    var profileCompleted: Boolean = false){
 
 
 }

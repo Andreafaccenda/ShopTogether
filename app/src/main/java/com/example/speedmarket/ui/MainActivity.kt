@@ -38,6 +38,11 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        System.exit(-1)
+    }
 }
 
 

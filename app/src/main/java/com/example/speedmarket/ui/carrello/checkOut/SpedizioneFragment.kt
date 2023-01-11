@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import com.example.speedmarket.databinding.FragmentSpedizioneBinding
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.impostazioni.profile.Profile
+import com.example.speedmarket.util.dialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +19,7 @@ class SpedizioneFragment : Fragment() {
 
     lateinit var binding: FragmentSpedizioneBinding
     val viewModel: AuthViewModel by viewModels()
-    private lateinit var utente: Utente
+    private var utente= Utente()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,16 +31,36 @@ class SpedizioneFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getUtente()
+        //getUtente()
 
-
-    }
-    /*private fun popola_cambi_spedizione(){
-        if(utente.indirizzo_spedizione.isNullOrEmpty()){
-
+        if(!utente.indirizzo_spedizione.citta.isNullOrEmpty()){
+            setIndirizzoSpedizione()
+        }else{
+            if(!utente.residenza.citta.isNullOrEmpty()){
+                setResidenza()
+            }else{
+                Log.d("Tag",utente.residenza.citta)
+                dialog(Profile(),"Indirizzo di residenza","Inserisci il tuo indirizzo di residenza prima di procedere con l'ordine","Profilo")
+            }
         }
-    }*/
-    private fun getUtente() {
+    }
+
+    private fun setIndirizzoSpedizione(){
+        binding.txtCitta.setText(utente.indirizzo_spedizione.citta)
+        binding.txtCap.setText(utente.indirizzo_spedizione.cap)
+        binding.txtProvincia.setText(utente.indirizzo_spedizione.provincia)
+        binding.txtVia.setText(utente.indirizzo_spedizione.via)
+        binding.txtNumeroCivico.setText(utente.indirizzo_spedizione.numero_civico)
+    }
+    private fun setResidenza(){
+        binding.txtCitta.setText(utente.residenza.citta)
+        binding.txtCap.setText(utente.residenza.cap)
+        binding.txtProvincia.setText(utente.residenza.provincia)
+        binding.txtVia.setText(utente.residenza.via)
+        binding.txtNumeroCivico.setText(utente.residenza.numero_civico)
+    }
+
+    override fun onStart() {
         super.onStart()
         viewModel.getSession { user ->
             if (user != null) {
