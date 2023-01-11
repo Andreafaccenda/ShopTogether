@@ -10,8 +10,10 @@ import androidx.fragment.app.viewModels
 import com.example.speedmarket.databinding.FragmentSpedizioneBinding
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.example.speedmarket.util.dialog
+import com.example.speedmarket.util.setupOnBackPressedFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +33,7 @@ class SpedizioneFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressedFragment(CarrelloFragment())
         //getUtente()
 
         if(!utente.indirizzo_spedizione.citta.isNullOrEmpty()){

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="4dp">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1,2,3"
+        android:background="@color/white">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/txt_nome_prodotto"
+                android:layout_width="140dp"
+                android:layout_height="34dp"
+                android:padding="10dp"
+                android:background="@drawable/payment_bg"
+                android:textColor="@color/yellow"
+                android:textAlignment="viewStart"
+                android:textSize="10sp"
+                android:textStyle="normal"
+                />
+            <TextView
+                android:id="@+id/txt_quantità"
+                android:layout_width="15dp"
+                android:layout_height="34dp"
+                android:padding="10dp"
+                android:background="@drawable/payment_bg"
+                android:textColor="@color/yellow"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                android:textStyle="normal"
+                />
+            <TextView
+                android:id="@+id/txt_prezzo"
+                android:layout_width="25dp"
+                android:layout_height="34dp"
+                android:padding="10dp"
+                android:background="@drawable/payment_bg"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/yellow"
+                android:textSize="10sp"
+                android:textStyle="normal"
+                />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

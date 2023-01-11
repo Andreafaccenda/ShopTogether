@@ -11,6 +11,8 @@ import com.example.speedmarket.databinding.FragmentCarrelloBinding
 import com.example.speedmarket.databinding.FragmentPagamentoBinding
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.carrello.CarrelloFragment
+import com.example.speedmarket.util.setupOnBackPressedFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +32,7 @@ class PagamentoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressedFragment(CarrelloFragment())
 
     }
     override fun onStart() {

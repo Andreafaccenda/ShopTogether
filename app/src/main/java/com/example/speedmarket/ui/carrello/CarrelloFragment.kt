@@ -181,7 +181,7 @@ class CarrelloFragment : Fragment() {
     }
     fun update_price_cart(carrello:Carrello){
         this.carrello.prezzo=0.0F
-        if(this.carrello.lista_prodotti != null) {
+        if(!this.carrello.lista_prodotti.isNullOrEmpty()) {
             for (elem in this.carrello.lista_prodotti!!) {
                 this.carrello.prezzo += (elem.quantita * elem.unita_ordinate * elem.offerta!! * elem.prezzo_unitario)
                 binding.txtPrezzoCarrello.text = calcolaPrezzo(carrello.prezzo)

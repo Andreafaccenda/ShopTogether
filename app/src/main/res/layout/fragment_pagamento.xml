@@ -1,37 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.carrello.checkOut.PagamentoFragment">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/payment_bg"
-        android:layout_marginTop="100dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:elevation="4dp"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="@drawable/payment__checkbg"
         android:orientation="vertical">
 
-
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="I tuoi dati per il pagamento"
+            android:textAlignment="center"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:textColor="#717171"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/proprietario"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="15dp"
+                android:text="Proprietario"
+                android:textSize="16sp"
+                android:textColor="#717171"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/cvv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="2dp"
                 android:layout_weight="1"
-                android:text="Numero di carta"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="15dp"
+                android:text="CVV"
+                android:textSize="16sp"
                 android:textColor="#717171"
-                android:textSize="12sp"/>
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -40,98 +66,158 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/et_numeroCarta"
+                android:id="@+id/etProprietario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/edit_custom"
                 android:layout_weight="1"
-                android:background="@null"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="textPersonName"
                 android:text=""
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 />
 
+            <EditText
+                android:id="@+id/etCvv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/edit_custom"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberPassword"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/numero_carta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="15dp"
+                android:text="Numero carta"
+                android:textSize="16sp"
+                android:textColor="#717171"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etNumeroCarta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/edit_custom"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Data_scadenza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="15dp"
+                android:text="Data scadenza"
+                android:textSize="16sp"
+                android:textColor="#717171"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_data_scadenza"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="0"
+                android:background="@drawable/edit_custom"
+                android:ems="10"
+                android:inputType="date"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/vi" />
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                android:src="@drawable/mc" />
             <ImageView
                 android:id="@+id/imageView6"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:src="@drawable/carta_stilizzata" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                android:src="@drawable/pp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/payment_bg"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="175dp"
+            <Button
+                android:id="@+id/btnSalva"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/payment_bg"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:text="MM/YY"
-                    android:textColor="#717171"
-                    android:textSize="12sp" />
-
-                <EditText
-                    android:id="@+id/et_data_scadenza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:ems="10"
-                    android:inputType="date"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/payment_bg"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/et_cvv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@null"
-                        android:ems="10"
-                        android:inputType="numberPassword"
-                        android:hint="CVC"
-                        android:textColorHint="#717171"
-                        android:textSize="14sp"/>
-
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_weight="1"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_yellow"
+                android:drawableStart="@drawable/salva"
+                android:paddingStart="10dp"
+                android:paddingRight="10dp"
+                android:textAlignment="center"
+                android:text="Salva"
+                android:textColor="@color/white"/>
         </LinearLayout>
-    </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

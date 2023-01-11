@@ -71,5 +71,9 @@
     <string name="carta_di_credito">Carta di credito</string>
     <string name="salva_carta">Salva questa carta per acquisti futuri su SpeedMarket</string>
     <string name="esci">esci</string>
+    <string name="prodotto">Prodotto</string>
+    <string name="quantit">Quantità</string>
+    <string name="prezzo">Prezzo</string>
+    <string name="riepilogo_ordine">Riepilogo ordine</string>
 
 </resources>
