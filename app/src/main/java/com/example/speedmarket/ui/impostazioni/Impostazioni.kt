@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.speedmarket.model.Utente
+import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.toast
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
@@ -19,9 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Impostazioni : Fragment() {
-    private val viewModelAuth: AuthViewModel by viewModels()
     lateinit var binding: FragmentImpostazioniBinding
-
+    private val viewModelAuth: AuthViewModel by viewModels()
+    private lateinit var utente: Utente
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +38,9 @@ class Impostazioni : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressed()
+        getUserSession()
+        observer()
+        viewModelAuth.getUtente(this.utente.id)
         binding.assistenzaClientiLayout.setOnClickListener{
             replaceFragment(AssistenzaClientiFragment())
         }
@@ -43,14 +49,31 @@ class Impostazioni : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModelAuth.getSession { user ->
-            if (user != null) {
-                binding.txtEmailUser.text = user.email
-                binding.txtNome.text = "${user.nome} ${user.cognome}"
-                bindImage(binding.imageProfile, user.immagine_profilo)
+    private fun observer() {
+        viewModelAuth.utente.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    this.utente = state.data!!
+                    updateUI()
+                }
             }
+        }
+    }
+
+    private fun updateUI() {
+        binding.txtEmailUser.text = this.utente.email
+        binding.txtNome.text = "${this.utente.nome} ${this.utente.cognome}"
+        bindImage(binding.imageProfile, this.utente.immagine_profilo)
+    }
+
+    private fun getUserSession() {
+        viewModelAuth.getSession { user ->
+            this.utente = user!!
         }
     }
 

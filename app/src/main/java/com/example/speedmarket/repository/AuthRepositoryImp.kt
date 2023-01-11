@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -100,6 +101,17 @@ class AuthRepositoryImp(
                         it.localizedMessage
                     )
                 )
+            }
+    }
+
+    override fun getUser(id: String, result: (UiState<Utente?>) -> Unit) {
+        database.collection(FireStoreCollection.UTENTI).document(id)
+            .get()
+            .addOnSuccessListener {
+                val utente = it.toObject(Utente::class.java)
+                result.invoke(UiState.Success(utente))
+            }.addOnFailureListener {
+                UiState.Failure(it.localizedMessage)
             }
     }
 

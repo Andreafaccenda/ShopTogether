@@ -39,7 +39,7 @@ class CatalogoFragment : Fragment() {
         val args = this.arguments
         this.nome_categoria = args?.get("nome_categoria").toString()
 
-        oberver()
+        observer()
         binding.barraDiRicerca.clearFocus()
         viewModel.getProducts()
         recyclerView = binding.recyclerViewCatalogo
@@ -72,7 +72,7 @@ class CatalogoFragment : Fragment() {
         })
 
     }
-    private fun oberver() {
+    private fun observer() {
         viewModel.prodotto.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {

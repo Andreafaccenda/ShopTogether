@@ -208,15 +208,19 @@ class Profile : Fragment() {
         else {
             binding.etTelefono.setText(utente.numero_telefono.toString())
         }
+        if (utente.genere == "Maschio") {
+            binding.roundM.isChecked = true
+        }
+        else if (utente.genere == "Femmina") {
+            binding.roundF.isChecked = true
+        }
         binding.etEmail.setText(utente.email)
         binding.etPassword.setText(utente.password)
-        if(utente.residenza != null){
-            binding.etCitta.setText(utente.residenza.citta)
-            binding.etProvincia.setText(utente.residenza.provincia)
-            binding.etCap.setText(utente.residenza.cap)
-            binding.etVia.setText(utente.residenza.via)
-            binding.etNumeroCivico.setText(utente.residenza.numero_civico)
-        }
+        binding.etCitta.setText(utente.residenza.citta)
+        binding.etProvincia.setText(utente.residenza.provincia)
+        binding.etCap.setText(utente.residenza.cap)
+        binding.etVia.setText(utente.residenza.via)
+        binding.etNumeroCivico.setText(utente.residenza.numero_civico)
        setImage(utente)
     }
     fun editText_modify(modify : Boolean){
