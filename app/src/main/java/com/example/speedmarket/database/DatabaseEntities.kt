@@ -29,9 +29,9 @@ data class DatabaseCarrello(
     @PrimaryKey
     val id: String,
     val lista_prodotti: MutableList<Prodotto>?,
-    val prezzo: Float,
+    val prezzo: String,
     val ordine_completato:Boolean) {
-    constructor(): this("",null,0.0f,false)
+    constructor(): this("",null,"",false)
 }
 
 fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {

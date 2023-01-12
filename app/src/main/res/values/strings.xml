@@ -75,5 +75,8 @@
     <string name="quantit">Quantità</string>
     <string name="prezzo">Prezzo</string>
     <string name="riepilogo_ordine">Riepilogo ordine</string>
+    <string name="informazioni_spedizione">Informazioni spedizione</string>
+    <string name="informazioni_carta">Informazioni carta</string>
+    <string name="il_tuo_carrello">Il tuo carrello</string>
 
 </resources>

@@ -101,7 +101,9 @@
                 android:id="@+id/txt_data_scadenza"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="0dp"
                 android:text=""
                 android:textColor="#686767"
                 android:textSize="16sp"
@@ -123,7 +125,8 @@
                 android:id="@+id/txt_prodotti_simili"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/ti_potrebbero_interessare"
                 android:textColor="#686767"
                 android:textSize="16sp"
@@ -132,7 +135,8 @@
                 android:id="@+id/recyclerView_prodotti_simili"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"/>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="0dp"/>
 
 
         </LinearLayout>

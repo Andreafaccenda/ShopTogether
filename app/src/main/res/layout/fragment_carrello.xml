@@ -14,10 +14,9 @@
         android:gravity="center"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="Il tuo carrello"
+        android:text="@string/il_tuo_carrello"
         android:textColor="@color/white"
         android:textSize="18sp"
-
         app:layout_constraintBottom_toTopOf="@+id/scrollView_carrello"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +37,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:layout_constraintVertical_bias="1.0" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="80dp"
-        android:background="@drawable/card_background"
+        android:background="@drawable/catalogo_bg"
         android:id="@+id/scrollView_carrello">
 
         <LinearLayout
@@ -218,5 +217,5 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

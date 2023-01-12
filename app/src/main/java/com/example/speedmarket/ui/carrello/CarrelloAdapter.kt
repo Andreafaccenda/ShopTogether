@@ -52,9 +52,7 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
                     holder.binding.quantita.setText(item.unita_ordinate.toString())
                     onItemClick?.invoke(item)
                 }
-                else {
-                    //Togliere dal carrello
-                }
+
             }
         }
     }
@@ -72,12 +70,12 @@ class CarrelloAdapter(): RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Prodotto) {
             bindImage(binding.imageProdotto, item.immagine)
-            binding.nomeProdotto.setText(item.nome)
-            binding.quantita.setText(item.unita_ordinate.toString())
-            binding.prezzoTotale.setText(item.offerta?.let {
+            binding.nomeProdotto.text=item.nome
+            binding.quantita.text=item.unita_ordinate.toString()
+            binding.prezzoTotale.text=item.offerta?.let {
                 calcolaPrezzo(item.prezzo_unitario,item.quantita,it,item.unita_ordinate
                 )
-            })
+            }
         }
     }
 

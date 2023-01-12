@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentRiepilogoBinding
-import com.example.speedmarket.databinding.FragmentSpedizioneBinding
-import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
@@ -45,7 +43,12 @@ class RiepilogoFragment : Fragment() {
         setupOnBackPressedFragment(CarrelloFragment())
         binding.layoutCarta.hide()
         binding.layoutSpedizione.hide()
-        show_layout()
+        binding.btnInformationCarta.setOnClickListener {
+           show_layout_carta()
+        }
+        binding.btnInformationSpedizione.setOnClickListener {
+            show_layout_spedizione()
+        }
         getUtente()
         oberver()
         viewModelCarrello.getCarrello(utente)
@@ -71,22 +74,22 @@ class RiepilogoFragment : Fragment() {
             }
         }
     }
-    private fun show_layout(){
-        binding.subtitleCarta.setOnClickListener{
-            binding.subtitleCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.apri,context!!.theme), null, null, null)
-            binding.layoutCarta.show()
-            binding.subtitleCarta.setOnClickListener{
-                binding.subtitleCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
-                binding.layoutCarta.hide()
-            }
-        }
-        binding.subtitleSpedizione.setOnClickListener{
-            binding.subtitleSpedizione.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.apri,context!!.theme), null, null, null)
+   private fun show_layout_carta(){
+       if(binding.layoutCarta.isShown){
+           binding.btnInformationCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
+           binding.layoutCarta.hide()
+       }else{
+           binding.btnInformationCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.apri,context!!.theme), null, null, null)
+           binding.layoutCarta.show()
+       }
+    }
+    private fun show_layout_spedizione(){
+        if(binding.layoutSpedizione.isShown){
+            binding.btnInformationSpedizione.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
+            binding.layoutSpedizione.hide()
+        }else{
+            binding.btnInformationSpedizione.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.apri,context!!.theme), null, null, null)
             binding.layoutSpedizione.show()
-            binding.subtitleSpedizione.setOnClickListener{
-                binding.subtitleSpedizione.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
-                binding.layoutSpedizione.hide()
-            }
         }
     }
    private fun getUtente() {
