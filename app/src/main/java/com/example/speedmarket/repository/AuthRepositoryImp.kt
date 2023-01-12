@@ -35,6 +35,7 @@ class AuthRepositoryImp(
     val appPreferences: SharedPreferences,
     val gson: Gson
     ) : AuthRepository {
+
     override fun registerUser(
         email: String,
         password: String,

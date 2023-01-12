@@ -5,42 +5,39 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.activity.OnBackPressedDispatcher
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentHomeBinding
 import com.example.speedmarket.model.Categorie
 import com.example.speedmarket.model.Utente
-import com.example.speedmarket.ui.AppActivity
-import com.example.speedmarket.ui.MainActivity
+import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
-import com.example.speedmarket.util.setupOnBackPressed
+import com.example.speedmarket.util.UiState
 import com.example.speedmarket.util.setupOnBackPressedExit
+import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
 @AndroidEntryPoint
-class Home : Fragment() {
+class Home : Fragment(), ProfileManager {
 
     lateinit var binding: FragmentHomeBinding
     val viewModel: AuthViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var lista_categorie: ArrayList<Categorie>
+    private lateinit var listaCategorie: ArrayList<Categorie>
     private lateinit var immagineId: Array<Int>
     private lateinit var categorie: Array<String>
     private lateinit var sfondo: Array<Int>
-    private lateinit var categorie_adapter : CategorieAdapter
+    private lateinit var categorieAdapter : CategorieAdapter
+    override var utente: Utente? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -48,7 +45,10 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedExit()
-       immagineId = arrayOf(
+        getUserSession()
+        observer()
+        utente?.let { viewModel.getUtente(it.id) }
+        immagineId = arrayOf(
            R.drawable.cat_1,
            R.drawable.cat_2,
            R.drawable.cat_3,
@@ -107,7 +107,7 @@ class Home : Fragment() {
         recyclerView = binding.recyclerViewCategorie
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 4)
         recyclerView.setHasFixedSize(true)
-        lista_categorie = arrayListOf()
+        listaCategorie = arrayListOf()
         getCategoriaData()
 
         binding.btnRicercaProdotto.setOnClickListener(){
@@ -115,7 +115,7 @@ class Home : Fragment() {
             transaction?.replace(R.id.frame_layout, CatalogoFragment())
             transaction?.commit()
         }
-        categorie_adapter.onItemClick = {
+        categorieAdapter.onItemClick = {
            val bundle = Bundle()
             bundle.putString("nome_categoria",it.title.toString())
             val fragment = CatalogoFragment()
@@ -130,29 +130,40 @@ class Home : Fragment() {
 
     }
 
-    private fun bindImage(imgView: ImageView, imgUrl: String?) {
-        imgUrl?.let {
-            val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-            imgView.load(imgUri)
-        }
-    }
-
     private fun getCategoriaData(){
         for(i in immagineId.indices){
             val categoria = Categorie(immagineId[i],categorie[i],sfondo[i])
-            lista_categorie.add(categoria)
+            listaCategorie.add(categoria)
         }
-        categorie_adapter = CategorieAdapter(lista_categorie)
-        recyclerView.adapter = categorie_adapter
+        categorieAdapter = CategorieAdapter(listaCategorie)
+        recyclerView.adapter = categorieAdapter
     }
-    override fun onStart() {
-        super.onStart()
-        viewModel.getSession { user ->
-            if (user != null) {
-                binding.txtAccount.text = "Ciao, ${user.nome}"
-                bindImage(binding.imageProfile, user.immagine_profilo)
+
+    private fun observer() {
+        viewModel.utente.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    utente = state.data!!
+                    updateUI()
+                }
             }
         }
+    }
+
+    private fun getUserSession() {
+        viewModel.getSession { user ->
+            utente = user
+        }
+    }
+
+    override fun updateUI() {
+        binding.txtAccount.text = "Ciao, ${utente?.nome}"
+        bindImage(binding.imageProfile, utente?.immagine_profilo)
     }
 
 
