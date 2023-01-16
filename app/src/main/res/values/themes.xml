@@ -51,5 +51,9 @@
     <style name="radioButton" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/yellow</item>
     </style>
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <item name="android:textSize">11sp</item>
+        <item name="android:color">@color/yellow</item>
 
+    </style>
 </resources>

@@ -12,6 +12,7 @@ data class DatabaseProdotto(
     val nome: String,
     val produttore: String,
     val categoria: String,
+    val sub_categoria :String,
     val immagine: String,
     val prezzo_unitario: Float,
     val quantita: Float,
@@ -20,7 +21,7 @@ data class DatabaseProdotto(
     val offerta: Float?,
     val disponibilita : Int,
     val unita_ordinate : Int) {
-    constructor(): this("","","","","",0.0f,
+    constructor(): this("","","","","","",0.0f,
     0.0f,"","",0.0f,0,0)
 }
 
@@ -41,6 +42,7 @@ fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
             nome = it.nome,
             produttore = it.produttore,
             categoria = it.categoria,
+            sub_categoria = it.sub_categoria,
             immagine = it.immagine,
             prezzo_unitario = it.prezzo_unitario,
             quantita = it.quantita,
@@ -54,7 +56,7 @@ fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
 }
 
 fun Prodotto.toDatabaseProdotto() = DatabaseProdotto(id=id, nome=nome, produttore=produttore,
-    categoria=categoria, immagine=immagine, prezzo_unitario=prezzo_unitario, quantita=quantita,
+    categoria=categoria,sub_categoria=sub_categoria, immagine=immagine, prezzo_unitario=prezzo_unitario, quantita=quantita,
     descrizione=descrizione, data_scadenza=data_scadenza, offerta=offerta,
     disponibilita=disponibilita, unita_ordinate=disponibilita)
 

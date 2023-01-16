@@ -48,6 +48,14 @@ class ProdottoSimileAdapter() : RecyclerView.Adapter<ProdottoSimileAdapter.Prodo
 
     override fun filtraListaNomeChange(tipo: String, list: MutableList<Prodotto>) {}
     override fun filtraListaNome(tipo: String, list: MutableList<Prodotto>)  {}
+    override fun filtraListaPrezzo(prezzo: String, list: MutableList<Prodotto>) {}
+    override fun filtraListaMarchio(marchio: String, list: MutableList<Prodotto>) {}
+    override fun filtraListaMarchioPrezzo(
+        prezzo: String,
+        marchio: String,
+        list: MutableList<Prodotto>
+    ) {}
+
     override fun removeItem(id: String){
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for(prodotto in this.list){

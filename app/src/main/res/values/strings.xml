@@ -78,5 +78,104 @@
     <string name="informazioni_spedizione">Informazioni spedizione</string>
     <string name="informazioni_carta">Informazioni carta</string>
     <string name="il_tuo_carrello">Il tuo carrello</string>
+    <string name="categoria">Categoria</string>
+    <string name="frutta_e_verdura">Frutta e verdura</string>
+    <string name="carne">Carne</string>
+    <string name="affettati_e_salumi">Affettati e salumi</string>
+    <string name="frutta_fresca">Frutta fresca</string>
+    <string name="mele">Mele</string>
+    <string name="arance">Arance</string>
+    <string name="banane">Banane</string>
+    <string name="altra_frutta">Altra frutta</string>
+    <string name="_1_oltre">€ 1 - €</string>
+    <string name="mostra_i_risultati">Mostra i risultati</string>
+    <string name="marchio">Marchio</string>
+    <string name="search_marchio">Ricerca il marchio</string>
+    <string name="catalogo_vuoto">Catalogo vuoto</string>
+
+    <string-array name="marchi">
+        <item>Conad</item>
+        <item>Conad sapori e idee</item>
+        <item>Conad sapori e dintorni</item>
+        <item>Colfiorito</item>
+        <item>Verso natura Conad</item>
+        <item>Cannamela</item>
+        <item>Ponti</item>
+        <item>Chini</item>
+        <item>Aia</item>
+        <item>Masina</item>
+        <item>Casa modena</item>
+        <item>Actimel</item>
+        <item>Activia</item>
+        <item>Alpro</item>
+        <item>Accadi</item>
+        <item>Chef</item>
+        <item>Granarolo</item>
+        <item>Naturelle</item>
+        <item>Alce nero</item>
+        <item>Mulino bianco</item>
+        <item>Kinder</item>
+        <item>Giampaoli</item>
+        <item>Di leo</item>
+        <item>Pavesi</item>
+        <item>Milka</item>
+        <item>Oreo</item>
+        <item>Novi</item>
+        <item>Oro saiwa</item>
+        <item>Pan di stelle</item>
+        <item>Cameo</item>
+        <item>Lindt</item>
+        <item>Hero</item>
+        <item>Galbusera</item>
+        <item>Kellogg\'s</item>
+        <item>Loacker</item>
+        <item>Nutella</item>
+        <item>Borbone</item>
+        <item>Kimbo</item>
+        <item>Lavazza</item>
+        <item>Segafredo</item>
+        <item>Hag</item>
+        <item>Star</item>
+        <item>Te ati</item>
+        <item>Te infre</item>
+        <item>Star</item>
+        <item>Angelica</item>
+        <item>Bonomelli</item>
+        <item>Pompadour</item>
+        <item>Sogni d\'oro</item>
+        <item>Knorr</item>
+        <item>Barilla</item>
+        <item>Berni</item>
+        <item>Calve</item>
+        <item>Delevey</item>
+        <item>Sacla</item>
+        <item>Colfiorito</item>
+        <item>Callipo</item>
+        <item>Mare blu</item>
+        <item>Rio mare</item>
+        <item>Nostromo</item>
+        <item>Simmenthal</item>
+        <item>Grissin bon</item>
+        <item>De cecco</item>
+        <item>Molisana</item>
+        <item>Fiorentini</item>
+        <item>Misura</item>
+        <item>Galbusera</item>
+        <item>Wasa</item>
+        <item>Amica chips</item>
+        <item>Fonzies</item>
+        <item>Pringles</item>
+        <item>San carlo</item>
+        <item>Frosta</item>
+        <item>Capitan findus</item>
+        <item>Buitoni</item>
+        <item>Findus</item>
+        <item>Boundelle</item>
+        <item>Algida</item>
+        <item>Carte d\'or</item>
+        <item>Valmontana</item>
+        <item>Valsoia</item>
+    </string-array>
+
 
 </resources>

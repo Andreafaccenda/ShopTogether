@@ -7,6 +7,7 @@ data class Prodotto(
     val nome: String,
     val produttore: String,
     val categoria: String,
+    val sub_categoria:String,
     val immagine: String,
     val prezzo_unitario: Float,
     val quantita: Float,
@@ -17,7 +18,7 @@ data class Prodotto(
     var unita_ordinate : Int
 ) : Serializable
 {
-    constructor(): this("","","","","",0.0f,
+    constructor(): this("","","","","","",0.0f,
         0.0f,"","",0.0f,0,0)
 }
 

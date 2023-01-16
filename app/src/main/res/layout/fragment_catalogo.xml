@@ -75,6 +75,16 @@
                 android:layout_marginEnd="24dp"
                 android:background="@android:color/transparent"
                 />
+            <TextView
+                android:id="@+id/catalogo_vuoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="@string/catalogo_vuoto"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@color/yellow"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

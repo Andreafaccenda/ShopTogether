@@ -82,6 +82,42 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         updateList(listaAggiornata)
 
     }
+
+    override fun filtraListaPrezzo(prezzo: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+            if (price<=prezzo.toFloat()) {
+                listaAggiornata.add(prodotto)
+            }
+        }
+        updateList(listaAggiornata)
+    }
+    override fun filtraListaMarchio(marchio: String, list: MutableList<Prodotto>) {
+
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.produttore.toLowerCase().equals(marchio.toLowerCase(), true)) {
+                listaAggiornata.add(prodotto)
+            }
+        }
+        updateList(listaAggiornata)
+
+    }
+
+    override fun filtraListaMarchioPrezzo(prezzo: String, marchio: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.produttore.toLowerCase().equals(marchio.toLowerCase(), true)) {
+                var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+                if (price<=prezzo.toFloat()) {
+                    listaAggiornata.add(prodotto)
+                }
+            }
+        }
+        updateList(listaAggiornata)
+
+    }
     override fun getItemCount(): Int {
         return list.size
     }

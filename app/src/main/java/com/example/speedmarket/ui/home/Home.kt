@@ -68,22 +68,22 @@ class Home : Fragment() {
 
         )
         categorie = arrayOf(
-            "Frutta",
-            "Carne",
-            "Affettati",
-            "Surgelati",
-            "Latte",
-            "Cereali",
-            "Caffe",
-            "Dolci",
-            "Snack",
-            "Panneteria",
-            "Condimenti",
-            "Conserve",
-            "Pasta",
-            "Alcolici",
-            "Bibite",
-            "Freschi"
+            "Frutta e verdura",
+            "Carne e salumi",
+            "Formaggi latte e uova",
+            "Surgelati e gelati",
+            "Pesce e sushi",
+            "Biscotti cereali e dolci",
+            "Caffe e infusi",
+            "Preparazione dolci e salate",
+            "Animali domestici",
+            "Panneteria e snack salati",
+            "Condimenti e conserve",
+            "Articoli per la casa",
+            "Pasta e riso",
+            "Vino birra e altri alcolici",
+            "Bevande e preparati",
+            "Piatti pronti"
         )
         sfondo = arrayOf(
             R.drawable.background_categorie1,

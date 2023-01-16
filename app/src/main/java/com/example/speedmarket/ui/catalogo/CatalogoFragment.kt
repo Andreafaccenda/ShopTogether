@@ -1,6 +1,7 @@
 package com.example.speedmarket.ui.catalogo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.databinding.FragmentCatalogoBinding
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.replaceFragment
-import com.example.speedmarket.util.setupOnBackPressed
-import com.example.speedmarket.util.toast
+import com.example.speedmarket.model.Prodotto
+import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +21,7 @@ class CatalogoFragment : Fragment() {
     lateinit var binding: FragmentCatalogoBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var nome_categoria :String
+    private lateinit var filtri :ArrayList<String>
     val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { ProdottoAdapter() }
 
@@ -36,9 +36,9 @@ class CatalogoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressed()
+        binding.catalogoVuoto.hide()
         val args = this.arguments
         this.nome_categoria = args?.get("nome_categoria").toString()
-
         observer()
         binding.barraDiRicerca.clearFocus()
         viewModel.getProducts()
@@ -52,7 +52,14 @@ class CatalogoFragment : Fragment() {
             val fragment = DettagliProdottoFragment()
             fragment.arguments= bundle
             replaceFragment(fragment)
-
+        }
+        filtri = arrayListOf("vuoto","vuoto","vuoto")
+        if(args?.getStringArrayList("filtri").toString() != "null"){
+            filtri=args?.getStringArrayList("filtri") as ArrayList<String>
+            Log.d("filtri",filtri.toString())
+        }
+        binding.btnFiltri.setOnClickListener{
+            replaceFragment(Filtri())
         }
         binding.barraDiRicerca.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -60,17 +67,12 @@ class CatalogoFragment : Fragment() {
                 oberver_searchView_text(testo)
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
-
                 val testo = newText.toString()
                 oberver_searchView_text_change(testo)
                 return false
-
             }
-
         })
-
     }
     private fun observer() {
         viewModel.prodotto.observe(viewLifecycleOwner) { state ->
@@ -83,6 +85,12 @@ class CatalogoFragment : Fragment() {
                 is UiState.Success -> {
                   if(this.nome_categoria == "null") adapter.updateList(state.data.toMutableList())
                   else adapter.filtraListaCategoria(this.nome_categoria,state.data.toMutableList())
+                    if(filtri[0]!="vuoto")adapter.filtraListaPrezzo(filtri[0],state.data.toMutableList())
+                    if(filtri[1]!="vuoto")adapter.filtraListaMarchio(filtri[1],state.data.toMutableList())
+                    if(filtri[1]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraListaMarchioPrezzo(filtri[0],filtri[1],state.data.toMutableList())
+                    if(adapter.itemCount<= 0) {
+                        binding.catalogoVuoto.show()
+                        }
                     }
                 }
             }
@@ -115,5 +123,6 @@ class CatalogoFragment : Fragment() {
             }
         }
     }
+
 }
 
