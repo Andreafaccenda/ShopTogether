@@ -41,6 +41,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.SearchView
+                android:theme="@style/AppSearchView"
                 android:id="@+id/barra_di_ricerca"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
