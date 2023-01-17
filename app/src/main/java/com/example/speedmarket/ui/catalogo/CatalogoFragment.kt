@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.databinding.FragmentCatalogoBinding
-import com.example.speedmarket.model.Prodotto
+import com.example.speedmarket.ui.catalogo.filtri.Filtri
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -87,6 +87,7 @@ class CatalogoFragment : Fragment() {
                   else adapter.filtraListaCategoria(this.nome_categoria,state.data.toMutableList())
                     if(filtri[0]!="vuoto")adapter.filtraListaPrezzo(filtri[0],state.data.toMutableList())
                     if(filtri[1]!="vuoto")adapter.filtraListaMarchio(filtri[1],state.data.toMutableList())
+                    if(filtri[2]!="vuoto") adapter.filtraListaSottoCategoria(filtri[2],state.data.toMutableList())
                     if(filtri[1]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraListaMarchioPrezzo(filtri[0],filtri[1],state.data.toMutableList())
                     if(adapter.itemCount<= 0) {
                         binding.catalogoVuoto.show()

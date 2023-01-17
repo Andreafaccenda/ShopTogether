@@ -70,10 +70,10 @@ class Home : Fragment(), ProfileManager {
         categorie = arrayOf(
             "Frutta e verdura",
             "Carne e salumi",
-            "Formaggi latte e uova",
+            "Formaggi,latte e uova",
             "Surgelati e gelati",
             "Pesce e sushi",
-            "Biscotti cereali e dolci",
+            "Biscotti,cereali e dolci",
             "Caffe e infusi",
             "Preparazione dolci e salate",
             "Animali domestici",
@@ -81,7 +81,7 @@ class Home : Fragment(), ProfileManager {
             "Condimenti e conserve",
             "Articoli per la casa",
             "Pasta e riso",
-            "Vino birra e altri alcolici",
+            "Vino,birra e altri alcolici",
             "Bevande e preparati",
             "Piatti pronti"
         )

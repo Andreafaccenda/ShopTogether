@@ -1,17 +1,14 @@
-package com.example.speedmarket.ui.catalogo
+package com.example.speedmarket.ui.catalogo.filtri
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ViewHolderFiltriMarchioBinding
-import com.example.speedmarket.model.Prodotto
 
-class FiltriAdapter(): RecyclerView.Adapter<FiltriAdapter.FiltriViewHolder>() {
+class MarchioAdapter(): RecyclerView.Adapter<MarchioAdapter.FiltriViewHolder>() {
 
     var onItemClick : ((String) -> Unit)? = null
     private  var lista_marchio: ArrayList<String> = arrayListOf()

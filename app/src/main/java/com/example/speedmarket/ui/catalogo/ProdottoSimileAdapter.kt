@@ -50,6 +50,8 @@ class ProdottoSimileAdapter() : RecyclerView.Adapter<ProdottoSimileAdapter.Prodo
     override fun filtraListaNome(tipo: String, list: MutableList<Prodotto>)  {}
     override fun filtraListaPrezzo(prezzo: String, list: MutableList<Prodotto>) {}
     override fun filtraListaMarchio(marchio: String, list: MutableList<Prodotto>) {}
+    override fun filtraListaSottoCategoria(subCategoria: String, list: MutableList<Prodotto>) {}
+
     override fun filtraListaMarchioPrezzo(
         prezzo: String,
         marchio: String,

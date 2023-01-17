@@ -124,7 +124,7 @@
             android:id="@+id/sbarra_offerta"
             android:layout_width="70dp"
             android:layout_height="19dp"
-            app:srcCompat="@drawable/close"
+            app:srcCompat="@drawable/offert"
             tools:layout_editor_absoluteX="341dp"
             tools:layout_editor_absoluteY="81dp"
             app:layout_constraintBottom_toBottomOf="parent"

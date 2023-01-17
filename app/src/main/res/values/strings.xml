@@ -80,18 +80,26 @@
     <string name="il_tuo_carrello">Il tuo carrello</string>
     <string name="categoria">Categoria</string>
     <string name="frutta_e_verdura">Frutta e verdura</string>
-    <string name="carne">Carne</string>
-    <string name="affettati_e_salumi">Affettati e salumi</string>
-    <string name="frutta_fresca">Frutta fresca</string>
-    <string name="mele">Mele</string>
-    <string name="arance">Arance</string>
-    <string name="banane">Banane</string>
+    <string name="carne">Carne e salumi</string>
     <string name="altra_frutta">Altra frutta</string>
     <string name="_1_oltre">€ 1 - €</string>
     <string name="mostra_i_risultati">Mostra i risultati</string>
     <string name="marchio">Marchio</string>
     <string name="search_marchio">Ricerca il marchio</string>
     <string name="catalogo_vuoto">Catalogo vuoto</string>
+    <string name="formaggi_latte_uova">Formaggi latte uova</string>
+    <string name="pesce_e_sushi">Pesce e sushi</string>
+    <string name="preparazione_dolci_e_salati">Preparazione dolci e salati</string>
+    <string name="biscotti_cereali_e_dolci">Biscotti,cereali e dolci</string>
+    <string name="caffe_e_infusi">Caffe e infusi</string>
+    <string name="condimenti_e_conserve">Condimenti e conserve</string>
+    <string name="panetteria_e_snack_salati">Panetteria e snack salati</string>
+    <string name="pasta_e_riso">Pasta e riso</string>
+    <string name="surgelati_e_gelati">Surgelati e gelati</string>
+    <string name="articoli_per_la_casa">Articoli per la casa</string>
+    <string name="piatti_pronti">Piatti pronti</string>
+    <string name="animali_domestici">Animali domestici</string>
+    <string name="vino_birra_e_altri_alcolici">Vino,birra e altri alcolici</string>
 
     <string-array name="marchi">
         <item>Conad</item>
@@ -177,5 +185,149 @@
         <item>Valsoia</item>
     </string-array>
 
+    <string-array name="Frutta_e_verdura">
+        <item>Frutta fresca</item>
+        <item>Frutta secca</item>
+        <item>Verdura fresca</item>
+        <item>Semi</item>
+        <item>Legumi,cereali e funghi</item>
+        <item>Frutta conservata</item>
+    </string-array>
+
+    <string-array name="Carne_e_salumi">
+    <item>Bovino</item>
+    <item>Suino</item>
+    <item>Pollo e tacchino</item>
+    <item>Equino</item>
+    <item>Altre carni</item>
+    <item>Salumi confezionati e freschi</item>
+    <item>Preparazione a base di carne</item>
+    <item>Wustel e precotti</item>
+    </string-array>
+
+    <string-array name="Pesce_e_sushi">
+        <item>Pesce fresco</item>
+        <item>Mollushi e crostacei</item>
+        <item>Tonno e altro pesce conservato</item>
+    </string-array>
+
+    <string-array name="Formaggi_latte_e_uova">
+        <item>Formaggi</item>
+        <item>Burro e margarita</item>
+        <item>Yogurt e probiotici</item>
+        <item>Latte</item>
+        <item>Panna e besciamella</item>
+        <item>Uova</item>
+    </string-array>
+
+    <string-array name="Prep_dolci_e_salati">
+        <item>Lieviti freschi</item>
+        <item>Basi,preparati e ingredienti</item>
+        <item>Pasticceria</item>
+        <item>Zucchero e dolcificanti</item>
+        <item>Farina</item>
+    </string-array>
+
+    <string-array name="Biscotti_cereali_e_dolci">
+        <item>Biscotti</item>
+        <item>Caramelle e cioccolato</item>
+        <item>Cereali prima colazione</item>
+        <item>Confetture e spalmabili dolci</item>
+        <item>Fette biscottate</item>
+        <item>Merendine e snack dolci</item>
+        <item>Dessert e pasticceria</item>
+    </string-array>
+
+    <string-array name="Caffe_e_infusi">
+        <item>Caffè macinato</item>
+        <item>Cialde e capsule</item>
+        <item>Caffè solubile</item>
+        <item>Tè</item>
+        <item>Infusi e tisane</item>
+        <item>orzo e sostitutivi caffè</item>
+    </string-array>
+
+    <string-array name="Condimenti_e_conserve">
+    <item>Olio,aceto e altri condimenti</item>
+    <item>Sale,aromi e spezie</item>
+    <item>Dadi e brodo</item>
+    <item>Sughi pronti e derivati del pomodoro</item>
+    <item>Salse,patè e altri spalmabili salati</item>
+    <item>Olive,sottoli e sottaceti</item>
+    <item>Legumi,cereali e funghi conservati</item>
+    <item>Tonno e altro pesce conservato</item>
+    <item>Preparazione a base di carne</item>
+    </string-array>
+
+    <string-array name="Panetteria_e_snack_salati">
+        <item>Grissini</item>
+        <item>Cracker e gallette</item>
+        <item>Snack e patatine</item>
+        <item>Pizza,focacce e piadine</item>
+        <item>Pane croccante e morbido</item>
+        <item>Pane grattugiato</item>
+    </string-array>
+
+    <string-array name="Pasta_e_riso">
+        <item>Pasta all uovo</item>
+        <item>Pasta ripiena e gnocchi</item>
+        <item>Pasta fresca</item>
+        <item>Pasta di semola</item>
+        <item>Riso</item>
+        <item>Pasta speciale</item>
+    </string-array>
+
+    <string-array name="Surgelati_e_gelati">
+        <item>Pane e impasti surgelati</item>
+        <item>Pesce al naturale surgelato</item>
+        <item>Pizzeria e snack surgelati</item>
+        <item>Preparati di pesce surgelati</item>
+        <item>Piatti pronti</item>
+        <item>Sughi e salse</item>
+        <item>Vegetali surgelati</item>
+        <item>Gelati</item>
+    </string-array>
+
+    <string-array name="Piattipronti">
+        <item>Antipasti</item>
+        <item>Primi piatti</item>
+        <item>Secondi piatti</item>
+        <item>Contorno</item>
+        <item>Zuppe</item>
+    </string-array>
+
+    <string-array name="Articoli_casa">
+        <item>Lavaggio e cura bucato</item>
+        <item>Detergenti per stoviglie</item>
+        <item>Detergenti e deodoranti per la casa</item>
+        <item>Accessori per la pulizia</item>
+        <item>Pellicole e contenitori per alimenti</item>
+        <item>Articoli per la tavola usa e getta</item>
+        <item>Insetticidi</item>
+    </string-array>
+
+    <string-array name="Animali_domestici">
+        <item>Cibo per cani</item>
+        <item>Cibo per gatti</item>
+        <item>Igiene e accessori</item>
+    </string-array>
+
+    <string-array name="Vino_birra_altri_alcolici">
+        <item>Vino rosso</item>
+        <item>Vino bianco</item>
+        <item>Vino rosè</item>
+        <item>Birre</item>
+        <item>Prosecco,spumanti e champagne</item>
+        <item>Liquori e distillati</item>
+    </string-array>
+
+    <string-array name="Bevande">
+        <item>Acqua</item>
+        <item>Succhi e bevande di frutta</item>
+        <item>Bevande gassate</item>
+        <item>Aperitivi</item>
+        <item>Solubili e sciroppi</item>
+        <item>Thè freddo e altre bevande</item>
+    </string-array>
 
 </resources>

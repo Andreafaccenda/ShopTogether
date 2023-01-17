@@ -105,6 +105,17 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
 
     }
 
+    override fun filtraListaSottoCategoria(subCategoria: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.sub_categoria.equals(subCategoria, true)) {
+                listaAggiornata.add(prodotto)
+            }
+        }
+        updateList(listaAggiornata)
+
+    }
+
     override fun filtraListaMarchioPrezzo(prezzo: String, marchio: String, list: MutableList<Prodotto>) {
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
