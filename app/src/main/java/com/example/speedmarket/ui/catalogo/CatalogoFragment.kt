@@ -22,6 +22,7 @@ class CatalogoFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var nome_categoria :String
     private lateinit var filtri :ArrayList<String>
+    private var offerta =false
     val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { ProdottoAdapter() }
 
@@ -39,6 +40,7 @@ class CatalogoFragment : Fragment() {
         binding.catalogoVuoto.hide()
         val args = this.arguments
         this.nome_categoria = args?.get("nome_categoria").toString()
+        this.offerta= args?.getBoolean("offerta") == true
         observer()
         binding.barraDiRicerca.clearFocus()
         viewModel.getProducts()
@@ -85,6 +87,7 @@ class CatalogoFragment : Fragment() {
                 is UiState.Success -> {
                   if(this.nome_categoria == "null") adapter.updateList(state.data.toMutableList())
                   else adapter.filtraListaCategoria(this.nome_categoria,state.data.toMutableList())
+                    if(offerta)adapter.filtraListaOfferta(state.data.toMutableList())
                     if(filtri[0]!="vuoto")adapter.filtraListaPrezzo(filtri[0],state.data.toMutableList())
                     if(filtri[1]!="vuoto")adapter.filtraListaMarchio(filtri[1],state.data.toMutableList())
                     if(filtri[2]!="vuoto") adapter.filtraListaSottoCategoria(filtri[2],state.data.toMutableList())

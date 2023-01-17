@@ -14,6 +14,7 @@ interface ProdottoAdapterInt {
     fun filtraListaCategoriaPrezzo(prezzo:String,subCategoria: String, list: MutableList<Prodotto>)
     fun filtraListaCategoriaMarchio(marchio:String,subCategoria: String, list: MutableList<Prodotto>)
     fun filtraLista(prezzo: String,marchio:String,subCategoria: String, list: MutableList<Prodotto>)
+    fun filtraListaOfferta(list: MutableList<Prodotto>)
     fun removeItem(id: String)
 
 }

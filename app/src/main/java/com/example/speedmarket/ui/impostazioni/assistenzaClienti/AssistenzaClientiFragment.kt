@@ -41,6 +41,9 @@ class AssistenzaClientiFragment : Fragment() {
         recycleView()
         clickEvents()
         customMessage(getString(R.string.message_default))
+        adapter.insertMessage(message = Messaggio("Supporto per profilo online", RECEIVE_ID))
+        adapter.insertMessage(message = Messaggio("Supporto per un'informazione", RECEIVE_ID))
+        adapter.insertMessage(message = Messaggio("Supporto ad un ordine", RECEIVE_ID))
     }
 
     private fun clickEvents() {
@@ -94,17 +97,10 @@ class AssistenzaClientiFragment : Fragment() {
                 adapter.insertMessage(Messaggio(response, RECEIVE_ID))
                 binding.rvMessage.scrollToPosition(adapter.itemCount-1)
                 when(response){
-                    OPEN_GOOGLE->{
-                        val site = Intent(Intent.ACTION_VIEW)
-                        site.data = Uri.parse("https://www.google.com/")
-                        startActivity(site)
+                    "profilo"->{
+                        adapter.insertMessage(Messaggio("ahooo", RECEIVE_ID))
                     }
-                    OPEN_SEARCH->{
-                        val site = Intent(Intent.ACTION_VIEW)
-                        val searchTerm:String? = message.substringAfter("google")
-                        site.data = Uri.parse("https://www.google.com/search?&q=$searchTerm")
-                        startActivity(site)
-                    }
+
                 }
 
             }

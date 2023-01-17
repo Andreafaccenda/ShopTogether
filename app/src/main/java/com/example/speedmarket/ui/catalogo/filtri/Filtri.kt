@@ -207,7 +207,6 @@ class Filtri : Fragment() {
             categoria = it
             hide_layout(binding.layoutSubCategoria)
             hide_layout(binding.layoutCategoria)
-            binding.categoria.text="Frutta e verdura"
             binding.subCategoria.text=categoria
             show_layout(binding.layoutCategoryChecked,null)
             binding.btnMostra.setOnClickListener{

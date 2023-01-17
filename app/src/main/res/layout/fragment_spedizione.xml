@@ -193,6 +193,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_checkbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -205,6 +206,29 @@
             android:layout_weight="1"
             android:text="@string/utilizza_un_indirizzo_differente_da_quello_di_residenza"
             android:textColor="@color/colorSecondaryText"
+            android:textSize="12sp"
+            android:textStyle="italic"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_salva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_salva_indirizzo"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:layout_weight="0"
+            android:drawableStart="@drawable/salva"
+            android:paddingStart="10dp"
+            android:background="@drawable/button_yellow"
+            android:text="@string/salva_indirizzo"
+            android:textAlignment="viewStart"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="italic"/>
     </LinearLayout>

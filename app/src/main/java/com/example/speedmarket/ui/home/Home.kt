@@ -16,6 +16,7 @@ import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.replaceFragment
 import com.example.speedmarket.util.setupOnBackPressedExit
 import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,10 +71,10 @@ class Home : Fragment(), ProfileManager {
         categorie = arrayOf(
             "Frutta e verdura",
             "Carne e salumi",
-            "Formaggi,latte e uova",
+            "Formaggi latte e uova",
             "Surgelati e gelati",
             "Pesce e sushi",
-            "Biscotti,cereali e dolci",
+            "Biscotti cereali e dolci",
             "Caffe e infusi",
             "Preparazione dolci e salate",
             "Animali domestici",
@@ -81,7 +82,7 @@ class Home : Fragment(), ProfileManager {
             "Condimenti e conserve",
             "Articoli per la casa",
             "Pasta e riso",
-            "Vino,birra e altri alcolici",
+            "Vino birra e altri alcolici",
             "Bevande e preparati",
             "Piatti pronti"
         )
@@ -114,6 +115,13 @@ class Home : Fragment(), ProfileManager {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_layout, CatalogoFragment())
             transaction?.commit()
+        }
+        binding.txtOfferte.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putBoolean("offerta",true)
+            val fragment = CatalogoFragment()
+            fragment.arguments= bundle
+            replaceFragment(fragment)
         }
         categorieAdapter.onItemClick = {
            val bundle = Bundle()

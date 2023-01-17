@@ -84,6 +84,9 @@ class Profile : Fragment(), ProfileManager {
         binding.layoutPayment.setOnClickListener{
             replaceFragment(DettagliaCartaCreditoFragment())
         }
+        binding.layoutOrdini.setOnClickListener{
+            replaceFragment(OrdiniFragment())
+        }
         binding.btnSave.setOnClickListener{
             binding.btnSave.text = getString(R.string.salva)
             binding.btnSave.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.salva,context!!.theme), null, null, null)

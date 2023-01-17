@@ -35,6 +35,7 @@ class SpedizioneFragment : Fragment(), ProfileManager {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(CarrelloFragment())
+        binding.layoutSalva.hide()
         getUserSession()
         getUserObserver()
         utente?.let { viewModel.getUtente(it.id) }

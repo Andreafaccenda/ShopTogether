@@ -171,6 +171,16 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
 
     }
 
+    override fun filtraListaOfferta(list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.offerta!! < 1) {
+                listaAggiornata.add(prodotto)
+            }
+        }
+        updateList(listaAggiornata)
+    }
+
     override fun getItemCount(): Int {
         return list.size
     }

@@ -35,16 +35,7 @@ object BotResponse {
         val message = _message.toLowerCase()
 
         return when{
-            message.toLowerCase().contains("buongiorno")->  {"Buongiorno"}
-            message.contains("open") && message.contains("google")-> {
-                OPEN_GOOGLE
-            }
-            message.contains("search") && message.contains("google")-> {
-                OPEN_SEARCH
-            }
-            message.toLowerCase().contains("acquistare") ->{"D"}
-            message.toLowerCase().contains("reso") ->{"le modalità di reso"}
-
+            message.toLowerCase().contains("profilo") ->{"profilo"}
             else->{"Scusami,non ho capito il tuo problema potresti ripetere"}
         }
 

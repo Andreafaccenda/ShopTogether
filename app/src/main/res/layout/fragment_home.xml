@@ -69,8 +69,7 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:clickable="false"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/immagineprofile" />
+                        android:scaleType="fitXY"/>
 
                 </androidx.cardview.widget.CardView>
 
@@ -110,6 +109,8 @@
                         android:id="@+id/imageView3"
                         android:layout_width="200dp"
                         android:layout_height="100dp"
+                        android:layout_marginBottom="50dp"
+                        android:layout_marginStart="50dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -118,26 +119,40 @@
 
                     <TextView
                         android:id="@+id/textView3"
-                        android:layout_width="107dp"
-                        android:layout_height="39dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Spedizione gratuita"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:text="@string/offerte_valide_dal_25_gennaio_al_18_febbraio"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/imageView3"
-                        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.052"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="111dp"
-                        android:layout_height="31dp"
-                        android:gravity="center"
-                        android:text="4Giu-10Lug"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/textView3"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                        android:id="@+id/txt_offerte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="110dp"
+                        android:background="@drawable/edit_text_custom"
+                        android:padding="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Vai alle offerte"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                        app:layout_constraintVertical_bias="0.529" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

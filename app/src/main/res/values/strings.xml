@@ -100,6 +100,9 @@
     <string name="piatti_pronti">Piatti pronti</string>
     <string name="animali_domestici">Animali domestici</string>
     <string name="vino_birra_e_altri_alcolici">Vino,birra e altri alcolici</string>
+    <string name="scannerizza_per_trovare_il_prodotto_che_cerchi">Scannerizza per trovare il prodotto che cerchi-></string>
+    <string name="offerte_valide_dal_25_gennaio_al_18_febbraio">Offerte valide dal 25 gennaio al 18 febbraio</string>
+    <string name="salva_indirizzo">Salva indirizzo</string>
 
     <string-array name="marchi">
         <item>Conad</item>
@@ -195,14 +198,14 @@
     </string-array>
 
     <string-array name="Carne_e_salumi">
-    <item>Bovino</item>
-    <item>Suino</item>
-    <item>Pollo e tacchino</item>
-    <item>Equino</item>
-    <item>Altre carni</item>
-    <item>Salumi confezionati e freschi</item>
-    <item>Preparazione a base di carne</item>
-    <item>Wustel e precotti</item>
+        <item>Bovino</item>
+        <item>Suino</item>
+        <item>Pollo e tacchino</item>
+        <item>Equino</item>
+        <item>Altre carni</item>
+        <item>Salumi confezionati e freschi</item>
+        <item>Preparazione a base di carne</item>
+        <item>Wustel e precotti</item>
     </string-array>
 
     <string-array name="Pesce_e_sushi">
@@ -248,15 +251,15 @@
     </string-array>
 
     <string-array name="Condimenti_e_conserve">
-    <item>Olio,aceto e altri condimenti</item>
-    <item>Sale,aromi e spezie</item>
-    <item>Dadi e brodo</item>
-    <item>Sughi pronti e derivati del pomodoro</item>
-    <item>Salse,patè e altri spalmabili salati</item>
-    <item>Olive,sottoli e sottaceti</item>
-    <item>Legumi,cereali e funghi conservati</item>
-    <item>Tonno e altro pesce conservato</item>
-    <item>Preparazione a base di carne</item>
+        <item>Olio,aceto e altri condimenti</item>
+        <item>Sale,aromi e spezie</item>
+        <item>Dadi e brodo</item>
+        <item>Sughi pronti e derivati del pomodoro</item>
+        <item>Salse,patè e altri spalmabili salati</item>
+        <item>Olive,sottoli e sottaceti</item>
+        <item>Legumi,cereali e funghi conservati</item>
+        <item>Tonno e altro pesce conservato</item>
+        <item>Preparazione a base di carne</item>
     </string-array>
 
     <string-array name="Panetteria_e_snack_salati">
