@@ -1,7 +1,6 @@
 package com.example.speedmarket.ui.carrello.checkOut
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,27 +11,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentRiepilogoBinding
 import com.example.speedmarket.model.Utente
+import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.carrello.CarrelloViewModel
-import com.example.speedmarket.ui.catalogo.ProdViewModel
-import com.example.speedmarket.ui.catalogo.ProdottoAdapter
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_riepilogo.*
 
 @AndroidEntryPoint
-class RiepilogoFragment : Fragment() {
+class RiepilogoFragment : Fragment(), ProfileManager {
 
     private lateinit var binding: FragmentRiepilogoBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var utente: Utente
+    override var utente: Utente? = null
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     private val adapter by lazy { RiepilogoAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentRiepilogoBinding.inflate(layoutInflater)
         return binding.root
@@ -49,16 +48,17 @@ class RiepilogoFragment : Fragment() {
         binding.btnInformationSpedizione.setOnClickListener {
             show_layout_spedizione()
         }
-        getUtente()
-        oberver()
-        viewModelCarrello.getCarrello(utente)
+        getUserSession()
+        getUserObserver()
+        utente?.let { viewModelCarrello.getCarrello(it) }
         recyclerView = binding.recyclerViewRiepilogoCarrello
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewRiepilogoCarrello.adapter=adapter
 
     }
-    private fun oberver() {
+
+    private fun getUserObserver() {
         viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -68,21 +68,42 @@ class RiepilogoFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     state.data.lista_prodotti?.let { adapter.updateList(it)}
-                    binding.txtPrezzo.text=state.data.prezzo.toString()
-
+                    binding.txtPrezzo.text=state.data.prezzo
+                    updateUI()
                 }
             }
         }
     }
-   private fun show_layout_carta(){
-       if(binding.layoutCarta.isShown){
+
+    override fun updateUI() {
+        binding.etNumeroCarta.setText(utente?.pagamento!!.numero_carta)
+        binding.etDataScadenza.setText(utente?.pagamento!!.data_scadenza)
+        if (utente?.indirizzo_spedizione?.citta.isNullOrEmpty()) {
+            binding.txtCitta.setText(utente!!.residenza.citta)
+            binding.txtProvincia.setText(utente!!.residenza.provincia)
+            binding.txtCap.setText(utente!!.residenza.cap)
+            binding.txtVia.setText(utente!!.residenza.via)
+            binding.txtNumeroCivico.setText(utente!!.residenza.numero_civico)
+        }
+        else {
+            binding.txtCitta.setText(utente!!.indirizzo_spedizione.citta)
+            binding.txtProvincia.setText(utente!!.indirizzo_spedizione.provincia)
+            binding.txtCap.setText(utente!!.indirizzo_spedizione.cap)
+            binding.txtVia.setText(utente!!.indirizzo_spedizione.via)
+            binding.txtNumeroCivico.setText(utente!!.indirizzo_spedizione.numero_civico)
+        }
+    }
+
+    private fun show_layout_carta(){
+        if(binding.layoutCarta.isShown){
            binding.btnInformationCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
            binding.layoutCarta.hide()
-       }else{
+        }else{
            binding.btnInformationCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.apri,context!!.theme), null, null, null)
            binding.layoutCarta.show()
-       }
+        }
     }
+
     private fun show_layout_spedizione(){
         if(binding.layoutSpedizione.isShown){
             binding.btnInformationSpedizione.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
@@ -92,7 +113,7 @@ class RiepilogoFragment : Fragment() {
             binding.layoutSpedizione.show()
         }
     }
-   private fun getUtente() {
+   private fun getUserSession() {
         viewModelAuth.getSession { user ->
             if (user != null) {
                 utente = user
