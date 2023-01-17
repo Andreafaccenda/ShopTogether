@@ -119,7 +119,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
     override fun filtraListaMarchioPrezzo(prezzo: String, marchio: String, list: MutableList<Prodotto>) {
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
-            if (prodotto.produttore.toLowerCase().equals(marchio.toLowerCase(), true)) {
+            if (prodotto.produttore.equals(marchio, true)) {
                 var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
                 if (price<=prezzo.toFloat()) {
                     listaAggiornata.add(prodotto)
@@ -129,6 +129,48 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         updateList(listaAggiornata)
 
     }
+
+    override fun filtraListaCategoriaPrezzo(prezzo: String, subCategoria: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.sub_categoria.equals(subCategoria, true)) {
+                var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+                if (price<=prezzo.toFloat()) {
+                    listaAggiornata.add(prodotto)
+                }
+            }
+        }
+        updateList(listaAggiornata)
+    }
+
+    override fun filtraListaCategoriaMarchio(marchio: String, subCategoria: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.sub_categoria.equals(subCategoria, true)) {
+                if (prodotto.produttore.equals(marchio, true)) {
+                    listaAggiornata.add(prodotto)
+                }
+            }
+        }
+        updateList(listaAggiornata)
+    }
+
+    override fun filtraLista(prezzo: String, marchio: String, subCategoria: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.sub_categoria.equals(subCategoria, true)) {
+                var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+                if (price<=prezzo.toFloat()) {
+                    if (prodotto.produttore.equals(marchio, true)) {
+                        listaAggiornata.add(prodotto)
+                    }
+                }
+            }
+        }
+        updateList(listaAggiornata)
+
+    }
+
     override fun getItemCount(): Int {
         return list.size
     }

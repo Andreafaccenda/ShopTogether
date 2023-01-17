@@ -89,6 +89,9 @@ class CatalogoFragment : Fragment() {
                     if(filtri[1]!="vuoto")adapter.filtraListaMarchio(filtri[1],state.data.toMutableList())
                     if(filtri[2]!="vuoto") adapter.filtraListaSottoCategoria(filtri[2],state.data.toMutableList())
                     if(filtri[1]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraListaMarchioPrezzo(filtri[0],filtri[1],state.data.toMutableList())
+                    if(filtri[2]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraListaCategoriaPrezzo(filtri[0],filtri[2],state.data.toMutableList())
+                    if(filtri[2]!="vuoto"&&filtri[1]!="vuoto")adapter.filtraListaCategoriaMarchio(filtri[1],filtri[2],state.data.toMutableList())
+                    if(filtri[2]!="vuoto"&&filtri[1]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraLista(filtri[0],filtri[1],filtri[2],state.data.toMutableList())
                     if(adapter.itemCount<= 0) {
                         binding.catalogoVuoto.show()
                         }
