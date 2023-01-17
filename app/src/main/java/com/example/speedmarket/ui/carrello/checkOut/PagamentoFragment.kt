@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCarrelloBinding
 import com.example.speedmarket.databinding.FragmentPagamentoBinding
+import com.example.speedmarket.model.Pagamento
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
@@ -40,6 +41,9 @@ class PagamentoFragment : Fragment(), ProfileManager {
         getUserSession()
         getUserObserver()
         utente?.let { viewModelAuth.getUtente(it.id) }
+        binding.btnSalva.setOnClickListener {
+            salvaPagamento()
+        }
     }
 
     private fun getUserSession() {
@@ -47,6 +51,21 @@ class PagamentoFragment : Fragment(), ProfileManager {
             if (user != null)
                 utente = user
         }
+    }
+
+    private fun salvaPagamento() {
+        if (binding.etProprietario.text.isNotEmpty() and binding.etDataScadenza.text.isNotEmpty()
+        and binding.etNumeroCarta.text.isNotEmpty()) {
+            val pagamento = Pagamento(
+                binding.etNumeroCarta.text.toString(),
+                binding.etDataScadenza.text.toString()
+            )
+            utente?.pagamento = pagamento
+            utente?.let { viewModelAuth.updateUserInfo(it) }
+            toast("Metodo di pagamento salvato!")
+        }
+        else
+            toast("Le informazioni inserite sono incomplete!")
     }
 
     private fun getUserObserver() {
@@ -58,7 +77,7 @@ class PagamentoFragment : Fragment(), ProfileManager {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    utente = state.data!!
+                    utente = state.data
                     updateUI()
                 }
             }

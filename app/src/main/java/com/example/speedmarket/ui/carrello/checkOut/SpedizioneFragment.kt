@@ -42,9 +42,14 @@ class SpedizioneFragment : Fragment(), ProfileManager {
 
         binding.checkboxIndirizzo.setOnClickListener {
             if (binding.checkboxIndirizzo.isChecked) {
-                // bottone.show()
+                binding.layoutCheckbox.hide()
+                binding.layoutSalva.show()
                 enableAndClear()
             }
+        }
+
+        binding.btnSalvaIndirizzo.setOnClickListener {
+            salvaIndirizzo()
         }
     }
 
@@ -60,6 +65,9 @@ class SpedizioneFragment : Fragment(), ProfileManager {
                 "Indirizzo di residenza",
                 "Inserisci il tuo indirizzo di residenza prima di procedere con l'ordine",
                 "Profilo")
+            binding.layoutCheckbox.hide()
+            binding.layoutSalva.show()
+            enableAndClear()
         }
     }
 
@@ -86,9 +94,22 @@ class SpedizioneFragment : Fragment(), ProfileManager {
     }
 
     private fun salvaIndirizzo() {
-        val indirizzo = Indirizzo(binding.txtCitta.text.toString(),binding.txtProvincia.text.toString(),
-            binding.txtCap.text.toString(), binding.txtVia.text.toString(), binding.txtNumeroCivico.text.toString())
-        utente?.indirizzo_spedizione = indirizzo
+        if (binding.txtCitta.text.isNotEmpty() and binding.txtProvincia.text.isNotEmpty()
+        and binding.txtCap.text.isNotEmpty() and binding.txtVia.text.isNotEmpty()
+        and binding.txtNumeroCivico.text.isNotEmpty()) {
+            val indirizzo = Indirizzo(
+                binding.txtCitta.text.toString(),
+                binding.txtProvincia.text.toString(),
+                binding.txtCap.text.toString(),
+                binding.txtVia.text.toString(),
+                binding.txtNumeroCivico.text.toString()
+            )
+            utente?.indirizzo_spedizione = indirizzo
+            utente?.let { viewModel.updateUserInfo(it) }
+            toast("Indirizzo salvato!")
+        }
+        else
+            toast("Le informazioni inserite sono incomplete!")
     }
 
     private fun enableAndClear() {
@@ -114,7 +135,7 @@ class SpedizioneFragment : Fragment(), ProfileManager {
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    utente = state.data!!
+                    utente = state.data
                     updateUI()
                 }
             }

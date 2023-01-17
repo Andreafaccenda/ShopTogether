@@ -1,6 +1,7 @@
 package com.example.speedmarket.ui.carrello.checkOut
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,6 @@ import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.carrello.CarrelloViewModel
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_riepilogo.*
 
 @AndroidEntryPoint
 class RiepilogoFragment : Fragment(), ProfileManager {
@@ -49,16 +49,34 @@ class RiepilogoFragment : Fragment(), ProfileManager {
             show_layout_spedizione()
         }
         getUserSession()
-        getUserObserver()
+        getUserObs()
+        utente?.let { viewModelAuth.getUtente(it.id) }
+
+        getCarrelloObserver()
         utente?.let { viewModelCarrello.getCarrello(it) }
         recyclerView = binding.recyclerViewRiepilogoCarrello
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewRiepilogoCarrello.adapter=adapter
-
     }
 
-    private fun getUserObserver() {
+    private fun getUserObs() {
+        viewModelAuth.utente.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    utente = state.data
+                    updateUI()
+                }
+            }
+        }
+    }
+
+    private fun getCarrelloObserver() {
         viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -69,15 +87,18 @@ class RiepilogoFragment : Fragment(), ProfileManager {
                 is UiState.Success -> {
                     state.data.lista_prodotti?.let { adapter.updateList(it)}
                     binding.txtPrezzo.text=state.data.prezzo
-                    updateUI()
                 }
             }
         }
     }
 
     override fun updateUI() {
+        /**
+         * Non aggiorna il metodo di pagamento
+         */
         binding.etNumeroCarta.setText(utente?.pagamento!!.numero_carta)
         binding.etDataScadenza.setText(utente?.pagamento!!.data_scadenza)
+
         if (utente?.indirizzo_spedizione?.citta.isNullOrEmpty()) {
             binding.txtCitta.setText(utente!!.residenza.citta)
             binding.txtProvincia.setText(utente!!.residenza.provincia)
