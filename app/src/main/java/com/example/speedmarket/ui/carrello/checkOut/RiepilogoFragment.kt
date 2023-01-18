@@ -1,5 +1,6 @@
 package com.example.speedmarket.ui.carrello.checkOut
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentRiepilogoBinding
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente
+import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
@@ -43,6 +45,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(CarrelloFragment())
+        observer()
         binding.layoutCarta.hide()
         binding.layoutSpedizione.hide()
         binding.btnInformationCarta.setOnClickListener {
@@ -68,8 +71,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
                 viewModelCarrello.updateCarrello(this.carrello)
                 viewModelCarrello.deleteCarrello(this.carrello)
                 utente?.lista_carrelli?.add(this.carrello)
-                utente?.let { it1 -> viewModelAuth.updateUserInfo(it1)
-                toast("Ordine completato")}
+                utente?.let { it1 -> viewModelAuth.updateUserInfo(it1)}
             }
             else toast("informazioni non tutte complete!")
         }
@@ -174,6 +176,27 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
 
         return isValid
+    }
+    fun observer() {
+            viewModelAuth.updateUserInfo.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        binding.btnCarrelloCompletato.text = ""
+                        binding.ordineProgressBar.show()
+                    }
+                    is UiState.Failure -> {
+                        binding.btnCarrelloCompletato.text="Ordina"
+                        binding.ordineProgressBar.hide()
+                        toast(state.error)
+                    }
+                    is UiState.Success -> {
+                        binding.btnCarrelloCompletato.text = "Ordina"
+                        binding.ordineProgressBar.hide()
+                        toast("Ordine completato")
+                        binding.btnCarrelloCompletato.isClickable=false
+                    }
+                }
+            }
     }
 
 }
