@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.speedmarket.R
-import com.example.speedmarket.databinding.FragmentCarrelloBinding
 import com.example.speedmarket.databinding.FragmentPagamentoBinding
 import com.example.speedmarket.model.Pagamento
 import com.example.speedmarket.model.Utente

@@ -34,6 +34,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentRiepilogoBinding.inflate(layoutInflater)
+
         return binding.root
     }
 
@@ -54,6 +55,8 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
         getCarrelloObserver()
         utente?.let { viewModelCarrello.getCarrello(it) }
+
+        Log.d("Utente", utente.toString())
         recyclerView = binding.recyclerViewRiepilogoCarrello
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
@@ -96,22 +99,23 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         /**
          * Non aggiorna il metodo di pagamento
          */
+
         binding.etNumeroCarta.setText(utente?.pagamento!!.numero_carta)
         binding.etDataScadenza.setText(utente?.pagamento!!.data_scadenza)
 
         if (utente?.indirizzo_spedizione?.citta.isNullOrEmpty()) {
-            binding.txtCitta.setText(utente!!.residenza.citta)
-            binding.txtProvincia.setText(utente!!.residenza.provincia)
-            binding.txtCap.setText(utente!!.residenza.cap)
-            binding.txtVia.setText(utente!!.residenza.via)
-            binding.txtNumeroCivico.setText(utente!!.residenza.numero_civico)
+            binding.txtCitta.setText(utente?.residenza!!.citta)
+            binding.txtProvincia.setText(utente?.residenza!!.provincia)
+            binding.txtCap.setText(utente?.residenza!!.cap)
+            binding.txtVia.setText(utente?.residenza!!.via)
+            binding.txtNumeroCivico.setText(utente?.residenza!!.numero_civico)
         }
         else {
-            binding.txtCitta.setText(utente!!.indirizzo_spedizione.citta)
-            binding.txtProvincia.setText(utente!!.indirizzo_spedizione.provincia)
-            binding.txtCap.setText(utente!!.indirizzo_spedizione.cap)
-            binding.txtVia.setText(utente!!.indirizzo_spedizione.via)
-            binding.txtNumeroCivico.setText(utente!!.indirizzo_spedizione.numero_civico)
+            binding.txtCitta.setText(utente?.indirizzo_spedizione!!.citta)
+            binding.txtProvincia.setText(utente?.indirizzo_spedizione!!.provincia)
+            binding.txtCap.setText(utente?.indirizzo_spedizione!!.cap)
+            binding.txtVia.setText(utente?.indirizzo_spedizione!!.via)
+            binding.txtNumeroCivico.setText(utente?.indirizzo_spedizione!!.numero_civico)
         }
     }
 
