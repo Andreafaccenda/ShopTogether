@@ -33,7 +33,7 @@
             android:id="@+id/btn_send"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@drawable/button_orange"
+            android:background="@drawable/button_yellow"
             android:text="INVIA"
             android:textColor="@color/white"/>
 

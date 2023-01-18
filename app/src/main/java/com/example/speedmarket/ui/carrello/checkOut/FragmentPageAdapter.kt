@@ -1,5 +1,6 @@
 package com.example.speedmarket.ui.carrello.checkOut
 
+import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -15,10 +16,10 @@ class FragmentPageAdapter(
 
     override fun createFragment(position: Int): Fragment {
        return when(position){
-           0->SpedizioneFragment()
+           0-> SpedizioneFragment()
            1-> PagamentoFragment()
-           2->RiepilogoFragment()
-           else->CheckOutFragment()
+           2-> RiepilogoFragment()
+           else->  (throw Resources.NotFoundException("position not found"))
        }
     }
 }

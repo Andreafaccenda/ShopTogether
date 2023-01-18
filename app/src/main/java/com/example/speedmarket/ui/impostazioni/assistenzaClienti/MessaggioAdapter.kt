@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.model.Messaggio
+import com.example.speedmarket.util.Constants.CLICK_ID
 import com.example.speedmarket.util.Constants.RECEIVE_ID
 import com.example.speedmarket.util.Constants.SEND_ID
 
@@ -50,6 +51,7 @@ class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHold
                 }
                 holder.message.visibility = View.GONE
             }
+
         }
     }
 

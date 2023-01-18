@@ -50,6 +50,9 @@ class CarrelloFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressed()
+        if(adapter.itemCount<= 0){
+            binding.btnCheckOut.isClickable=false
+        }
         binding.txtSpedizione.setOnClickListener{
             toast("La spedizione ha un prezzo di €5 per ordini inferiori ai €50")
         }

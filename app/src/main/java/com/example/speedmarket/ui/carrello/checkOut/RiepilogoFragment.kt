@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentRiepilogoBinding
+import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
@@ -25,6 +26,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
     private lateinit var binding: FragmentRiepilogoBinding
     private lateinit var recyclerView: RecyclerView
     override var utente: Utente? = null
+    private lateinit var carrello :Carrello
     val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     private val adapter by lazy { RiepilogoAdapter() }
@@ -55,12 +57,22 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
         getCarrelloObserver()
         utente?.let { viewModelCarrello.getCarrello(it) }
-
-        Log.d("Utente", utente.toString())
         recyclerView = binding.recyclerViewRiepilogoCarrello
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewRiepilogoCarrello.adapter=adapter
+
+        binding.btnCarrelloCompletato.setOnClickListener{
+            if(check_edit_text()){
+                this.carrello.ordine_completato=true
+                viewModelCarrello.updateCarrello(this.carrello)
+                viewModelCarrello.deleteCarrello(this.carrello)
+                utente?.lista_carrelli?.add(this.carrello)
+                utente?.let { it1 -> viewModelAuth.updateUserInfo(it1)
+                toast("Ordine completato")}
+            }
+            else toast("informazioni non tutte complete!")
+        }
     }
 
     private fun getUserObs() {
@@ -88,6 +100,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
                     toast(state.error)
                 }
                 is UiState.Success -> {
+                    this.carrello=state.data
                     state.data.lista_prodotti?.let { adapter.updateList(it)}
                     binding.txtPrezzo.text=state.data.prezzo
                 }
@@ -101,9 +114,12 @@ class RiepilogoFragment : Fragment(), ProfileManager {
          */
 
         binding.etNumeroCarta.setText(utente?.pagamento!!.numero_carta)
+        binding.etNumeroCarta.isEnabled=false
         binding.etDataScadenza.setText(utente?.pagamento!!.data_scadenza)
+        binding.etDataScadenza.isEnabled=false
 
         if (utente?.indirizzo_spedizione?.citta.isNullOrEmpty()) {
+            binding.layoutSpedizione.isEnabled=false
             binding.txtCitta.setText(utente?.residenza!!.citta)
             binding.txtProvincia.setText(utente?.residenza!!.provincia)
             binding.txtCap.setText(utente?.residenza!!.cap)
@@ -144,6 +160,20 @@ class RiepilogoFragment : Fragment(), ProfileManager {
                 utente = user
             }
         }
+    }
+    private fun check_edit_text():Boolean{
+        var isValid =true
+            if(binding.txtCitta.text.isNullOrEmpty()
+                || binding.txtProvincia.text.isNullOrEmpty()
+                || binding.txtCap.text.isNullOrEmpty()
+                || binding.txtVia.text.isNullOrEmpty()
+                || binding.txtNumeroCivico.text.isNullOrEmpty()
+                || binding.etNumeroCarta.text.isNullOrEmpty()
+                || binding.etDataScadenza.text.isNullOrEmpty()
+                || binding.etCvv.text.isNullOrEmpty()) {isValid=false}
+
+
+        return isValid
     }
 
 }

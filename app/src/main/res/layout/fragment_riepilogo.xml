@@ -6,7 +6,7 @@
     tools:context=".ui.carrello.checkOut.RiepilogoFragment">
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -469,6 +469,22 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btn_carrello_completato"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/button_yellow"
+                android:text="Ordina"
+                android:textAlignment="viewStart"
+                android:textStyle="normal"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:drawableStart="@drawable/ordina_carrello"
+                android:paddingStart="10dp"/>
+
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

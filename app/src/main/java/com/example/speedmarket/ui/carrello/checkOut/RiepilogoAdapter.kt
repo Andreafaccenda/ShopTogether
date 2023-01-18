@@ -29,9 +29,6 @@ class RiepilogoAdapter(): RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrell
         this.list = list
         notifyDataSetChanged()
     }
-
-
-
     override fun getItemCount(): Int {
         return list.size
     }
