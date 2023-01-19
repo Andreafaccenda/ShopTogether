@@ -99,7 +99,7 @@ class CarrelloFragment : Fragment() {
                                 Log.d("carrello",carrello.toString())
                         }
                     }else{
-                        if(!this.carrello.ordine_completato){
+                        if(this.carrello.stato == Carrello.Stato.incompleto){
                             if(prodotto_catalogo && this.carrello.lista_prodotti != null) {
                                 if (controlloRidondanzaCarrello(prodotto))
                                     toast("il tuo prodotto è gia inserito nel carrello")
@@ -131,7 +131,7 @@ class CarrelloFragment : Fragment() {
         this.carrello.lista_prodotti = arrayListOf()
         this.carrello.lista_prodotti?.add(prodotto)
         this.carrello.id = utente.id
-        this.carrello.ordine_completato = false
+        this.carrello.stato = Carrello.Stato.incompleto
     }
     fun controlloCoerenzaCarrello(){
         update_price_cart(this.carrello)

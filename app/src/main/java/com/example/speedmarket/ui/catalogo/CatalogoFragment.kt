@@ -47,7 +47,7 @@ class CatalogoFragment : Fragment() {
         recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
-        binding.recyclerViewCatalogo.adapter=adapter
+        recyclerView.adapter=adapter
         adapter.onItemClick = {
             val bundle = Bundle()
             bundle.putSerializable("prodotto",it)

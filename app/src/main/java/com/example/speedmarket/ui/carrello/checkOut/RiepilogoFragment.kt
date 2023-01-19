@@ -21,6 +21,7 @@ import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.carrello.CarrelloViewModel
 import com.example.speedmarket.ui.catalogo.ProdViewModel
+import com.example.speedmarket.ui.home.Home
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -74,12 +75,13 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
         binding.btnCarrelloCompletato.setOnClickListener{
             if(check_edit_text()){
-                this.carrello.ordine_completato=true
+                this.carrello.stato=Carrello.Stato.elaborazione
                 viewModelCarrello.updateCarrello(this.carrello)
                 aggiornaQuantita()
                 viewModelCarrello.deleteCarrello(this.carrello)
                 utente?.lista_carrelli?.add(this.carrello)
                 utente?.let { it1 -> viewModelAuth.updateUserInfo(it1)}
+                replaceFragment(Home())
             }
             else toast("informazioni non tutte complete!")
         }

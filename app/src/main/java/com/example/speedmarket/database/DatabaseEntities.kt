@@ -31,8 +31,8 @@ data class DatabaseCarrello(
     val id: String,
     val lista_prodotti: MutableList<Prodotto>?,
     val prezzo: String,
-    val ordine_completato:Boolean) {
-    constructor(): this("",null,"",false)
+    var stato:Carrello.Stato) {
+    constructor(): this("",null,"", Carrello.Stato.incompleto)
 }
 
 fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
@@ -66,7 +66,7 @@ fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
             id = it.id,
             lista_prodotti = it.lista_prodotti,
             prezzo = it.prezzo,
-            ordine_completato=it.ordine_completato
+            stato = it.stato
         )
     }
 }
@@ -75,12 +75,12 @@ fun DatabaseCarrello.toCarrello() = Carrello(
     id=id,
     lista_prodotti=lista_prodotti,
     prezzo=prezzo,
-    ordine_completato=ordine_completato
+    stato = stato
 )
 
 fun Carrello.toDatabaseCarrello() = DatabaseCarrello(
     id=id,
     lista_prodotti=lista_prodotti,
     prezzo=prezzo,
-    ordine_completato=ordine_completato
+    stato =stato
 )
