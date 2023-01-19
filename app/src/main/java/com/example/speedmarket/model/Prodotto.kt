@@ -10,7 +10,7 @@ data class Prodotto(
     val sub_categoria:String,
     val immagine: String,
     val prezzo_unitario: Float,
-    var quantita: Float,
+    val quantita: Float,
     val descrizione: String,
     val data_scadenza: String,
     val offerta: Float?,
