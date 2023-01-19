@@ -116,8 +116,7 @@
                                     "-Supporto per profilo online\n"
                                     "-Supporto per un informazione\n"
                                     "-Supporto ad un ordine"</string>
-
-
+    <string name="turn_flash_on_off">Turn Flash On/Off</string>
 
     <string-array name="marchi">
         <item>Conad</item>

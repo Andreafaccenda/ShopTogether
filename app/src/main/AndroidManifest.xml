@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -12,6 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopTogether">
+        <activity
+            android:name=".ui.catalogo.filtri.Scanner.BarcodeScanning"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
@@ -27,7 +38,6 @@
             android:name=".ui.AppActivity"
             android:exported="true"
             android:theme="@style/AppTheme.noActionBar">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -41,7 +51,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
     </application>
 
 </manifest>

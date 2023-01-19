@@ -1,21 +1,27 @@
 package com.example.speedmarket.ui.catalogo.filtri
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.RadioButton
 import android.widget.SeekBar
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentFiltriBinding
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
+import com.example.speedmarket.ui.catalogo.filtri.Scanner.BarcodeScanning
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +33,8 @@ class Filtri : Fragment() {
     private var marchio = "vuoto"
     private var prezzo = "vuoto"
     private var categoria = "vuoto"
+    private val cameraPermissionRequestCode = 1
+    private var selectedScanningSDK = BarcodeScanning.ScannerSDK.ZXING
     private lateinit var recyclerView: RecyclerView
     private lateinit var filtri_adapter : MarchioAdapter
     private lateinit var categoria_adapter : CategoriaAdapter
@@ -50,6 +58,10 @@ class Filtri : Fragment() {
         Ui_recyclerView_Cat()
         AdapterFuction()
         AdapterCategoryFuction()
+        binding.btnScan.setOnClickListener {
+            selectedScanningSDK = BarcodeScanning.ScannerSDK.ZXING
+            startScanning()
+        }
         hide_layout(binding.layoutPrice)
         binding.layoutMarchioChecked.hide()
         hide_layout(binding.layoutCategoria)
@@ -295,6 +307,62 @@ class Filtri : Fragment() {
                 }
             }
 
+        }
+    }
+
+    private fun startScanning() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            openCameraWithScanner()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                cameraPermissionRequestCode
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == cameraPermissionRequestCode && grantResults.isNotEmpty()) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCameraWithScanner()
+            } else if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.CAMERA
+                )
+            ) {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
+                intent.data = uri
+                startActivityForResult(intent, cameraPermissionRequestCode)
+            }
+        }
+    }
+
+    private fun openCameraWithScanner() {
+        BarcodeScanning.start(requireContext(), selectedScanningSDK)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == cameraPermissionRequestCode) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openCameraWithScanner()
+            }
         }
     }
 }
