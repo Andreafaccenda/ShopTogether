@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentRiepilogoBinding
 import com.example.speedmarket.model.Carrello
+import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.carrello.CarrelloViewModel
+import com.example.speedmarket.ui.catalogo.ProdViewModel
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,8 +31,10 @@ class RiepilogoFragment : Fragment(), ProfileManager {
     private lateinit var recyclerView: RecyclerView
     override var utente: Utente? = null
     private lateinit var carrello :Carrello
-    val viewModelAuth: AuthViewModel by viewModels()
-    val viewModelCarrello: CarrelloViewModel by viewModels()
+    private lateinit var prodotti: MutableList<Prodotto>
+    private val viewModelAuth: AuthViewModel by viewModels()
+    private val viewModelCarrello: CarrelloViewModel by viewModels()
+    private val viewModelProdotto: ProdViewModel by viewModels()
     private val adapter by lazy { RiepilogoAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +64,9 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
         getCarrelloObserver()
         utente?.let { viewModelCarrello.getCarrello(it) }
+
+        getProdottiObs()
+        viewModelProdotto.getProducts()
         recyclerView = binding.recyclerViewRiepilogoCarrello
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
@@ -69,11 +76,23 @@ class RiepilogoFragment : Fragment(), ProfileManager {
             if(check_edit_text()){
                 this.carrello.ordine_completato=true
                 viewModelCarrello.updateCarrello(this.carrello)
+                aggiornaQuantita()
                 viewModelCarrello.deleteCarrello(this.carrello)
                 utente?.lista_carrelli?.add(this.carrello)
                 utente?.let { it1 -> viewModelAuth.updateUserInfo(it1)}
             }
             else toast("informazioni non tutte complete!")
+        }
+    }
+
+    private fun aggiornaQuantita() {
+        for (prodotto_acquistato in this.carrello.lista_prodotti!!) {
+            for (prodotto in this.prodotti) {
+                if (prodotto == prodotto_acquistato) {
+                    prodotto.disponibilita -= prodotto_acquistato.unita_ordinate
+                    viewModelProdotto.updateProduct(prodotto)
+                }
+            }
         }
     }
 
@@ -110,11 +129,22 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         }
     }
 
-    override fun updateUI() {
-        /**
-         * Non aggiorna il metodo di pagamento
-         */
+    private fun getProdottiObs() {
+        viewModelProdotto.prodotto.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    this.prodotti=state.data.toMutableList()
+                }
+            }
+        }
+    }
 
+    override fun updateUI() {
         binding.etNumeroCarta.setText(utente?.pagamento!!.numero_carta)
         binding.etNumeroCarta.isEnabled=false
         binding.etDataScadenza.setText(utente?.pagamento!!.data_scadenza)
