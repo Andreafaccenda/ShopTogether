@@ -117,6 +117,11 @@
                                     "-Supporto per un informazione\n"
                                     "-Supporto ad un ordine"</string>
     <string name="turn_flash_on_off">Turn Flash On/Off</string>
+    <string name="dettagli_ordine">Dettagli ordine</string>
+    <string name="totale_carrello">Totale carrello</string>
+    <string name="totale">Totale:</string>
+    <string name="subtotale">SubTotale:</string>
+    <string name="scannerizza_per_cercare_il_prodotto">Scannerizza il codice a barre per cercare il prodotto-></string>
 
     <string-array name="marchi">
         <item>Conad</item>

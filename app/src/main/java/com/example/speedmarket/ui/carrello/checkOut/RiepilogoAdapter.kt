@@ -2,7 +2,10 @@ package com.example.speedmarket.ui.carrello.checkOut
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.speedmarket.databinding.ViewHolderRiepilogoCarrelloBinding
 import com.example.speedmarket.model.Prodotto
 import java.math.RoundingMode
@@ -35,16 +38,22 @@ class RiepilogoAdapter(): RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrell
 
     inner class RiepilogoCarrelloViewHolder(val binding: ViewHolderRiepilogoCarrelloBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Prodotto){
-
+            bindImage(binding.imageProdotto,item.immagine)
             binding.txtNomeProdotto.text=item.nome
             binding.txtQuantit.text=item.unita_ordinate.toString()
-            binding.txtPrezzo.text=
+            binding.txtPrezzo.text="€${
                 item.offerta?.let {
                     calcolaPrezzo(item.prezzo_unitario,item.quantita,
                         it,item.unita_ordinate)
-                }
+                }}"
         }
 
+    }
+    fun bindImage(imgView: ImageView, imgUrl: String?) {
+        imgUrl?.let {
+            val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+            imgView.load(imgUri)
+        }
     }
     fun calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float,unita_ordinate:Int): String {
         val dec = DecimalFormat("#.##")

@@ -31,6 +31,10 @@ class OrdiniAdapter() : RecyclerView.Adapter<OrdiniAdapter.OrdiniViewHolder>() {
     override fun onBindViewHolder(holder: OrdiniViewHolder, position: Int) {
         val item = list[position]
         holder.bind(item)
+
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(item)
+        }
     }
 
     fun updateList(list: MutableList<Carrello>) {

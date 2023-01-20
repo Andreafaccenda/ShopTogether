@@ -125,7 +125,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
                 is UiState.Success -> {
                     this.carrello=state.data
                     state.data.lista_prodotti?.let { adapter.updateList(it)}
-                    binding.txtPrezzo.text=state.data.prezzo
+                    binding.txtPrezzo.text="€${state.data.prezzo}"
                 }
             }
         }

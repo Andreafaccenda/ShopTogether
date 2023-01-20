@@ -15,8 +15,11 @@ import com.example.speedmarket.databinding.FragmentOrdiniBinding
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
 import com.example.speedmarket.ui.catalogo.ProdottoSimileAdapter
 import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.replaceFragment
+import com.example.speedmarket.util.setupOnBackPressedFragment
 import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +44,10 @@ class OrdiniFragment : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressedFragment(Profile())
+        binding.turnBack.setOnClickListener{
+            replaceFragment(Profile())
+        }
         getUserSession()
         observer()
         utente?.let { viewModelAuth.getUtente(it.id) }
@@ -48,6 +55,13 @@ class OrdiniFragment : Fragment(), ProfileManager {
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter=adapter
+        adapter.onItemClick = {
+            val bundle = Bundle()
+            bundle.putSerializable("carrello",it)
+            val fragment = DettaglioOrdineFragment()
+            fragment.arguments= bundle
+            replaceFragment(fragment)
+        }
     }
 
     private fun observer() {

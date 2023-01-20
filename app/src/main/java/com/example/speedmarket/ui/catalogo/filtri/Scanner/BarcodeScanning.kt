@@ -15,16 +15,22 @@ import androidx.camera.core.Preview
 import androidx.camera.core.TorchState
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentBarcodeScanningBinding
+import com.example.speedmarket.ui.catalogo.CatalogoFragment
+import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
+import com.example.speedmarket.ui.catalogo.filtri.Filtri
 import com.example.speedmarket.ui.catalogo.filtri.Scanner.analyzer.BarcodeAnalyzer
 import com.example.speedmarket.ui.catalogo.filtri.Scanner.analyzer.ScanningResultListener
+import com.example.speedmarket.util.replaceFragment
 import com.google.common.util.concurrent.ListenableFuture
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 const val ARG_SCANNING_SDK = "scanning_SDK"
-
+@AndroidEntryPoint
 class BarcodeScanning : AppCompatActivity() {
 
     companion object {
@@ -109,8 +115,18 @@ class BarcodeScanning : AppCompatActivity() {
                 runOnUiThread {
                     imageAnalysis.clearAnalyzer()
                     cameraProvider?.unbindAll()
-                    Log.d("zzzzzz", result)
+                    val bundle = Bundle()
+                    bundle.putString("barcode",result)
+                    val fragment = Filtri()
+                    fragment.arguments= bundle
+                    replaceFragment(fragment)
                 }
+            }
+
+            private fun replaceFragment(fragment: Fragment) {
+                val transaction = supportFragmentManager?.beginTransaction()
+                transaction?.replace(R.id.frame_layout, fragment)
+                transaction?.commit()
             }
         }
 
