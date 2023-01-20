@@ -22,6 +22,8 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class CarrelloFragment : Fragment() {
@@ -32,7 +34,7 @@ class CarrelloFragment : Fragment() {
     private lateinit var prodotto: Prodotto
     private lateinit var carrello: Carrello
     private var prodotto_catalogo =false
-    val viewModelAuth: AuthViewModel by viewModels()
+    private val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { CarrelloAdapter() }
@@ -50,9 +52,6 @@ class CarrelloFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressed()
-        if(adapter.itemCount<= 0){
-            binding.btnCheckOut.isClickable=false
-        }
         binding.txtSpedizione.setOnClickListener{
             toast("La spedizione ha un prezzo di €5 per ordini inferiori ai €50")
         }
@@ -96,7 +95,6 @@ class CarrelloFragment : Fragment() {
                                 FunzioneAdapter()
                                 viewModelCarrello.updateCarrello(carrello)
                                 controlloCoerenzaCarrello()
-                                Log.d("carrello",carrello.toString())
                         }
                     }else{
                         if(this.carrello.stato == Carrello.Stato.incompleto){
@@ -105,6 +103,7 @@ class CarrelloFragment : Fragment() {
                                     toast("il tuo prodotto è gia inserito nel carrello")
                                 else {
                                     this.carrello.lista_prodotti?.add(prodotto)
+                                    update_price_cart(this.carrello)
                                     viewModelCarrello.updateCarrello(this.carrello)
                                 }
                             }
@@ -125,17 +124,23 @@ class CarrelloFragment : Fragment() {
     fun FunzioneAdapter(){
         adapter.onItemClick = {
             update_quantita_ordine(this.carrello, it)
+            update_price_cart(this.carrello)
+            viewModelCarrello.updateCarrello(this.carrello)
         }
     }
     fun aggiornaCarrello(prodotto: Prodotto, utente: Utente){
         this.carrello.lista_prodotti = arrayListOf()
         this.carrello.lista_prodotti?.add(prodotto)
         this.carrello.id = utente.id
+        val sdf = SimpleDateFormat("dd/M/yyyy")
+        val currentDate = sdf.format(Date())
+        this.carrello.date = currentDate
+        update_price_cart(this.carrello)
         this.carrello.stato = Carrello.Stato.incompleto
     }
     fun controlloCoerenzaCarrello(){
-        update_price_cart(this.carrello)
         swipe_delete(this.carrello)
+        update_price_cart(this.carrello)
         this.carrello.lista_prodotti?.let { adapter.updateList(it) }
     }
     fun controlloRidondanzaCarrello(prodotto: Prodotto):Boolean {
@@ -155,14 +160,22 @@ class CarrelloFragment : Fragment() {
                 val position= viewHolder.adapterPosition
                 deleteProduc= carrello.lista_prodotti?.get(position)
                 carrello.lista_prodotti?.remove(deleteProduc)
+
+                update_price_cart(carrello)
                 viewModelCarrello.updateCarrello(carrello)
                 carrello.lista_prodotti?.let { adapter.updateList(it) }
                 //adapter.notifyItemRemoved(position)
                 update_price_cart(carrello)
+                if(adapter.itemCount<= 0){
+                    binding.txtPrezzoCarrello.text = "€0"
+                    binding.txtTotaleSpesaCarrello.text =  "€0"
+                    binding.txtPrezzoIva.text="€0"
+                }
                 Snackbar.make(recyclerView,
                     deleteProduc!!.nome,Snackbar.LENGTH_LONG)
                     .setAction("Annulla") {
                         carrello.lista_prodotti?.add(deleteProduc!!)
+                        update_price_cart(carrello)
                         viewModelCarrello.updateCarrello(carrello)
                         carrello.lista_prodotti?.let { adapter.updateList(it) }
                         //adapter.notifyItemInserted(position)

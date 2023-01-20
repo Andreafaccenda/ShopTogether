@@ -1,6 +1,7 @@
 package com.example.speedmarket.ui.impostazioni.profile
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -44,10 +45,13 @@ class OrdiniAdapter() : RecyclerView.Adapter<OrdiniAdapter.OrdiniViewHolder>() {
     inner class OrdiniViewHolder(val binding: ViewHolderOrdiniBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Carrello) {
-            val sdf = SimpleDateFormat("dd/M/yyyy")
-            val currentDate = sdf.format(Date())
             binding.txtStatoOrdine.text="Stato: ${item.stato}"
-            binding.txtData.text="Data:${currentDate}"
+            when(item.stato){
+                Carrello.Stato.elaborazione->binding.txtStatoOrdine.setTextColor(Color.RED)
+                Carrello.Stato.spedizione->binding.txtStatoOrdine.setTextColor(Color.YELLOW)
+                Carrello.Stato.consegnato->binding.txtStatoOrdine.setTextColor(Color.GREEN)
+            }
+            binding.txtData.text="Data:${item.date}"
             binding.txtPrezzo.text="€ ${item.prezzo}"
         }
     }
