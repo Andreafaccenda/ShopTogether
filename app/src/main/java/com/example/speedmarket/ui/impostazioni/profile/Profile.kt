@@ -81,6 +81,9 @@ class Profile : Fragment(), ProfileManager {
                 viewModelAuth.logout {
                         startActivity(Intent(requireContext(),MainActivity::class.java))}
         }
+        binding.btnAutoLocation.setOnClickListener{
+            startActivity(Intent(requireContext(),AutoLocationActivity::class.java))
+        }
         binding.layoutPayment.setOnClickListener{
             replaceFragment(DettagliaCartaCreditoFragment())
         }

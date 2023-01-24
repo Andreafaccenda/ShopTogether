@@ -114,12 +114,12 @@ fun Fragment.setupOnBackPressedFragment(fragment:Fragment){
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
+
 fun Fragment.replaceFragment(fragment: Fragment){
     val transaction = fragmentManager?.beginTransaction()
     transaction?.replace(R.id.frame_layout, fragment)
     transaction?.commit()
 }
-
 
 val Int.dpToPx: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()

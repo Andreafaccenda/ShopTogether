@@ -181,6 +181,16 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         updateList(listaAggiornata)
     }
 
+    override fun filtraListaqrCode(qrCode: String, list: MutableList<Prodotto>) {
+        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
+        for (prodotto in list) {
+            if (prodotto.id == qrCode) {
+                listaAggiornata.add(prodotto)
+            }
+        }
+        updateList(listaAggiornata)
+    }
+
     override fun getItemCount(): Int {
         return list.size
     }

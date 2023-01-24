@@ -1,13 +1,13 @@
 package com.example.speedmarket.ui.catalogo.filtri
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,23 +17,28 @@ import android.widget.SeekBar
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentFiltriBinding
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
+import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
 import com.example.speedmarket.ui.catalogo.filtri.Scanner.BarcodeScanning
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class Filtri : Fragment() {
+
 
     private lateinit var binding : FragmentFiltriBinding
     private lateinit var marchi: ArrayList<String>
     private var marchio = "vuoto"
     private var prezzo = "vuoto"
     private var categoria = "vuoto"
+    private var qrCode ="vuoto"
     private val cameraPermissionRequestCode = 1
     private var selectedScanningSDK = BarcodeScanning.ScannerSDK.ZXING
     private lateinit var recyclerView: RecyclerView
@@ -52,9 +57,7 @@ class Filtri : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(CatalogoFragment())
-        val args = this.arguments
-        var barcode = args?.getString("barcode")
-        Log.d("zzzzzz",barcode.toString())
+        binding.layoutScannerBarcode.hide()
         marchi = arrayListOf()
         marchi= requireContext().resources.getStringArray(R.array.marchi).toMutableList() as ArrayList<String>
         marchi.sort()
@@ -65,6 +68,10 @@ class Filtri : Fragment() {
         binding.btnScan.setOnClickListener {
             selectedScanningSDK = BarcodeScanning.ScannerSDK.ZXING
             startScanning()
+            if(binding.layoutScanner.isShown){
+                binding.layoutScanner.hide()
+                binding.layoutScannerBarcode.show()
+            }
         }
         hide_layout(binding.layoutPrice)
         binding.layoutMarchioChecked.hide()
@@ -232,7 +239,8 @@ class Filtri : Fragment() {
     }
     private fun show_list(){
         val bundle = Bundle()
-        var arrayList= arrayListOf(prezzo,marchio,categoria)
+        if(!binding.qrcode.text.isNullOrEmpty()) qrCode=binding.qrcode.text.toString()
+        var arrayList= arrayListOf(prezzo,marchio,categoria,qrCode)
         bundle.putStringArrayList("filtri",arrayList)
         val fragment = CatalogoFragment()
         fragment.arguments= bundle

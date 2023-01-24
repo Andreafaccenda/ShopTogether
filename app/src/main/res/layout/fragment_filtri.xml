@@ -651,6 +651,7 @@
             </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_scanner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -683,8 +684,29 @@
                         android:textAlignment="center"
                         android:focusableInTouchMode="true" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_scanner_barcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
 
-
+                    <EditText
+                        android:id="@+id/qrcode"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:background="@drawable/edit_custom"
+                        android:hint="@string/inserisci_il_codice_scannerizzato"
+                        android:paddingStart="5dp"
+                        android:textColorHint="@color/yellow"
+                        android:textColor="@color/yellow"
+                        android:textAlignment="viewStart"
+                        android:textSize="12sp"/>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

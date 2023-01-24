@@ -1,31 +1,33 @@
 package com.example.speedmarket.ui.impostazioni.assistenzaClienti
 
+
+import android.graphics.Color.parseColor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
+import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Messaggio
 import com.example.speedmarket.util.Constants.CLICK_ID
 import com.example.speedmarket.util.Constants.RECEIVE_ID
 import com.example.speedmarket.util.Constants.SEND_ID
+import com.google.type.Color
 
 class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHolder>() {
 
 
     var messagesList = mutableListOf<Messaggio>()
+    var onItemClick : ((String) -> Unit)? = null
 
     inner class MessaggioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            itemView.setOnClickListener {
-                messagesList.removeAt(adapterPosition)
-                notifyItemRemoved(adapterPosition)
-            }
 
-        }
+
+
         var message =itemView.findViewById<TextView>(R.id.tv_message)
         var message_box =itemView.findViewById<TextView>(R.id.tv_bot__message)
+        var message_toClick = itemView.findViewById<TextView>(R.id.rv_message_toClick)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessaggioViewHolder {
@@ -36,6 +38,9 @@ class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHold
 
     override fun onBindViewHolder(holder: MessaggioViewHolder, position: Int) {
         val currentMessage = messagesList[position]
+        holder.message_toClick.setOnClickListener{
+            onItemClick?.invoke(currentMessage.messaggio)
+        }
         when (currentMessage.id) {
             SEND_ID -> {
                 holder.message.apply {
@@ -43,6 +48,7 @@ class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHold
                     visibility = View.VISIBLE
                 }
                 holder.message_box.visibility = View.GONE
+                holder.message_toClick.visibility=View.GONE
             }
             RECEIVE_ID -> {
                 holder.message_box.apply {
@@ -50,6 +56,15 @@ class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHold
                     visibility = View.VISIBLE
                 }
                 holder.message.visibility = View.GONE
+                holder.message_toClick.visibility=View.GONE
+            }
+            CLICK_ID->{
+                holder.message_toClick.apply {
+                    text = currentMessage.messaggio
+                    visibility = View.VISIBLE
+                }
+                holder.message.visibility = View.GONE
+                holder.message_box.visibility=View.GONE
             }
 
         }

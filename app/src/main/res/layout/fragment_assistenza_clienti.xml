@@ -49,6 +49,7 @@
         tools:itemCount="20"
         tools:listitem="@layout/messaggi_layout" />
 
+
     <View
         android:id="@+id/dark_divider"
         android:layout_width="match_parent"

@@ -22,6 +22,7 @@ class CatalogoFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var nome_categoria :String
     private lateinit var filtri :ArrayList<String>
+    private lateinit var qrcode :String
     private var offerta =false
     val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { ProdottoAdapter() }
@@ -55,10 +56,9 @@ class CatalogoFragment : Fragment() {
             fragment.arguments= bundle
             replaceFragment(fragment)
         }
-        filtri = arrayListOf("vuoto","vuoto","vuoto")
+        filtri = arrayListOf("vuoto","vuoto","vuoto","vuoto")
         if(args?.getStringArrayList("filtri").toString() != "null"){
             filtri=args?.getStringArrayList("filtri") as ArrayList<String>
-            Log.d("filtri",filtri.toString())
         }
         binding.btnFiltri.setOnClickListener{
             replaceFragment(Filtri())
@@ -88,6 +88,7 @@ class CatalogoFragment : Fragment() {
                   if(this.nome_categoria == "null") adapter.updateList(state.data.toMutableList())
                   else adapter.filtraListaCategoria(this.nome_categoria,state.data.toMutableList())
                     if(offerta)adapter.filtraListaOfferta(state.data.toMutableList())
+                    if(filtri[3]!= "vuoto") adapter.filtraListaqrCode(filtri[3],state.data.toMutableList())
                     if(filtri[0]!="vuoto")adapter.filtraListaPrezzo(filtri[0],state.data.toMutableList())
                     if(filtri[1]!="vuoto")adapter.filtraListaMarchio(filtri[1],state.data.toMutableList())
                     if(filtri[2]!="vuoto") adapter.filtraListaSottoCategoria(filtri[2],state.data.toMutableList())

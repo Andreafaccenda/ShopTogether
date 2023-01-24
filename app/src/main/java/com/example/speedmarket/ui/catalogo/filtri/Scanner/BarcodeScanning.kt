@@ -1,5 +1,6 @@
 package com.example.speedmarket.ui.catalogo.filtri.Scanner
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,11 +19,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentBarcodeScanningBinding
+import com.example.speedmarket.databinding.FragmentFiltriBinding
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
 import com.example.speedmarket.ui.catalogo.filtri.Filtri
 import com.example.speedmarket.ui.catalogo.filtri.Scanner.analyzer.BarcodeAnalyzer
 import com.example.speedmarket.ui.catalogo.filtri.Scanner.analyzer.ScanningResultListener
+import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.replaceFragment
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
@@ -112,28 +115,24 @@ class BarcodeScanning : AppCompatActivity() {
         //switch the analyzers here, i.e. MLKitBarcodeAnalyzer, ZXingBarcodeAnalyzer
         class ScanningListener : ScanningResultListener {
             override fun onScanned(result: String) {
-                runOnUiThread {
-                    imageAnalysis.clearAnalyzer()
-                    cameraProvider?.unbindAll()
-                    val bundle = Bundle()
-                    bundle.putString("barcode",result)
-                    val fragment = Filtri()
-                    fragment.arguments= bundle
-                    replaceFragment(fragment)
+                  runOnUiThread {
+                     imageAnalysis.clearAnalyzer()
+                     cameraProvider?.unbindAll()
+                      ScannerResultDialog.newInstance(
+                           result,
+                           object : ScannerResultDialog.DialogDismissListener {
+                               override fun onDismiss() {
+                                   bindPreview(cameraProvider)
+                                   cameraExecutor.shutdown()
+                                   finish()
+                               }
+                           })
+                           .show(supportFragmentManager, ScannerResultDialog::class.java.simpleName)
                 }
             }
-
-            private fun replaceFragment(fragment: Fragment) {
-                val transaction = supportFragmentManager?.beginTransaction()
-                transaction?.replace(R.id.frame_layout, fragment)
-                transaction?.commit()
-            }
         }
-
         var analyzer = BarcodeAnalyzer(ScanningListener())
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
-
-
         //imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
         preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
 
@@ -160,15 +159,8 @@ class BarcodeScanning : AppCompatActivity() {
             }
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Shut down our background executor
-        cameraExecutor.shutdown()
-    }
-
     enum class ScannerSDK {
-        MLKIT,
         ZXING
     }
+
 }

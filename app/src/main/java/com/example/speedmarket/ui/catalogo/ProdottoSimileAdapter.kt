@@ -9,8 +9,7 @@ import coil.load
 import com.example.speedmarket.databinding.ViewHolderProdottoSimileBinding
 import com.example.speedmarket.model.Prodotto
 
-class ProdottoSimileAdapter() : RecyclerView.Adapter<ProdottoSimileAdapter.ProdottoSimileViewHolder>(),
-    ProdottoAdapterInt {
+class ProdottoSimileAdapter() : RecyclerView.Adapter<ProdottoSimileAdapter.ProdottoSimileViewHolder>() {
 
 
     private var list: MutableList<Prodotto> = arrayListOf()
@@ -30,12 +29,12 @@ class ProdottoSimileAdapter() : RecyclerView.Adapter<ProdottoSimileAdapter.Prodo
         }
     }
 
-    override fun updateList(list: MutableList<Prodotto>){
+     fun updateList(list: MutableList<Prodotto>){
         this.list = list
         notifyDataSetChanged()
     }
 
-    override fun filtraListaCategoria(tipo: String, list: MutableList<Prodotto>) {
+     fun filtraListaCategoria(tipo: String, list: MutableList<Prodotto>) {
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
             if (prodotto.categoria.equals(tipo, true)) {
@@ -46,26 +45,6 @@ class ProdottoSimileAdapter() : RecyclerView.Adapter<ProdottoSimileAdapter.Prodo
 
     }
 
-    override fun filtraListaNomeChange(tipo: String, list: MutableList<Prodotto>) {}
-    override fun filtraListaNome(tipo: String, list: MutableList<Prodotto>)  {}
-    override fun filtraListaPrezzo(prezzo: String, list: MutableList<Prodotto>) {}
-    override fun filtraListaMarchio(marchio: String, list: MutableList<Prodotto>) {}
-    override fun filtraListaSottoCategoria(subCategoria: String, list: MutableList<Prodotto>) {}
-    override fun filtraListaMarchioPrezzo(prezzo: String, marchio: String, list: MutableList<Prodotto>) {}
-    override fun filtraListaCategoriaPrezzo(prezzo: String, subCategoria: String, list: MutableList<Prodotto>) {}
-    override fun filtraListaCategoriaMarchio(marchio: String, subCategoria: String, list: MutableList<Prodotto>) {}
-    override fun filtraLista(prezzo: String, marchio: String, subCategoria: String, list: MutableList<Prodotto>) {}
-    override fun filtraListaOfferta(list: MutableList<Prodotto>) {}
-
-    override fun removeItem(id: String){
-        val listaAggiornata: MutableList<Prodotto> = arrayListOf()
-        for(prodotto in this.list){
-            if(prodotto.id == id){
-                listaAggiornata.remove(prodotto)
-            }
-        }
-        updateList(listaAggiornata)
-    }
     override fun getItemCount(): Int {
         return list.size
     }

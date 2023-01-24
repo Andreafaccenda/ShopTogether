@@ -15,13 +15,13 @@ import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentAssistenzaClientiBinding
 import com.example.speedmarket.model.Messaggio
 import com.example.speedmarket.ui.impostazioni.Impostazioni
+import com.example.speedmarket.ui.impostazioni.profile.DettaglioOrdineFragment
 import com.example.speedmarket.util.*
 import com.example.speedmarket.util.Constants.CLICK_ID
-import com.example.speedmarket.util.Constants.OPEN_GOOGLE
-import com.example.speedmarket.util.Constants.OPEN_SEARCH
 import com.example.speedmarket.util.Constants.RECEIVE_ID
 import com.example.speedmarket.util.Constants.SEND_ID
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.view_holder_messaggi_to_click.*
 import kotlinx.coroutines.*
 
 @AndroidEntryPoint
@@ -43,6 +43,12 @@ class AssistenzaClientiFragment : Fragment() {
         recycleView()
         clickEvents()
         customMessage(getString(R.string.message_default))
+        adapter.onItemClick = {
+            adapter.insertMessage(Messaggio(it, SEND_ID))
+            binding.rvMessage.scrollToPosition(adapter.itemCount-1)
+            botResponse(it)
+        }
+
     }
 
     private fun clickEvents() {
@@ -66,16 +72,21 @@ class AssistenzaClientiFragment : Fragment() {
         binding.rvMessage.adapter = adapter
         binding.rvMessage.layoutManager= LinearLayoutManager(requireContext())
     }
-    private fun customMessage(messaggio :String){
+    private fun customMessage(messaggio :String) {
         GlobalScope.launch {
             delay(1000)
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
 
-                adapter.insertMessage(Messaggio(messaggio,RECEIVE_ID))
-                binding.rvMessage.scrollToPosition(adapter.itemCount-1)
+                adapter.insertMessage(Messaggio(messaggio, RECEIVE_ID))
+                adapter.insertMessage(Messaggio("Supporto profilo online", CLICK_ID))
+                adapter.insertMessage(Messaggio("Supporto per un informazione", CLICK_ID))
+                adapter.insertMessage(Messaggio("Supporto ad un ordine", CLICK_ID))
+                binding.rvMessage.scrollToPosition(adapter.itemCount - 1)
             }
         }
     }
+
+
     private fun sendMessage(){
         val message = binding.etMessage.text.toString()
         if(message.isNotEmpty()){
@@ -87,6 +98,7 @@ class AssistenzaClientiFragment : Fragment() {
         }
 
     }
+
     private fun botResponse(message: String){
         GlobalScope.launch {
             delay(1000)
@@ -96,15 +108,7 @@ class AssistenzaClientiFragment : Fragment() {
                 adapter.insertMessage(Messaggio(response, RECEIVE_ID))
                 binding.rvMessage.scrollToPosition(adapter.itemCount-1)
                 when(response){
-                        requireContext().getString(R.string.assistenza_modifica_profilo)->{
-                            adapter.insertMessage(Messaggio(requireContext().getString(R.string.default_ass), RECEIVE_ID))
-                        }
-                    requireContext().getString(R.string.assistenza_registrazione_profilo)-> {
-                        adapter.insertMessage(Messaggio(requireContext().getString(R.string.default_ass), RECEIVE_ID))
-                    }
-                    "Se hai dimenticato la password recati alla pagina di Login e clicca il bottone Reset password, inserisci l'indirizzo email che ci hai fornito al momento della registrazione e riceverai una email per impostare una nuova password."-> {
-                        adapter.insertMessage(Messaggio(requireContext().getString(R.string.default_ass), RECEIVE_ID))
-                    }
+
                     requireContext().getString(R.string.chiudi_la_chat)->{
                         binding.btnSend.text="Chiudi la chat"
                         binding.etMessage.hide()

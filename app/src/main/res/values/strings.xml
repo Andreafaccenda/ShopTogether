@@ -12,7 +12,8 @@
     <string name="messaggio_inserisci_password_conferma">Perfavore,inserisci la password di conferma</string>
     <string name="messaggio_password_diverse">Le due password sono diverse</string>
 
-
+    <string name="result">Result</string>
+    <string name="copy">Copy</string>
     <string name="accedi">ACCEDI</string>
     <string name="registrati">REGISTRATI</string>
     <string name="recupera_la_tua_password">Recupera la tua password</string>
@@ -111,17 +112,17 @@
                                                                     -Chiudi la chat</string>
     <string name="assistenza_registrazione_profilo">Per registrarti al sito clicca su \"Registrati\" in basso a destra e successivamente prosegui fino in fondo alla pagina. Segui i passaggi della procedura guidata e, una volta terminati, riceverai una email per completare la registrazione.</string>
     <string name="chiudi_la_chat">Buona giornata,é stato un piacere poterti aiutare!</string>
-    <string name="message_default">Ciao! Sono l’assistente della chat di Speed Market.Quindi, con cosa ti posso aiutare?\n
-                                    "Digita una di queste tematiche:\n"
-                                    "-Supporto per profilo online\n"
-                                    "-Supporto per un informazione\n"
-                                    "-Supporto ad un ordine"</string>
+    <string name="message_default">Ciao! Sono l’assistente della chat di Speed Market.Con cosa ti posso aiutare?</string>
     <string name="turn_flash_on_off">Turn Flash On/Off</string>
     <string name="dettagli_ordine">Dettagli ordine</string>
     <string name="totale_carrello">Totale carrello</string>
     <string name="totale">Totale:</string>
     <string name="subtotale">SubTotale:</string>
     <string name="scannerizza_per_cercare_il_prodotto">Scannerizza il codice a barre per cercare il prodotto-></string>
+    <string name="inserisci_il_codice_scannerizzato">Inserisci il codice scannerizzato</string>
+    <string name="fetch_Location">Fetch Location</string>
+    <string name="location">Using Location in your app has incredible potential in making your app seem intelligent to end users.
+    With location data, your app can predict a user’s potential actions</string>
 
     <string-array name="marchi">
         <item>Conad</item>

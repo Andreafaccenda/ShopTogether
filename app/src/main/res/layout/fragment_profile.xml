@@ -569,6 +569,12 @@
                                 android:textColor="@color/yellow"
                                 android:textSize="18sp"
                                 android:textStyle="italic" />
+                            <Button
+                                android:id="@+id/btn_autoLocation"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@android:color/transparent"
+                                android:drawableStart="@drawable/location"/>
                         </LinearLayout>
 
                         <LinearLayout
