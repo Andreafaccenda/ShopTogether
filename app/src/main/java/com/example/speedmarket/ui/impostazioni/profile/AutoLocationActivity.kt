@@ -2,7 +2,10 @@
 
 package com.example.speedmarket.ui.impostazioni.profile
 
+import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -10,12 +13,15 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.os.StrictMode
+import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.speedmarket.R
 import com.google.android.gms.location.*
 import org.xmlpull.v1.XmlPullParser
@@ -28,6 +34,7 @@ class AutoLocationActivity: AppCompatActivity() {
 
     //Declaring the needed Variables
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private var REQUEST_LOCATION_CODE = 101
     var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
     lateinit var locationRequest: LocationRequest
     private val key: String = "AjgIV-JLQzwYoMye7R1YrnbSFkY3dp7SFyUNyOZ7cQnliNDeqU45MW2jFdP9aKcJ"
@@ -67,7 +74,7 @@ class AutoLocationActivity: AppCompatActivity() {
                     }
                 }
             }else{
-                Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
+                showAlert()
             }
         }else{
             RequestPermission()
@@ -164,28 +171,32 @@ class AutoLocationActivity: AppCompatActivity() {
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if(requestCode == PERMISSION_ID){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Log.d("Debug:","You have the Permission")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_LOCATION_CODE -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "permission granted", Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    // permission denied, boo! Disable the functionality that depends on this permission.
+                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
+                }
+                return
             }
         }
     }
-
-    private fun getCityName(lat: Double,long: Double):String{
-        var cityName:String = ""
-        var countryName = ""
-        var geoCoder = Geocoder(this, Locale.getDefault())
-        var Adress = geoCoder.getFromLocation(lat,long,3)
-
-        cityName = Adress!!.get(0).locality
-        countryName = Adress[0].countryName
-        Log.d("Debug:","Your City: " + cityName + " ; your Country " + countryName)
-        return cityName
+    private fun showAlert() {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle("Attiva la posizione")
+            .setMessage("Hai disattivato la tua posizione.\nPer favore attivala ")
+            .setPositiveButton("Impostazioni GPS") { paramDialogInterface, paramInt ->
+                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(myIntent)
+            }
+            .setNegativeButton("Cancella") { paramDialogInterface, paramInt -> }
+        dialog.show()
     }
-
 }
