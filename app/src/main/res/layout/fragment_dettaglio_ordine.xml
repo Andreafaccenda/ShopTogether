@@ -34,6 +34,41 @@
                 android:textStyle="bold"
                 />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/edit_custom">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:paddingTop="2dp"
+                android:text="ID ORDINE:"
+                android:textColor="@color/black"
+                android:textAlignment="viewStart"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/id_ordine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="5dp"
+                android:paddingEnd="3dp"
+                android:paddingTop="2dp"
+                android:drawableEnd="@drawable/ic_copy"
+                android:textColor="@color/yellow"
+                android:textAlignment="viewStart"
+                android:textStyle="normal"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
 
 
         <TableLayout

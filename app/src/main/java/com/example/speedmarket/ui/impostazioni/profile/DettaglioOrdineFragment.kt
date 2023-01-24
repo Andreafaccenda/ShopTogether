@@ -1,11 +1,15 @@
 package com.example.speedmarket.ui.impostazioni.profile
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,11 +60,18 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter=adapter
         updateUI()
+        binding.idOrdine.setOnClickListener{
+            val clipboard = ContextCompat.getSystemService(requireContext(), ClipboardManager::class.java)
+            val clip = ClipData.newPlainText("label",binding.idOrdine.text)
+            clipboard?.setPrimaryClip(clip)
+            Toast.makeText(requireContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun updateUI() {
         if(args.getSerializable("carrello") != "null"){
             this.carrello = args.getSerializable("carrello") as Carrello
+            binding.idOrdine.text=this.carrello.id
             this.carrello.lista_prodotti?.let { adapter.updateList(it) }
             }
         var tot = 0.0F

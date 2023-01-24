@@ -104,14 +104,6 @@
     <string name="offerte_valide_dal_25_gennaio_al_18_febbraio">Offerte valide dal 25 gennaio al 18 febbraio</string>
     <string name="salva_indirizzo">Salva indirizzo</string>
 
-
-    <string name="assistenza_modifica_profilo">Puoi modificare i tuoi dati accedendo alla tua area personale.Nella sezione Impostazioni, seleziona la pagina Account. Attraverso il bottone Modifica potrai modificare facilmente tutti i tuoi dati. Clicca per accedere direttamente alla tua area personale.</string>
-    <string name="default_ass">Hai bisogno di ulteriore assistenza o preferisci terminare la nostra conversazione?\n
-                                                                    -Vorrei parlare con un operatore \n
-                                                                    -Ho bisogno di un altra informazione \n
-                                                                    -Chiudi la chat</string>
-    <string name="assistenza_registrazione_profilo">Per registrarti al sito clicca su \"Registrati\" in basso a destra e successivamente prosegui fino in fondo alla pagina. Segui i passaggi della procedura guidata e, una volta terminati, riceverai una email per completare la registrazione.</string>
-    <string name="chiudi_la_chat">Buona giornata,é stato un piacere poterti aiutare!</string>
     <string name="message_default">Ciao! Sono l’assistente della chat di Speed Market.Con cosa ti posso aiutare?</string>
     <string name="turn_flash_on_off">Turn Flash On/Off</string>
     <string name="dettagli_ordine">Dettagli ordine</string>
