@@ -1,103 +1,104 @@
-@file:Suppress("DEPRECATION")
+
 
 package com.example.speedmarket.ui.impostazioni.profile
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.os.StrictMode
-import android.os.StrictMode.ThreadPolicy
-import android.provider.Settings
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.speedmarket.R
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_auto_location.*
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.gms.location.*
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
 import java.net.URL
 import java.util.*
 
-@AndroidEntryPoint
-class AutoLocationActivity : AppCompatActivity(), View.OnClickListener, com.google.android.gms.location.LocationListener {
-    var policy = ThreadPolicy.Builder().permitAll().build()
+class AutoLocationActivity: AppCompatActivity() {
+
+    //Declaring the needed Variables
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+    lateinit var locationRequest: LocationRequest
     private val key: String = "AjgIV-JLQzwYoMye7R1YrnbSFkY3dp7SFyUNyOZ7cQnliNDeqU45MW2jFdP9aKcJ"
-    private var REQUEST_LOCATION_CODE = 101
-    private var mGoogleApiClient: GoogleApiClient? = null
-    private var mLocation: Location? = null
-    private var mLocationRequest: LocationRequest? = null
-    private val UPDATE_INTERVAL = (2 * 1000).toLong()  /* 10 secs */
-    private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
     var AddressList : MutableList<String> = mutableListOf()
+    val PERMISSION_ID = 1010
 
-    override fun onLocationChanged(p0: Location) {
-        // You can now create a LatLng Object for use with maps
-        // val latLng = LatLng(location.latitude, location.longitude)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_auto_location)
 
-    override fun onClick(v: View?) {
-        if (!checkGPSEnabled()) {
-            return
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        findViewById<Button>(R.id.btFetchLocation).setOnClickListener {
+            Log.d("Debug:",CheckPermission().toString())
+            Log.d("Debug:",isLocationEnabled().toString())
+            RequestPermission()
+            /* fusedLocationProviderClient.lastLocation.addOnSuccessListener{location: Location? ->
+                 textView.text = location?.latitude.toString() + "," + location?.longitude.toString()
+             }*/
+            getLastLocation()
         }
 
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            //Location Permission already granted
-            getLocation()
-        } else {
-            //Request Location Permission
-            checkLocationPermission()
-        }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getLocation() {
-        try {
-            mLocation = mGoogleApiClient?.let { LocationServices.FusedLocationApi.getLastLocation(it) }
 
-            if (mLocation == null) {
-                startLocationUpdates()
+    fun getLastLocation(){
+        if(CheckPermission()){
+            if(isLocationEnabled()){
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
+                    var location: Location? = task.result
+                    if(location == null){
+                        NewLocationData()
+                    }else{
+                        Log.d("Location:" ,"Your Location:"+ location.longitude)
+                        findViewById<TextView>(R.id.tvLatitude).text = "${location.latitude}"
+                        findViewById<TextView>(R.id.tvLongitude).text = "${location.longitude}"
+                        fromXML(location.latitude,location.longitude)
+                    }
+                }
+            }else{
+                Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
             }
-            if (mLocation != null) {
-                StrictMode.setThreadPolicy(policy)
-                findViewById<TextView>(R.id.tvLatitude).text = mLocation!!.latitude.toString()
-                findViewById<TextView>(R.id.tvLongitude).text = mLocation!!.longitude.toString()
-                fromXML(mLocation!!.latitude, mLocation!!.longitude)
-                openNewTabWindow(this, mLocation!!.latitude, mLocation!!.longitude)
-            } else {
-                Toast.makeText(this, "Impossibile rilevare la posizione", Toast.LENGTH_SHORT).show()
-            }
-        }catch(e:Exception){
-            Toast.makeText(this, "Impossibile rilevare la posizione", Toast.LENGTH_SHORT).show()
+        }else{
+            RequestPermission()
         }
     }
 
+
+    fun NewLocationData(){
+        var locationRequest =  LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 0
+        locationRequest.fastestInterval = 0
+        locationRequest.numUpdates = 1
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationProviderClient!!.requestLocationUpdates(
+            locationRequest,locationCallback, Looper.myLooper()
+        )
+    }
+
+
+    private val locationCallback = object : LocationCallback(){
+        override fun onLocationResult(locationResult: LocationResult) {
+            var lastLocation: Location = locationResult.lastLocation
+            Log.d("Debug:","your last last location: "+ lastLocation.longitude.toString())
+            findViewById<TextView>(R.id.tvLatitude).text = "${lastLocation.latitude}"
+            findViewById<TextView>(R.id.tvLongitude).text = "${lastLocation.longitude}"
+        }
+    }
     fun fromXML(latitude : Double, longitude : Double){
         try {
+            StrictMode.setThreadPolicy(policy)
             AddressList.clear()
             var selezione = false
             val xml_data: InputStream =
@@ -131,114 +132,60 @@ class AutoLocationActivity : AppCompatActivity(), View.OnClickListener, com.goog
         }
     }
 
-    fun openNewTabWindow(context : Context, latitude: Double, longitude: Double) {
-        val url = "https://www.google.it/maps/place/$latitude,$longitude"
-        val uris = Uri.parse(url)
-        val intents = Intent(Intent.ACTION_VIEW, uris)
-        val b = Bundle()
-        b.putBoolean("new_window", true)
-        intents.putExtras(b)
-        context.startActivity(intents)
-    }
-
-    private fun startLocationUpdates() {
-        // Create the location request
-        mLocationRequest = LocationRequest.create()
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            .setInterval(UPDATE_INTERVAL)
-            .setFastestInterval(FASTEST_INTERVAL)
-        // Request location updates
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
+    private fun CheckPermission():Boolean{
+        //this function will return a boolean
+        //true: if we have permission
+        //false if not
+        if(
+            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        ){
+            return true
         }
-        mGoogleApiClient?.let { LocationServices.FusedLocationApi.requestLocationUpdates(it,
-            mLocationRequest!!, this) }
+
+        return false
+
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auto_location)
-
-        findViewById<Button>(R.id.btFetchLocation).setOnClickListener(this)
-        buildGoogleApiClient()
+    fun RequestPermission(){
+        //this function will allows us to tell the user to requesut the necessary permsiion if they are not garented
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
+            PERMISSION_ID
+        )
     }
 
-    @Synchronized
-    private fun buildGoogleApiClient() {
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-            .addApi(LocationServices.API)
-            .build()
-
-        mGoogleApiClient!!.connect()
-    }
-
-    private fun checkGPSEnabled(): Boolean {
-        if (!isLocationEnabled())
-            showAlert()
-        return isLocationEnabled()
-    }
-
-    private fun showAlert() {
-        val dialog = AlertDialog.Builder(this)
-        dialog.setTitle("Attiva la posizione")
-            .setMessage("Hai disattivato la tua posizione.\nPer favore attivala ")
-            .setPositiveButton("Impostazioni GPS") { paramDialogInterface, paramInt ->
-                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(myIntent)
-            }
-            .setNegativeButton("Cancella") { paramDialogInterface, paramInt -> }
-        dialog.show()
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    fun isLocationEnabled():Boolean{
+        //this function will return to us the state of the location service
+        //if the gps or the network provider is enabled then it will return true otherwise it will return false
+        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
-    private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                AlertDialog.Builder(this)
-                    .setTitle("Permessi sulla geolocalizzazione necessari.")
-                    .setMessage("Questa applicazione ha bisogno dei permessi per accedere al GPS.")
-                    .setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
-                    })
-                    .create()
-                    .show()
 
-            } else ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            REQUEST_LOCATION_CODE -> {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, "permission granted", Toast.LENGTH_LONG).show()
-                    }
-                } else {
-                    // permission denied, boo! Disable the functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
-                }
-                return
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if(requestCode == PERMISSION_ID){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Log.d("Debug:","You have the Permission")
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        mGoogleApiClient?.connect()
+    private fun getCityName(lat: Double,long: Double):String{
+        var cityName:String = ""
+        var countryName = ""
+        var geoCoder = Geocoder(this, Locale.getDefault())
+        var Adress = geoCoder.getFromLocation(lat,long,3)
+
+        cityName = Adress!!.get(0).locality
+        countryName = Adress[0].countryName
+        Log.d("Debug:","Your City: " + cityName + " ; your Country " + countryName)
+        return cityName
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (mGoogleApiClient!!.isConnected) {
-            mGoogleApiClient!!.disconnect()
-        }
-    }
 }

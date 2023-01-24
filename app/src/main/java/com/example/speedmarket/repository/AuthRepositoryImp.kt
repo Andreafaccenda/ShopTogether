@@ -8,6 +8,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
+import com.example.speedmarket.database.DatabaseProdotto
+import com.example.speedmarket.database.asDomainModelProdotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
 import com.example.speedmarket.util.SharedPrefConstants
@@ -116,20 +118,44 @@ class AuthRepositoryImp(
             }
     }
 
+    override fun getListUser(result: (UiState<MutableList<Utente?>>) -> Unit) {
+
+        val db = database.collection(FireStoreCollection.UTENTI)
+        db.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val utenti = arrayListOf<Utente>()
+                    for (field in document) {
+                        val user = field.toObject(Utente::class.java)
+                        utenti.add(user)
+                    }
+                    result.invoke(
+                        UiState.Success(utenti.toMutableList())
+                    )
+                }
+                else {
+                    result.invoke(UiState.Failure("No such document"))
+                }
+            }.addOnFailureListener {
+                result.invoke(UiState.Failure(
+                    it.localizedMessage))
+            }
+    }
     override fun loginUser(email: String, password: String, result: (UiState<String>) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     storeSession(id = task.result.user?.uid ?: "") {
                         if (it == null) {
-                            result.invoke(UiState.Failure("Failed to store local session"))
+                            result.invoke(UiState.Failure("Fallito"))
                         } else {
-                            result.invoke(UiState.Success("Login successfully!"))
+                            if(it.email == "staffspeedmarket@gmail.com"){result.invoke(UiState.Success("Login staff conad effettuato con successo!"))}
+                            else{result.invoke(UiState.Success("Login effettuato con successo!"))}
                         }
                     }
                 }
             }.addOnFailureListener {
-                result.invoke(UiState.Failure("Authentication failed, Check email and password"))
+                result.invoke(UiState.Failure("Autentificazione fallita,controlla email e password"))
             }
     }
 
@@ -137,7 +163,7 @@ class AuthRepositoryImp(
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    result.invoke(UiState.Success("Email has been sent"))
+                    result.invoke(UiState.Success("Email inviata"))
 
                 } else {
                     result.invoke(UiState.Failure(task.exception?.message))

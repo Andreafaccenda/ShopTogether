@@ -39,10 +39,20 @@ class AuthViewModel @Inject constructor(
     val utente: LiveData<UiState<Utente?>>
         get() = _utente
 
+    private val _utenti = MutableLiveData<UiState<MutableList<Utente?>>>()
+    val utenti: LiveData<UiState<MutableList<Utente?>>>
+        get() = _utenti
+
     fun getUtente(id: String) {
         _utente.value = UiState.Loading
         repository.getUser(id) {
             _utente.value = it
+        }
+    }
+    fun getListUser() {
+        _utenti.value = UiState.Loading
+        repository.getListUser {
+            _utenti.value = it
         }
     }
 

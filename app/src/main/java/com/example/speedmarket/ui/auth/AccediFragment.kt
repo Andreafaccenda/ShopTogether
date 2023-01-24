@@ -16,6 +16,7 @@ import androidx.navigation.findNavController
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentAccediBinding
 import com.example.speedmarket.ui.AppActivity
+import com.example.speedmarket.ui.dipendente.StaffActivity
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -75,11 +76,17 @@ class AccediFragment : Fragment() {
                     is UiState.Success -> {
                         binding.btnAccedi.setText("Accedi")
                         binding.accediProgressBar.hide()
+                        if(state.data == "Login staff conad effettuato con successo!") {
+                            startActivity(Intent(requireContext(), StaffActivity::class.java))
+                            activity?.finish()
+                        }else{
+                            val intent = Intent(requireContext(), AppActivity::class.java)
+                            intent.putExtra("Username", "Benvenuto,")
+                            startActivity(intent)
+                            activity?.finish()
+                        }
                         toast(state.data)
-                        val intent = Intent(requireContext(), AppActivity::class.java)
-                        intent.putExtra("Username", "Benvenuto,")
-                        startActivity(intent)
-                        activity?.finish()
+
                     }
                 }
             }
