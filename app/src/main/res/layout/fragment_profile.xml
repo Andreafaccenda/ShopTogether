@@ -580,9 +580,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="70dp"
+                            android:layout_marginStart="40dp"
                             android:layout_marginTop="5dp"
-                            android:layout_marginEnd="70dp"
+                            android:layout_marginEnd="40dp"
                             android:layout_marginBottom="5dp"
                             android:orientation="horizontal">
 
@@ -591,6 +591,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
+                                android:padding="5dp"
                                 android:text="@string/citt"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/yellow"
@@ -602,6 +603,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:padding="5dp"
                                 android:background="@drawable/edit_text_custom"
                                 android:ems="10"
                                 android:inputType="textPersonName"
@@ -616,9 +618,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="70dp"
+                            android:layout_marginStart="40dp"
                             android:layout_marginTop="5dp"
-                            android:layout_marginEnd="70dp"
+                            android:layout_marginEnd="40dp"
                             android:layout_marginBottom="5dp"
                             android:orientation="horizontal">
 
@@ -627,6 +629,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
+                                android:padding="5dp"
                                 android:layout_marginStart="2dp"
                                 android:text="@string/cap"
                                 android:textAlignment="textStart"
@@ -640,6 +643,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:layout_marginStart="2dp"
+                                android:padding="5dp"
                                 android:background="@drawable/edit_text_custom"
                                 android:ems="10"
                                 android:inputType="textPersonName"
@@ -653,8 +657,9 @@
                                 android:id="@+id/provincia"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
+                                android:layout_marginStart="0dp"
                                 android:layout_weight="0"
+                                android:padding="5dp"
                                 android:text="@string/provincia"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/yellow"
@@ -667,6 +672,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:layout_marginStart="2dp"
+                                android:padding="5dp"
                                 android:background="@drawable/edit_text_custom"
                                 android:ems="10"
                                 android:inputType="textPersonName"
@@ -682,9 +688,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="70dp"
+                            android:layout_marginStart="40dp"
                             android:layout_marginTop="5dp"
-                            android:layout_marginEnd="70dp"
+                            android:layout_marginEnd="40dp"
                             android:layout_marginBottom="5dp"
                             android:orientation="horizontal">
 
@@ -693,6 +699,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
+                                android:padding="5dp"
                                 android:text="@string/via"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/yellow"
@@ -704,7 +711,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:layout_marginStart="2dp"
+                                android:layout_marginStart="5dp"
+                                android:padding="5dp"
                                 android:background="@drawable/edit_text_custom"
                                 android:ems="10"
                                 android:inputType="textPersonName"
@@ -719,9 +727,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="70dp"
+                            android:layout_marginStart="40dp"
                             android:layout_marginTop="5dp"
-                            android:layout_marginEnd="70dp"
+                            android:layout_marginEnd="40dp"
                             android:layout_marginBottom="5dp"
                             android:orientation="horizontal">
 
@@ -730,6 +738,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
+                                android:padding="5dp"
                                 android:text="@string/numero_civico"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/yellow"
@@ -746,6 +755,7 @@
                                 android:ems="10"
                                 android:inputType="textPersonName"
                                 android:text=""
+                                android:padding="5dp"
                                 android:textAlignment="viewEnd"
                                 android:textColor="@color/colorSecondaryText"
                                 android:textIsSelectable="false"

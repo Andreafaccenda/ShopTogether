@@ -112,9 +112,11 @@
     <string name="subtotale">SubTotale:</string>
     <string name="scannerizza_per_cercare_il_prodotto">Scannerizza il codice a barre per cercare il prodotto-></string>
     <string name="inserisci_il_codice_scannerizzato">Inserisci il codice scannerizzato</string>
-    <string name="fetch_Location">Fetch Location</string>
+    <string name="fetch_Location">Trova la tua posizione</string>
     <string name="location">Using Location in your app has incredible potential in making your app seem intelligent to end users.
     With location data, your app can predict a user’s potential actions</string>
+    <string name="gps">Impostazioni GPS</string>
+    <string name="salva_come_indirizzo_di_residenza">Salva come indirizzo di residenza</string>
 
     <string-array name="marchi">
         <item>Conad</item>

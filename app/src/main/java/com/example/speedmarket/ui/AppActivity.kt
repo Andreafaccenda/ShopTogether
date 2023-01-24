@@ -3,32 +3,23 @@ package com.example.speedmarket.ui
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityAppBinding
-import com.example.speedmarket.model.Categorie
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.home.Home
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 @AndroidEntryPoint
 class AppActivity : AppCompatActivity() {
     lateinit var binding: ActivityAppBinding
     val viewModel: AuthViewModel by viewModels()
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var lista_categorie: ArrayList<Categorie>
-    private lateinit var immagineId: Array<Int>
-    private lateinit var categorie: Array<String>
-    private lateinit var sfondo: Array<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

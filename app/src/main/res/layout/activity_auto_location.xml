@@ -1,111 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context=".ui.impostazioni.profile.AutoLocationActivity">
-
-    <TextView
-        android:id="@+id/tvHeader"
+    android:orientation="vertical"
+    tools:context=".ui.impostazioni.profile.AutoLocationActivity"
+    android:background="@color/yellow">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Location with GPS"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="30sp"
-        android:textStyle="italic" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvHeader"
-        android:layout_marginTop="30dp"
         android:orientation="vertical"
-        android:padding="10dp"
-        tools:ignore="MissingConstraints">
-
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/card_background">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:gravity="center"
-                android:text="Latitude"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvLatitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:gravity="center"
-                android:hint="0.0"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="240dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/circle_background">
+                <ImageView
+                    android:id="@+id/image_edit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edit"
+                    android:layout_margin="10dp"/>
+            </LinearLayout>
 
         </LinearLayout>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/fetch_Location"
+            android:drawableEnd="@drawable/location"
+            android:padding="10dp"
+            android:textColor="@color/yellow"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAlignment="viewStart"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:gravity="center"
-                android:text="Longitude"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+       <LinearLayout
+           android:id="@+id/layout_maps"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="20dp"
+               android:layout_marginTop="20dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="10dp"
+               android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvLongitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:gravity="center"
-                android:hint="0.0"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+               <TextView
+                   android:id="@+id/city"
+                   android:layout_width="60dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0"
+                   android:text="@string/citt"
+                   android:padding="10dp"
+                   android:textAlignment="textStart"
+                   android:textColor="@color/yellow"
+                   android:textSize="14sp"
+                   android:textStyle="italic" />
 
-        </LinearLayout>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+               <EditText
+                   android:id="@+id/et_citta"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:background="@drawable/edit_text_custom"
+                   android:ems="10"
+                   android:inputType="textPersonName"
+                   android:text=""
+                   android:textAlignment="viewStart"
+                   android:padding="10dp"
+                   android:textColor="@color/colorSecondaryText"
+                   android:textIsSelectable="false"
+                   android:textSize="12sp"
+                   android:textStyle="italic" />
+           </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout"
-        android:layout_marginTop="28dp"
-        android:text="@string/location"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp" />
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="20dp"
+               android:layout_marginTop="5dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="10dp"
+               android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btFetchLocation"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:clickable="true"
-        android:text="@string/fetch_Location"
-        tools:ignore="MissingConstraints" />
+               <TextView
+                   android:id="@+id/cap"
+                   android:layout_width="60dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0"
+                   android:layout_marginStart="2dp"
+                   android:text="@string/cap"
+                   android:padding="10dp"
+                   android:textAlignment="textStart"
+                   android:textColor="@color/yellow"
+                   android:textSize="14sp"
+                   android:textStyle="italic" />
 
-</RelativeLayout>
+               <EditText
+                   android:id="@+id/et_cap"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:layout_marginStart="2dp"
+                   android:background="@drawable/edit_text_custom"
+                   android:ems="10"
+                   android:inputType="textPersonName"
+                   android:text=""
+                   android:padding="10dp"
+                   android:textAlignment="viewStart"
+                   android:textColor="@color/colorSecondaryText"
+                   android:textIsSelectable="false"
+                   android:textSize="12sp"
+                   android:textStyle="italic" />
+               <TextView
+                   android:id="@+id/provincia"
+                   android:layout_width="65dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="2dp"
+                   android:layout_weight="0"
+                   android:text="@string/provincia"
+                   android:padding="5dp"
+                   android:textAlignment="textStart"
+                   android:textColor="@color/yellow"
+                   android:textSize="12sp"
+                   android:textStyle="italic" />
+
+               <EditText
+                   android:id="@+id/et_provincia"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:layout_marginStart="2dp"
+                   android:background="@drawable/edit_text_custom"
+                   android:ems="10"
+                   android:inputType="textPersonName"
+                   android:text=""
+                   android:padding="10dp"
+                   android:textAlignment="viewEnd"
+                   android:textColor="@color/colorSecondaryText"
+                   android:textIsSelectable="false"
+                   android:textSize="12sp"
+                   android:textStyle="italic" />
+           </LinearLayout>
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="20dp"
+               android:layout_marginTop="5dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="5dp"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:id="@+id/via"
+                   android:layout_width="60dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0"
+                   android:text="@string/via"
+                   android:padding="10dp"
+                   android:textAlignment="textStart"
+                   android:textColor="@color/yellow"
+                   android:textSize="14sp"
+                   android:textStyle="italic" />
+
+               <EditText
+                   android:id="@+id/et_via"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:layout_marginStart="2dp"
+                   android:background="@drawable/edit_text_custom"
+                   android:ems="10"
+                   android:inputType="textPersonName"
+                   android:text=""
+                   android:textAlignment="viewStart"
+                   android:padding="10dp"
+                   android:textColor="@color/colorSecondaryText"
+                   android:textIsSelectable="false"
+                   android:textSize="12sp"
+                   android:textStyle="italic" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="20dp"
+               android:layout_marginTop="5dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="5dp"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:id="@+id/numero_civico"
+                   android:layout_width="65dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="0"
+                   android:text="@string/numero_civico"
+                   android:padding="10dp"
+                   android:textAlignment="textStart"
+                   android:textColor="@color/yellow"
+                   android:textSize="14sp"
+                   android:textStyle="italic" />
+
+               <EditText
+                   android:id="@+id/et_numero_civico"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:layout_marginStart="2dp"
+                   android:background="@drawable/edit_text_custom"
+                   android:ems="10"
+                   android:inputType="textPersonName"
+                   android:text=""
+                   android:padding="10dp"
+                   android:textAlignment="viewStart"
+                   android:textColor="@color/colorSecondaryText"
+                   android:textIsSelectable="false"
+                   android:textSize="12sp"
+                   android:textStyle="italic"/>
+           </LinearLayout>
+       </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/salva_residenza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp"
+            android:theme="@style/radioButton"
+            android:text="@string/salva_come_indirizzo_di_residenza"
+            android:textColor="@color/yellow"
+            android:textSize="12sp"
+            android:textAlignment="viewStart"
+            android:textStyle="normal"
+            />
+
+        <Button
+            android:id="@+id/btFetchLocation"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="55dp"
+            android:background="@drawable/button_yellow"
+            android:drawableEnd="@drawable/locationbtn"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/fetch_Location"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</LinearLayout>
