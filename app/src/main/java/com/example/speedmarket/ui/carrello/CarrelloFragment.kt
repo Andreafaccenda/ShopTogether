@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.databinding.FragmentCarrelloBinding
-import com.example.speedmarket.model.Carrello
-import com.example.speedmarket.model.Prodotto
-import com.example.speedmarket.model.Utente
+import com.example.speedmarket.model.*
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.checkOut.CheckOutFragment
 import com.example.speedmarket.ui.catalogo.ProdViewModel
@@ -137,6 +135,8 @@ class CarrelloFragment : Fragment() {
         this.carrello.date = currentDate
         update_price_cart(this.carrello)
         this.carrello.stato = Carrello.Stato.incompleto
+        this.carrello.indirizzoSpedizione= Indirizzo("","","","","")
+        this.carrello.pagamento= Pagamento("","")
     }
     fun controlloCoerenzaCarrello(){
         swipe_delete(this.carrello)

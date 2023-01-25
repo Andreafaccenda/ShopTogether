@@ -118,6 +118,7 @@
     <string name="gps">Impostazioni GPS</string>
     <string name="salva_come_indirizzo_di_residenza">Salva come indirizzo di residenza</string>
     <string name="chiudi">Chiudi</string>
+    <string name="informazioni_utente">Informazioni utente</string>
 
     <string-array name="marchi">
         <item>Conad</item>

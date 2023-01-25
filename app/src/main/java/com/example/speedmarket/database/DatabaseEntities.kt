@@ -2,6 +2,8 @@ package com.example.speedmarket.database
 
 import androidx.room.*
 import com.example.speedmarket.model.Carrello
+import com.example.speedmarket.model.Indirizzo
+import com.example.speedmarket.model.Pagamento
 import com.example.speedmarket.model.Prodotto
 
 
@@ -35,6 +37,16 @@ data class DatabaseCarrello(
     var stato:Carrello.Stato) {
     constructor(): this("",null,"","", Carrello.Stato.incompleto)
 }
+@Entity
+data class DatabaseIndirizzo(
+    @PrimaryKey
+    var citta : String,
+    var provincia : String,
+    var cap : String,
+    var via : String,
+    var numero_civico : String){
+    constructor(): this("","","","","")
+}
 
 fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {
     return map {
@@ -61,6 +73,7 @@ fun Prodotto.toDatabaseProdotto() = DatabaseProdotto(id=id, nome=nome, produttor
     descrizione=descrizione, data_scadenza=data_scadenza, offerta=offerta,
     disponibilita=disponibilita, unita_ordinate=disponibilita)
 
+
 fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
     return map {
         Carrello(
@@ -68,7 +81,9 @@ fun List<DatabaseCarrello>.asDomainModelCarrello(): List<Carrello> {
             lista_prodotti = it.lista_prodotti,
             prezzo = it.prezzo,
             date = it.date,
-            stato = it.stato
+            stato = it.stato,
+            indirizzoSpedizione = null,
+            pagamento = null,
         )
     }
 }
@@ -78,9 +93,10 @@ fun DatabaseCarrello.toCarrello() = Carrello(
     lista_prodotti=lista_prodotti,
     prezzo=prezzo,
     date = date,
-    stato = stato
+    stato = stato,
+    indirizzoSpedizione = null,
+    pagamento = null
 )
-
 fun Carrello.toDatabaseCarrello() = DatabaseCarrello(
     id=id,
     lista_prodotti=lista_prodotti,

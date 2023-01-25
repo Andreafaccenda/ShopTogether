@@ -84,6 +84,12 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         binding.btnCarrelloCompletato.setOnClickListener{
             if(check_edit_text()){
                 this.carrello.stato=Carrello.Stato.elaborazione
+                if(utente?.indirizzo_spedizione?.citta!!.isNotEmpty()){
+                    this.carrello.indirizzoSpedizione= utente!!.indirizzo_spedizione
+                }else{
+                    this.carrello.indirizzoSpedizione=utente!!.residenza
+                }
+                this.carrello.pagamento=utente!!.pagamento
                 viewModelCarrello.updateCarrello(this.carrello)
                 aggiornaQuantita()
                 viewModelCarrello.deleteCarrello(this.carrello)

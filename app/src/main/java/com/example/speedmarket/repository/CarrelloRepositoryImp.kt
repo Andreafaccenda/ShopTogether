@@ -29,11 +29,6 @@ class CarrelloRepositoryImp(
             utente?.id)
             .get()
                .addOnSuccessListener {
-                   /*val carrelli = arrayListOf<Carrello>()
-                   for (document in it) {
-                       val carrello = document.toObject(Carrello::class.java)
-                       carelli.add(carrello)
-                       carelli.size.toString()*/
                    var carrello = DatabaseCarrello()
                    for (document in it) {
                        carrello = document.toObject(DatabaseCarrello::class.java)

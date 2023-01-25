@@ -9,7 +9,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -268,6 +269,170 @@
 
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/cambia_stato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/payment_bg"
+                    android:drawableEnd="@drawable/edit_yellow"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textAlignment="viewStart"
+                    android:textColor="#717171"
+                    />
+                <LinearLayout
+                    android:id="@+id/layout_change_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/payment_bg"
+                    android:orientation="vertical">
+                    <RadioGroup
+                        android:id="@+id/radioGroupStato"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:id="@+id/ordine_consegnato"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="70dp"
+                            android:layout_marginEnd="70dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="5dp"
+                            android:text="CONSEGNATO"
+                            android:textSize="12sp"
+                            android:textColor="@color/yellow"
+                            android:background="@drawable/button_white"
+                            android:elevation="5dp"
+                            android:theme="@style/radioButton"/>
+                        <RadioButton
+                            android:id="@+id/ordine_spedizione"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="70dp"
+                            android:layout_marginEnd="70dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="5dp"
+                            android:text="SPEDIZIONE"
+                            android:textSize="12sp"
+                            android:textColor="@color/yellow"
+                            android:background="@drawable/button_white"
+                            android:elevation="5dp"
+                            android:theme="@style/radioButton"/>
+                        <RadioButton
+                            android:id="@+id/ordine_elaborazione"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="70dp"
+                            android:layout_marginEnd="70dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:padding="5dp"
+                            android:text="ELABORAZIONE"
+                            android:textSize="12sp"
+                            android:textColor="@color/yellow"
+                            android:background="@drawable/button_white"
+                            android:elevation="5dp"
+                            android:theme="@style/radioButton"/>
+                    </RadioGroup>
+
+                </LinearLayout>
+                <Button
+                    android:id="@+id/btn_information_utente"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@color/yellow"
+                    android:drawableEnd="@drawable/chiudi"
+                    android:drawableStart="@drawable/person"
+                    android:padding="5dp"
+                    android:clickable="true"
+                    android:textAlignment="viewStart"
+                    android:focusableInTouchMode="true"
+                    android:text="@string/informazioni_utente"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:textStyle="normal" />
+                <LinearLayout
+                    android:id="@+id/layout_info_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/payment_bg"
+                    android:elevation="4dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/id_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/edit_custom"
+                        android:text=""
+                        android:padding="5dp"
+                        android:textAlignment="textStart"
+                        android:textColor="#717171"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/nome_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/edit_custom"
+                        android:text=""
+                        android:padding="5dp"
+                        android:textAlignment="textStart"
+                        android:textColor="#717171"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/cognome_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/edit_custom"
+                        android:text=""
+                        android:padding="5dp"
+                        android:textAlignment="textStart"
+                        android:textColor="#717171"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/email_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/edit_custom"
+                        android:text=""
+                        android:padding="5dp"
+                        android:textAlignment="textStart"
+                        android:textColor="#717171"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
                 <Button
                     android:id="@+id/btn_information_carta"
                     android:layout_width="match_parent"
@@ -420,6 +585,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="30dp"
                     android:background="@color/yellow"
                     android:drawableEnd="@drawable/chiudi"
                     android:drawableStart="@drawable/locationbtn"
@@ -444,7 +610,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -492,9 +660,8 @@
                             android:id="@+id/txt_provincia"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="10dp"
                             android:layout_weight="1"
+                            android:layout_marginEnd="5dp"
                             android:padding="5dp"
                             android:background="@drawable/edit_text_custom"
                             android:elevation="4dp"
@@ -510,7 +677,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -549,7 +718,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -597,9 +768,8 @@
                             android:id="@+id/txt_numero_civico"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="10dp"
                             android:layout_weight="1"
+                            android:layout_marginEnd="5dp"
                             android:background="@drawable/edit_text_custom"
                             android:elevation="4dp"
                             android:padding="5dp"

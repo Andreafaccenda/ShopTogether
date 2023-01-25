@@ -91,14 +91,7 @@ fun Fragment.bottomSheetDialog(prodotto:Prodotto):BottomSheetDialog{
         ?.let { bindImage(it,prodotto.immagine) }
     bottomSheetDialog.findViewById<TextView>(R.id.descrizione_prodotto)?.text = "Descrizione:${prodotto.descrizione}"
     bottomSheetDialog.findViewById<TextView>(R.id.scadenza_prodotto)?.text = "Data di scadenza: ${prodotto.data_scadenza}"
-    bottomSheetDialog.findViewById<TextView>(R.id.prezzo)?.text = "€${
-        calcolaPrezzo(
-            prodotto.prezzo_unitario,
-            prodotto.quantita,
-            prodotto.offerta!!,
-            prodotto.unita_ordinate
-        )
-    }"
+    bottomSheetDialog.findViewById<TextView>(R.id.prezzo)?.text = "€${calcolaPrezzo(prodotto.prezzo_unitario, prodotto.quantita, prodotto.offerta!!, prodotto.unita_ordinate)}"
     bottomSheetDialog.findViewById<TextView>(R.id.categoria_prodotto)?.text="Categoria:${prodotto.categoria}"
     bottomSheetDialog.findViewById<TextView>(R.id.produttore_prodotto)?.text="Marchio:${prodotto.produttore}"
     bottomSheetDialog.findViewById<TextView>(R.id.txt_quantità_prodotto)?.text= prodotto.unita_ordinate.toString()
