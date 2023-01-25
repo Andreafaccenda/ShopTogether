@@ -117,6 +117,7 @@
     With location data, your app can predict a user’s potential actions</string>
     <string name="gps">Impostazioni GPS</string>
     <string name="salva_come_indirizzo_di_residenza">Salva come indirizzo di residenza</string>
+    <string name="chiudi">Chiudi</string>
 
     <string-array name="marchi">
         <item>Conad</item>

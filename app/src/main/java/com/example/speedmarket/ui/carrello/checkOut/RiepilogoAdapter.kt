@@ -1,5 +1,6 @@
 package com.example.speedmarket.ui.carrello.checkOut
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -7,6 +8,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.speedmarket.databinding.ViewHolderRiepilogoCarrelloBinding
+import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -16,6 +18,7 @@ class RiepilogoAdapter(): RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrell
 
 
     private var list: MutableList<Prodotto> = arrayListOf()
+    var onItemClick : ((Prodotto) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RiepilogoCarrelloViewHolder {
         val itemView = ViewHolderRiepilogoCarrelloBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -25,7 +28,9 @@ class RiepilogoAdapter(): RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrell
     override fun onBindViewHolder(holder: RiepilogoCarrelloViewHolder, position: Int) {
         val item = list[position]
         holder.bind(item)
-
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(item)
+        }
     }
 
      fun updateList(list: MutableList<Prodotto>){
@@ -40,6 +45,7 @@ class RiepilogoAdapter(): RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrell
         fun bind(item: Prodotto){
             bindImage(binding.imageProdotto,item.immagine)
             binding.txtNomeProdotto.text=item.nome
+            binding.txtNomeProdotto.paintFlags=Paint.UNDERLINE_TEXT_FLAG
             binding.txtQuantit.text=item.unita_ordinate.toString()
             binding.txtPrezzo.text="€${
                 item.offerta?.let {

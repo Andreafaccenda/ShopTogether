@@ -9,17 +9,24 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import coil.load
 import com.example.speedmarket.R
+import com.example.speedmarket.databinding.ActivityAppBinding.bind
+import com.example.speedmarket.databinding.ActivityAppBinding.inflate
+import com.example.speedmarket.databinding.BottomSheetDailogBinding
+import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.AppActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import kotlin.system.exitProcess
 
 
@@ -77,7 +84,47 @@ fun Fragment.setupOnBackPressedExit() {
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
+fun Fragment.bottomSheetDialog(prodotto:Prodotto):BottomSheetDialog{
+    val bottomSheetDialog = BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme)
+    bottomSheetDialog.setContentView(R.layout.bottom_sheet_dailog)
+    bottomSheetDialog.findViewById<ImageView>(R.id.image_prodotto)
+        ?.let { bindImage(it,prodotto.immagine) }
+    bottomSheetDialog.findViewById<TextView>(R.id.descrizione_prodotto)?.text = "Descrizione:${prodotto.descrizione}"
+    bottomSheetDialog.findViewById<TextView>(R.id.scadenza_prodotto)?.text = "Data di scadenza: ${prodotto.data_scadenza}"
+    bottomSheetDialog.findViewById<TextView>(R.id.prezzo)?.text = "€${
+        calcolaPrezzo(
+            prodotto.prezzo_unitario,
+            prodotto.quantita,
+            prodotto.offerta!!,
+            prodotto.unita_ordinate
+        )
+    }"
+    bottomSheetDialog.findViewById<TextView>(R.id.categoria_prodotto)?.text="Categoria:${prodotto.categoria}"
+    bottomSheetDialog.findViewById<TextView>(R.id.produttore_prodotto)?.text="Marchio:${prodotto.produttore}"
+    bottomSheetDialog.findViewById<TextView>(R.id.txt_quantità_prodotto)?.text= prodotto.unita_ordinate.toString()
+    return bottomSheetDialog
 
+}
+fun Fragment.bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+        imgView.load(imgUri)
+    }
+}
+fun Fragment.calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float,unita_ordinate:Int): String {
+    val dec = DecimalFormat("#.##")
+    return if(offerta < 1) {
+        dec.roundingMode = RoundingMode.DOWN
+        val prezzo = dec.format(prezzo_unitario * quantita * offerta*unita_ordinate)
+        prezzo
+
+    }else{
+        dec.roundingMode = RoundingMode.DOWN
+        val prezzo = dec.format(prezzo_unitario * quantita*unita_ordinate)
+        prezzo
+    }
+
+}
 fun Fragment.dialog(fragment: Fragment,str1:String,str2:String,str3:String) {
 
     val dialog = createDialog()

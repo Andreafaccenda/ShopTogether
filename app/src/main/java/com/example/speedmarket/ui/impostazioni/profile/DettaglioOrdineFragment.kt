@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -22,10 +23,7 @@ import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.carrello.checkOut.RiepilogoAdapter
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.replaceFragment
-import com.example.speedmarket.util.setupOnBackPressedFragment
-import com.example.speedmarket.util.toast
+import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -54,6 +52,13 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
         args = this.arguments!!
         binding.turnBack.setOnClickListener{
             replaceFragment(OrdiniFragment())
+        }
+        adapter.onItemClick={
+            var bottomSheetDialog = bottomSheetDialog(it)
+            bottomSheetDialog.show()
+            bottomSheetDialog.findViewById<Button>(R.id.btnChiudi)?.setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
         }
         recyclerView = binding.recyclerViewRiepilogoCarrello
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())

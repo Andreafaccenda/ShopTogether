@@ -71,6 +71,10 @@ class Filtri : Fragment() {
             if(binding.layoutScanner.isShown){
                 binding.layoutScanner.hide()
                 binding.layoutScannerBarcode.show()
+                binding.btnScanner.setOnClickListener{
+                    selectedScanningSDK = BarcodeScanning.ScannerSDK.ZXING
+                    startScanning()
+                }
             }
         }
         hide_layout(binding.layoutPrice)

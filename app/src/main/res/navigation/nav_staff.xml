@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_staff"
+    app:startDestination="@id/staffHomeFragment">
+    <fragment
+        android:id="@+id/staffHomeFragment"
+        android:name="com.example.speedmarket.ui.dipendente.StaffHomeFragment"
+        android:label="StaffHomeFragment" >
+        <action
+            android:id="@+id/action_staffHomeFragment_to_ordineDetailsFragment"
+            app:destination="@id/ordineDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordineDetailsFragment"
+        android:name="com.example.speedmarket.ui.dipendente.OrdineDetailsFragment"
+        android:label="fragment_ordine_details"
+        tools:layout="@layout/fragment_ordine_details" >
+        <argument
+            android:name="carrello"
+            app:argType="com.example.speedmarket.model.Carrello" />
+        <action
+            android:id="@+id/action_ordineDetailsFragment_to_staffHomeFragment"
+            app:destination="@id/staffHomeFragment" />
+    </fragment>
+</navigation>

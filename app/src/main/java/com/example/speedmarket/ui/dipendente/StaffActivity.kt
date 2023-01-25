@@ -1,9 +1,12 @@
 package com.example.speedmarket.ui.dipendente
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,45 +28,23 @@ import dagger.hilt.android.AndroidEntryPoint
 class StaffActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityStaffBinding
-    private lateinit var recyclerView : RecyclerView
-    private val viewModelAuth: AuthViewModel by viewModels()
-    private val adapter by lazy { OrdiniAdapter() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStaffBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModelAuth.getListUser()
-        observer()
-        recyclerView = binding.recyclerViewOrdini
-        recyclerView.layoutManager =  LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter=adapter
-        binding.btnLogOut.setOnClickListener{
-            viewModelAuth.logout {
-                startActivity(Intent(this, MainActivity::class.java))}
-            }
-    }
-    private fun observer() {
-        viewModelAuth.utenti.observe(this) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                }
-                is UiState.Failure -> {
-                }
-                is UiState.Success -> {
-                    var lista = arrayListOf<Carrello>()
-                   for(user in state.data.toMutableList()){
-                       if(user?.lista_carrelli!!.isNotEmpty()){
-                           for(carrello in user?.lista_carrelli!!){
-                               lista.add(carrello)
-                           }
-                       }
-                   }
-                    adapter.updateList(lista)
-                }
-            }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            @Suppress("DEPRECATION")
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
         }
+
     }
+
 }

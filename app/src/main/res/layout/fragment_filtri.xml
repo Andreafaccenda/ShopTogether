@@ -658,13 +658,15 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="@drawable/edit_text_custom">
 
                     <TextView
                         android:id="@+id/title_scan"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="50dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/button_white"
                         android:padding="5dp"
@@ -676,7 +678,7 @@
                         android:id="@+id/btn_scan"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginBottom="5dp"
@@ -694,7 +696,8 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="@drawable/edit_text_custom">
 
                     <EditText
                         android:id="@+id/qrcode"
@@ -703,11 +706,13 @@
                         android:layout_weight="1"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="15dp"
+                        android:layout_marginBottom="10dp"
                         android:padding="5dp"
                         android:background="@drawable/edit_custom"
                         android:ems="10"
                         android:inputType="textPersonName"
                         android:hint="@string/inserisci_il_codice_scannerizzato"
+                        android:textColorHint="@color/yellow"
                         android:textAlignment="viewStart"
                         android:textColor="@color/colorSecondaryText"
                         android:textIsSelectable="false"
@@ -720,7 +725,7 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginStart="5dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="15dp"
                         android:drawableStart="@drawable/scan"
                         android:padding="12dp"
                         android:background="@drawable/button_white"
