@@ -189,7 +189,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
             update_layoutMaps()
         }catch(e:Exception){
             AddressList.clear()
-            AddressList.add("-1")
+            AddressList.add("0")
         }
     }
 
@@ -259,12 +259,25 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         binding.etProvincia.isEnabled=abilita
         binding.etVia.isEnabled=abilita
     }
-    private fun update_layoutMaps(){
 
-        binding.etCitta.setText(this.AddressList[2])
-        binding.etCap.setText(this.AddressList[3])
-        binding.etProvincia.setText(AddressList[1])
-        binding.etVia.setText(AddressList[0])
+    private fun getAttributo(indice: Int): String{
+        try{
+            if(this.AddressList[indice].equals("0")) return ""
+            return this.AddressList[indice]
+        }catch(e:Exception){
+            return ""
+        }
+    }
+
+    private fun update_layoutMaps(){
+        val via_e_civico = getAttributo(0).split(" ")
+        var via = ""
+        for(elem in via_e_civico) if(!elem.equals(via_e_civico.last(),true)) via+="$elem "
+        binding.etCitta.setText(getAttributo(2))
+        binding.etCap.setText(getAttributo(3))
+        binding.etProvincia.setText(getAttributo(1))
+        binding.etVia.setText(via)
+        binding.etNumeroCivico.setText(via_e_civico.last())
 
     }
 
