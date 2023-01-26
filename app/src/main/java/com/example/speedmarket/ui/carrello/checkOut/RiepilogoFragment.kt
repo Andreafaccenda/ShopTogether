@@ -50,7 +50,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(CarrelloFragment())
+        setupOnBackPressedFragment(CarrelloFragment(),RiepilogoFragment())
         observer()
         binding.layoutCarta.hide()
         binding.layoutSpedizione.hide()

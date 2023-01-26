@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_staffHomeFragment_to_ordineDetailsFragment"
             app:destination="@id/ordineDetailsFragment" />
+        <action
+            android:id="@+id/action_staffHomeFragment_to_aggiungiProdotto"
+            app:destination="@id/aggiungiProdotto" />
     </fragment>
     <fragment
         android:id="@+id/ordineDetailsFragment"
@@ -22,6 +25,15 @@
             app:argType="com.example.speedmarket.model.Carrello" />
         <action
             android:id="@+id/action_ordineDetailsFragment_to_staffHomeFragment"
+            app:destination="@id/staffHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aggiungiProdotto"
+        android:name="com.example.speedmarket.AggiungiProdotto"
+        android:label="fragment_aggiungi_prodotto"
+        tools:layout="@layout/fragment_aggiungi_prodotto" >
+        <action
+            android:id="@+id/action_aggiungiProdotto_to_staffHomeFragment"
             app:destination="@id/staffHomeFragment" />
     </fragment>
 </navigation>

@@ -9,11 +9,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackgroundOrange">
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/arrow_back_orange"
+            android:src="@drawable/arrow_back_white"
             android:padding="14dp"/>
 
         <TextView
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Impostazioni"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -39,7 +40,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginStart="110dp"
                 app:cardCornerRadius="100dp">
                 <ImageView
@@ -77,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginEnd="20dp"
                 android:orientation="vertical"
                 android:background="@drawable/button_orange"
@@ -87,7 +88,10 @@
                     android:id="@+id/assistenza_clienti_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/button_white">
 
                     <ImageView
@@ -123,7 +127,10 @@
                     android:id="@+id/account_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:background="@drawable/button_white">
 
                     <ImageView
@@ -154,64 +161,18 @@
                         android:layout_centerVertical="true"
                         android:src="@drawable/arrow_avanti_frigorifero" />
                 </RelativeLayout>
-                <!--Notifiche -->
                 <RelativeLayout
+                    android:id="@+id/privacy_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:background="@drawable/button_white">
 
                     <ImageView
-                        android:id="@+id/notifiche"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:background="@drawable/round_frigorifero"
-                        android:padding="12dp"
-                        android:src="@drawable/notifiche" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@+id/notifiche"
-                        android:text="Notifiche"
-                        android:textColor="@color/colorBackgroundOrange"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="4dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/button_orange"
-                        android:theme="@style/notificationSwitch"
-                        app:switchMinWidth="50dp" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:orientation="vertical"
-                android:padding="15dp"
-                android:background="@drawable/button_orange">
-                <!--Sicurezza -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/button_white">
-
-                    <ImageView
-                        android:id="@+id/sicurezza"
+                        android:id="@+id/privacy"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="8dp"
@@ -226,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@+id/sicurezza"
+                        android:layout_toEndOf="@+id/privacy"
                         android:text="Privacy"
                         android:textColor="@color/colorBackgroundOrange"
                         android:textStyle="bold" />
@@ -237,45 +198,11 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/arrow_avanti_frigorifero" />
-
                 </RelativeLayout>
-                <!--Frigorifero -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/button_white">
 
-                    <ImageView
-                        android:id="@+id/frigorifero"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:background="@drawable/round_frigorifero"
-                        android:padding="12dp"
-                        android:src="@drawable/kitchen" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@+id/frigorifero"
-                        android:text="Frigorifero"
-                        android:textColor="@color/colorBackgroundOrange"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/arrow_avanti_frigorifero" />
-
-                </RelativeLayout>
             </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
 

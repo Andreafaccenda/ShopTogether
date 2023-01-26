@@ -34,7 +34,6 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
     lateinit var binding :FragmentOrdineDetailsBinding
     private val args : OrdineDetailsFragmentArgs by navArgs()
     private val viewModelAuth: AuthViewModel by viewModels()
-    private val viewModel: CarrelloViewModel by viewModels()
     private lateinit  var carrello : Carrello
     private lateinit var recyclerView: RecyclerView
     private val adapter by lazy { RiepilogoAdapter() }
@@ -51,7 +50,7 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment()
+        this.setupOnBackPressedFragment()
         carrello=args.carrello
         binding.turnBack.setOnClickListener{
             view.findNavController().navigate(R.id.action_ordineDetailsFragment_to_staffHomeFragment)

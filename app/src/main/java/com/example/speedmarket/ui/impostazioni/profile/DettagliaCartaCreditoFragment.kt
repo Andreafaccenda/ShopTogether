@@ -35,7 +35,7 @@ class DettagliaCartaCreditoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(Profile())
+        setupOnBackPressedFragment(Profile(),DettagliaCartaCreditoFragment())
         getUtente()
         oberver()
         utente_pagamento()

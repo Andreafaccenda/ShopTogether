@@ -32,7 +32,7 @@ class CheckOutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(CarrelloFragment())
+        setupOnBackPressedFragment(CarrelloFragment(),CheckOutFragment())
         val adapter=FragmentPageAdapter(requireActivity().supportFragmentManager,lifecycle)
         binding.viewPager2.adapter=adapter
         binding.viewPager2.registerOnPageChangeCallback(object : OnPageChangeCallback() {

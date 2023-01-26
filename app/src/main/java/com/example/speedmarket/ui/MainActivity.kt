@@ -1,5 +1,8 @@
 package com.example.speedmarket.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,15 +11,19 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityMainBinding
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.auth.LoginActivity
+import com.example.speedmarket.util.Notification.CHANNEL_ID
+import com.example.speedmarket.util.Notification.SPEEDMARKET
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
 
     lateinit var binding: ActivityMainBinding
     val viewModel: AuthViewModel by viewModels()
@@ -41,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        System.exit(-1)
+       finish()
     }
 }
 

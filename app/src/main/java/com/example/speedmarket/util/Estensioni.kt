@@ -17,6 +17,7 @@ import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityAppBinding.bind
@@ -65,15 +66,16 @@ fun Fragment.createDialog(): Dialog {
         dialog.setCancelable(true)
         return dialog
     }
-
-fun Fragment.setupOnBackPressedExit() {
+fun Fragment.setupOnBackPressedExit(fragmentToremove : Fragment) {
     val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val dialog = createDialog()
             dialog.show()
             val button = dialog.findViewById<Button>(R.id.btn_esci)
             button.setOnClickListener {
-                exitProcess(-1)
+                requireActivity().finish()
+                removeFragment(fragmentToremove)
+                exitProcess(0)
             }
             val imageButton = dialog.findViewById<ImageButton>(R.id.image_close)
             imageButton.setOnClickListener {
@@ -83,6 +85,19 @@ fun Fragment.setupOnBackPressedExit() {
 
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
+}
+fun Activity.dialog(): Dialog {
+    val dialog = Dialog(this, android.R.style.Theme_Dialog)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.setContentView(R.layout.dialog)
+    dialog.window?.setGravity(Gravity.CENTER)
+    dialog.window?.setLayout(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.WRAP_CONTENT
+    )
+    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.setCancelable(true)
+    return dialog
 }
 fun Fragment.bottomSheetDialog(prodotto:Prodotto):BottomSheetDialog{
     val bottomSheetDialog = BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme)
@@ -118,6 +133,11 @@ fun Fragment.calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float,
     }
 
 }
+fun Fragment.removeFragment(fragment: Fragment){
+    val transaction = fragmentManager?.beginTransaction()
+    transaction?.remove(fragment)
+    transaction?.commitAllowingStateLoss()
+}
 fun Fragment.dialog(fragment: Fragment,str1:String,str2:String,str3:String) {
 
     val dialog = createDialog()
@@ -145,12 +165,12 @@ fun Fragment.setupOnBackPressed(){
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
-fun Fragment.setupOnBackPressedFragment(fragment:Fragment){
+fun Fragment.setupOnBackPressedFragment(fragment:Fragment,fragmentToremove: Fragment){
     val callback=object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
             replaceFragment(fragment)
+            removeFragment(fragmentToremove)
         }
-
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }

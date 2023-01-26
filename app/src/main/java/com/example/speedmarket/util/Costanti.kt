@@ -23,6 +23,10 @@ object Constants {
     const val RECEIVE_ID= "RECEIVE_ID"
     const val CLICK_ID= "CLICK_ID"
 }
+object Notification {
+    val CHANNEL_ID="NOTIFICHE"
+    val SPEEDMARKET="SPEED MARKET"
+}
 object IMAGE {
     const val IMAGE_PICK_CODE = 100
     private val PERMISSION_CODE = 101

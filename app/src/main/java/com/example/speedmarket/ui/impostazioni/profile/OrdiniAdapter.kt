@@ -52,7 +52,7 @@ class OrdiniAdapter() : RecyclerView.Adapter<OrdiniAdapter.OrdiniViewHolder>() {
             binding.txtStatoOrdine.text="Stato: ${item.stato}"
             when(item.stato){
                 Carrello.Stato.elaborazione->binding.txtStatoOrdine.setTextColor(Color.RED)
-                Carrello.Stato.spedizione->binding.txtStatoOrdine.setTextColor(Color.YELLOW)
+                Carrello.Stato.spedizione->binding.txtStatoOrdine.setTextColor(Color.parseColor("#FF9800"))
                 Carrello.Stato.consegnato->binding.txtStatoOrdine.setTextColor(Color.GREEN)
             }
             binding.txtData.text="Data:${item.date}"

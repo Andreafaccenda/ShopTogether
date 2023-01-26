@@ -56,7 +56,7 @@ class Filtri : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(CatalogoFragment())
+        setupOnBackPressedFragment(CatalogoFragment(),Filtri())
         binding.layoutScannerBarcode.hide()
         marchi = arrayListOf()
         marchi= requireContext().resources.getStringArray(R.array.marchi).toMutableList() as ArrayList<String>

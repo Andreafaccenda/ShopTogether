@@ -1,10 +1,16 @@
 package com.example.speedmarket.ui.impostazioni
 
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.UiState
 import com.example.speedmarket.util.toast
@@ -75,5 +81,6 @@ class Impostazioni : Fragment(), ProfileManager {
         }
 
     }
+
 
 }

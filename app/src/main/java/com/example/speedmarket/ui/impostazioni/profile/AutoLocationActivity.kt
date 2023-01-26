@@ -52,6 +52,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     private var REQUEST_LOCATION_CODE = 101
     private val viewModelAuth: AuthViewModel by viewModels()
     override var utente: Utente? = null
+    lateinit var residenza : Indirizzo
     var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
     lateinit var locationRequest: LocationRequest
     private val key: String = "AjgIV-JLQzwYoMye7R1YrnbSFkY3dp7SFyUNyOZ7cQnliNDeqU45MW2jFdP9aKcJ"
@@ -71,7 +72,6 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         }
         binding.salvaResidenza.setOnClickListener{
            if(AddressList.isNotEmpty()) {
-               var residenza = Indirizzo(AddressList[2],AddressList[1],AddressList[3],AddressList[0],"")
                utente!!.residenza=residenza
                viewModelAuth.updateUserInfo(utente!!)
                observer_update()
@@ -278,10 +278,13 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         binding.etProvincia.setText(getAttributo(1))
         binding.etVia.setText(via)
         binding.etNumeroCivico.setText(via_e_civico.last())
+        residenza= Indirizzo(getAttributo(2),getAttributo(1),getAttributo(3),via,via_e_civico.last())
 
     }
 
-
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
     override fun updateUI() {}
 }

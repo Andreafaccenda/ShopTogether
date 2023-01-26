@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -20,8 +23,11 @@ import com.example.speedmarket.ui.MainActivity
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.profile.OrdiniAdapter
 import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.createDialog
+import com.example.speedmarket.util.removeFragment
 import com.example.speedmarket.util.setupOnBackPressedExit
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class StaffHomeFragment : Fragment() {
@@ -42,7 +48,6 @@ class StaffHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedExit()
         viewModelAuth.getListUser()
         observer()
         recyclerView = binding.recyclerViewOrdini
@@ -51,7 +56,14 @@ class StaffHomeFragment : Fragment() {
         recyclerView.adapter=adapter
         binding.btnLogOut.setOnClickListener{
             viewModelAuth.logout {
-                startActivity(Intent(requireContext(), MainActivity::class.java))}
+                startActivity(Intent(requireContext(), MainActivity::class.java))
+                requireActivity().finish()
+                it.findNavController().popBackStack(R.id.staffHomeFragment,false)
+                it.findNavController().popBackStack(R.id.ordineDetailsFragment,false)
+            }
+        }
+        binding.btnAddproduct.setOnClickListener{
+            it.findNavController().navigate(R.id.action_staffHomeFragment_to_aggiungiProdotto)
         }
         adapter.onItemClick= {
             val directions = StaffHomeFragmentDirections.actionStaffHomeFragmentToOrdineDetailsFragment(it)

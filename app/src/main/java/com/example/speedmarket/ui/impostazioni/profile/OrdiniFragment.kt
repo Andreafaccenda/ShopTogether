@@ -44,7 +44,7 @@ class OrdiniFragment : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(Profile())
+        setupOnBackPressedFragment(Profile(),OrdiniFragment())
         binding.turnBack.setOnClickListener{
             replaceFragment(Profile())
         }

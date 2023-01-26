@@ -36,7 +36,6 @@ class AccediFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedExit()
         getDatiSalvati()
         observer()
         binding.btnAccedi.setOnClickListener {

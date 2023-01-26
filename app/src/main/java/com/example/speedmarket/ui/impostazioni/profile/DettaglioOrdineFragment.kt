@@ -48,7 +48,7 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(OrdiniFragment())
+        setupOnBackPressedFragment(OrdiniFragment(),DettaglioOrdineFragment())
         args = this.arguments!!
         binding.turnBack.setOnClickListener{
             replaceFragment(OrdiniFragment())

@@ -1,28 +1,22 @@
 package com.example.speedmarket.ui.dipendente
 
-import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.widget.Button
+import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.findNavController
 import com.example.speedmarket.R
-import com.example.speedmarket.databinding.ActivityAppBinding
 import com.example.speedmarket.databinding.ActivityStaffBinding
-import com.example.speedmarket.databinding.FragmentOrdiniBinding
-import com.example.speedmarket.model.Carrello
-import com.example.speedmarket.model.Utente
-import com.example.speedmarket.ui.MainActivity
-import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.ui.impostazioni.profile.OrdiniAdapter
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.toast
+import com.example.speedmarket.util.createDialog
+import com.example.speedmarket.util.dialog
+import com.example.speedmarket.util.removeFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class StaffActivity : AppCompatActivity() {
@@ -44,7 +38,22 @@ class StaffActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val dialog = dialog()
+        dialog.show()
+        val button = dialog.findViewById<Button>(R.id.btn_esci)
+        button.setOnClickListener {
+            it.findNavController().popBackStack(R.id.staffHomeFragment,false)
+            it.findNavController().popBackStack(R.id.ordineDetailsFragment,false)
+            finish()
+            exitProcess(0)
+        }
+        val imageButton = dialog.findViewById<ImageButton>(R.id.image_close)
+        imageButton.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
 }
