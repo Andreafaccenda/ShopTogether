@@ -2,40 +2,27 @@ package com.example.speedmarket.ui.impostazioni.profile
 
 import android.Manifest
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.os.StrictMode
 import android.provider.Settings
-import android.provider.Telephony.Mms.Addr
-import android.util.Log
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import com.example.speedmarket.R
-import com.example.speedmarket.databinding.ActivityAppBinding
 import com.example.speedmarket.databinding.ActivityAutoLocationBinding
 import com.example.speedmarket.model.Indirizzo
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.toast
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
 import org.xmlpull.v1.XmlPullParser
@@ -43,6 +30,7 @@ import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
 import java.net.URL
 import java.util.*
+
 @AndroidEntryPoint
 class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
@@ -54,7 +42,6 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     override var utente: Utente? = null
     lateinit var residenza : Indirizzo
     var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-    lateinit var locationRequest: LocationRequest
     private val key: String = "AjgIV-JLQzwYoMye7R1YrnbSFkY3dp7SFyUNyOZ7cQnliNDeqU45MW2jFdP9aKcJ"
     var AddressList : MutableList<String> = mutableListOf()
     val PERMISSION_ID = 1010
@@ -67,18 +54,12 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         getUserSession()
         observer()
         update_UI(false)
+        binding.salvaResidenza.isChecked = true
+        binding.salvaResidenza.isEnabled = false
         binding.imageEdit.setOnClickListener {
             update_UI(true)
         }
-        //binding.salvaResidenza.setOnClickListener{
-           //if(AddressList.isNotEmpty()) {
-               //utente!!.residenza=residenza
-               //viewModelAuth.updateUserInfo(utente!!)
-               //observer_update()
-               //finish()
-           //}
 
-        //}
         binding.btFetchLocation.setOnClickListener {
             RequestPermission()
             getLastLocation()
@@ -93,7 +74,6 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
                 }
                 is UiState.Success -> {
                     Toast.makeText(this,state.data,Toast.LENGTH_SHORT).show()
-                    Log.d("Risultato","2")
                 }
             }
         }
@@ -108,7 +88,6 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
                 is UiState.Success -> {
                     utente = state.data!!
                     updateUI()
-                    Log.d("Risultato","3")
                 }
             }
         }
