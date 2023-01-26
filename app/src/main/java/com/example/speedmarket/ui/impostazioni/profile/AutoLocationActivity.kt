@@ -70,15 +70,15 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         binding.imageEdit.setOnClickListener {
             update_UI(true)
         }
-        binding.salvaResidenza.setOnClickListener{
-           if(AddressList.isNotEmpty()) {
-               utente!!.residenza=residenza
-               viewModelAuth.updateUserInfo(utente!!)
-               observer_update()
-               finish()
-           }
+        //binding.salvaResidenza.setOnClickListener{
+           //if(AddressList.isNotEmpty()) {
+               //utente!!.residenza=residenza
+               //viewModelAuth.updateUserInfo(utente!!)
+               //observer_update()
+               //finish()
+           //}
 
-        }
+        //}
         binding.btFetchLocation.setOnClickListener {
             RequestPermission()
             getLastLocation()
@@ -92,7 +92,8 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
                 is UiState.Failure -> {
                 }
                 is UiState.Success -> {
-                    Toast.makeText(this,state.data.toString(),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,state.data,Toast.LENGTH_SHORT).show()
+                    Log.d("Risultato","2")
                 }
             }
         }
@@ -107,6 +108,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
                 is UiState.Success -> {
                     utente = state.data!!
                     updateUI()
+                    Log.d("Risultato","3")
                 }
             }
         }
@@ -122,7 +124,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         if(CheckPermission()){
             if(isLocationEnabled()){
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
-                    var location: Location? = task.result
+                    val location: Location? = task.result
                     if(location == null){
                         NewLocationData()
                     }else{
@@ -139,13 +141,13 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
 
     fun NewLocationData(){
-        var locationRequest =  LocationRequest()
+        val locationRequest =  LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 0
         locationRequest.fastestInterval = 0
         locationRequest.numUpdates = 1
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationProviderClient!!.requestLocationUpdates(
+        fusedLocationProviderClient.requestLocationUpdates(
             locationRequest,locationCallback, Looper.myLooper()
         )
     }
@@ -220,7 +222,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     fun isLocationEnabled():Boolean{
         //this function will return to us the state of the location service
         //if the gps or the network provider is enabled then it will return true otherwise it will return false
-        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
@@ -278,13 +280,31 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         binding.etProvincia.setText(getAttributo(1))
         binding.etVia.setText(via)
         binding.etNumeroCivico.setText(via_e_civico.last())
-        residenza= Indirizzo(getAttributo(2),getAttributo(1),getAttributo(3),via,via_e_civico.last())
-
     }
 
+    private fun controllaContenutoCaselle(): Boolean{
+        if(binding.etCitta.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etCap.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etProvincia.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etVia.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etNumeroCivico.text.filter { !it.isWhitespace() }.equals("")) return false
+        residenza= Indirizzo(binding.etCitta.text.toString(),
+            binding.etProvincia.text.toString(),
+            binding.etCap.text.toString(),
+            binding.etVia.text.toString(),
+            binding.etNumeroCivico.text.toString())
+        return true
+    }
+
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
+        if (controllaContenutoCaselle() && binding.salvaResidenza.isChecked) {
+            utente!!.residenza = residenza
+            viewModelAuth.updateUserInfo(utente!!)
+            observer_update()
+            finish()
+        }
     }
     override fun updateUI() {}
 }
