@@ -51,15 +51,14 @@ class ProdRepositoryImp(
         return products
     }
 
-    override fun addProduct(prodotto: Prodotto, result: (UiState<Pair<Prodotto, String>>) -> Unit) {
-        val document = database.collection(FireStoreCollection.PRODOTTI).document()
-        prodotto.id = document.id
+    override fun addProduct(prodotto: Prodotto, result: (UiState<String>) -> Unit) {
+        val document = database.collection(FireStoreCollection.PRODOTTI).document(prodotto.id)
         document
             .set(prodotto)
             .addOnSuccessListener {
                 productDao.insertProdotti(prodotto.toDatabaseProdotto())
                 result.invoke(
-                    UiState.Success(Pair(prodotto, "Prodotto registrato con successo!")))
+                    UiState.Success( "Prodotto registrato con successo!"))
             }
             .addOnFailureListener {
                 result.invoke(UiState.Failure(it.localizedMessage))

@@ -24,6 +24,10 @@ class ProdViewModel @Inject constructor(
     val updateProduct: LiveData<UiState<String>>
         get() = _updateProdotto
 
+    private val _addProduct = MutableLiveData<UiState<String>>()
+    val addProduct: LiveData<UiState<String>>
+        get() = _addProduct
+
 
     fun getProducts() {
         _prodotto.value = UiState.Loading
@@ -32,6 +36,10 @@ class ProdViewModel @Inject constructor(
     fun updateProduct(prodotto: Prodotto){
         _updateProdotto.value = UiState.Loading
         repository.updateProduct(prodotto) { _updateProdotto.value = it }
+    }
+    fun addProduct(prodotto: Prodotto){
+        _addProduct.value = UiState.Loading
+        repository.addProduct(prodotto) { _addProduct.value = it }
     }
 
 

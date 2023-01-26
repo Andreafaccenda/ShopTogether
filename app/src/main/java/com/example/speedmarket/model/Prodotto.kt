@@ -4,16 +4,16 @@ import java.io.Serializable
 
 data class Prodotto(
     var id: String,
-    val nome: String,
-    val produttore: String,
-    val categoria: String,
-    val sub_categoria:String,
-    val immagine: String,
-    val prezzo_unitario: Float,
-    val quantita: Float,
-    val descrizione: String,
-    val data_scadenza: String,
-    val offerta: Float?,
+    var nome: String,
+    var produttore: String,
+    var categoria: String,
+    var sub_categoria:String,
+    var immagine: String,
+    var prezzo_unitario: Float,
+    var quantita: Float,
+    var descrizione: String,
+    var data_scadenza: String,
+    var offerta: Float?,
     var disponibilita : Int,
     var unita_ordinate : Int
 ) : Serializable

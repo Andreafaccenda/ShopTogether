@@ -203,13 +203,15 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
             binding.txtPrezzo.setText(item.prezzo_unitario.toString()+"€/Kg")
             if(item.offerta!! < 1){
                 binding.txtPrezzoUnitario.setText("Offerta:")
-                binding.txtPrezzoOfferta.setText((calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta)+"€"))
+                binding.txtPrezzoOfferta.setText((calcolaPrezzo(item.prezzo_unitario,item.quantita,
+                    item.offerta!!)+"€"))
                 binding.txtPrezzoOffertaSenzaSconto.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,
                     1.0F
                 )+"€")
             }else {
                 binding.txtPrezzoUnitario.hide()
-                binding.txtPrezzoOfferta.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,item.offerta)+"€")
+                binding.txtPrezzoOfferta.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,
+                    item.offerta!!)+"€")
                 binding.txtPrezzoOffertaSenzaSconto.hide()
                 binding.sbarraOfferta.hide()
             }

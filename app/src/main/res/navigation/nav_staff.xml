@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/aggiungiProdotto"
-        android:name="com.example.speedmarket.AggiungiProdotto"
+        android:name="com.example.speedmarket.ui.dipendente.AggiungiProdotto"
         android:label="fragment_aggiungi_prodotto"
         tools:layout="@layout/fragment_aggiungi_prodotto" >
         <action
