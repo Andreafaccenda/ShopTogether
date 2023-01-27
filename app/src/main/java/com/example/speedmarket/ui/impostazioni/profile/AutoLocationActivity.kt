@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.os.StrictMode
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -262,11 +263,11 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     }
 
     private fun controllaContenutoCaselle(): Boolean{
-        if(binding.etCitta.text.filter { !it.isWhitespace() }.equals("") ||
-           binding.etCap.text.filter { !it.isWhitespace() }.equals("") ||
-           binding.etProvincia.text.filter { !it.isWhitespace() }.equals("") ||
-           binding.etVia.text.filter { !it.isWhitespace() }.equals("") ||
-           binding.etNumeroCivico.text.filter { !it.isWhitespace() }.equals("")) return false
+        if(binding.etCitta.text.isNullOrBlank() ||
+           binding.etCap.text.isNullOrBlank() ||
+           binding.etProvincia.text.isNullOrBlank() ||
+           binding.etVia.text.isNullOrBlank() ||
+           binding.etNumeroCivico.text.isNullOrBlank()) return false
         residenza= Indirizzo(binding.etCitta.text.toString(),
             binding.etProvincia.text.toString(),
             binding.etCap.text.toString(),
@@ -278,6 +279,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
+        Log.d("Risultato", controllaContenutoCaselle().toString())
         if (controllaContenutoCaselle() && binding.salvaResidenza.isChecked) {
             utente!!.residenza = residenza
             viewModelAuth.updateUserInfo(utente!!)
