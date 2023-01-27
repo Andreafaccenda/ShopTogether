@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCarrelloBinding
 import com.example.speedmarket.model.*
 import com.example.speedmarket.ui.auth.AuthViewModel
@@ -17,6 +18,7 @@ import com.example.speedmarket.ui.catalogo.ProdViewModel
 import com.example.speedmarket.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_app.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -51,7 +53,7 @@ class CarrelloFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(!isOnline(requireContext())) dialogInternet()
-        setupOnBackPressed()
+        setupOnBackPressed(R.id.home)
         binding.txtSpedizione.setOnClickListener{
             toast("La Spedizione ha un prezzo di €5 per ordini inferiori ai €50")
         }
@@ -181,7 +183,8 @@ class CarrelloFragment : Fragment() {
     fun controlloCoerenzaCarrello(){
         swipeDelete(this.carrello)
         updatePriceCart(this.carrello)
-        this.carrello.lista_prodotti?.let { adapter.updateList(it) }
+        this.carrello.lista_prodotti?.let { adapter.updateList(it)
+        requireActivity().bottomNavigationView.getOrCreateBadge(R.id.carrello).number=this.carrello.lista_prodotti!!.size}
     }
     fun controlloRidondanzaCarrello(prodotto: Prodotto):Boolean {
         for (elem in this.carrello.lista_prodotti!!)
@@ -204,6 +207,7 @@ class CarrelloFragment : Fragment() {
                 updatePriceCart(carrello)
                 viewModelCarrello.updateCarrello(carrello)
                 carrello.lista_prodotti?.let { adapter.updateList(it) }
+                requireActivity().bottomNavigationView.getOrCreateBadge(R.id.carrello).number=carrello.lista_prodotti!!.size
                 //adapter.notifyItemRemoved(position)
                 updatePriceCart(carrello)
                 if(adapter.itemCount<= 0){
@@ -218,6 +222,7 @@ class CarrelloFragment : Fragment() {
                         updatePriceCart(carrello)
                         viewModelCarrello.updateCarrello(carrello)
                         carrello.lista_prodotti?.let { adapter.updateList(it) }
+                        requireActivity().bottomNavigationView.getOrCreateBadge(R.id.carrello).number=carrello.lista_prodotti!!.size
                         //adapter.notifyItemInserted(position)
                         updatePriceCart(carrello)
                     }.show()

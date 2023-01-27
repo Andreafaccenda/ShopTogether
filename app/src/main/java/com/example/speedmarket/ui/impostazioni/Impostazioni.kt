@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.speedmarket.model.Utente
 import androidx.fragment.app.viewModels
+import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentImpostazioniBinding
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
+import com.example.speedmarket.ui.home.Home
 import com.example.speedmarket.ui.impostazioni.assistenzaClienti.AssistenzaClientiFragment
 import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_app.*
 
 @AndroidEntryPoint
 class Impostazioni : Fragment(), ProfileManager {
@@ -31,7 +34,7 @@ class Impostazioni : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressed()
+        setupOnBackPressed(R.id.home)
         getUserSession()
         observer()
         utente?.let { viewModelAuth.getUtente(it.id) }
@@ -40,6 +43,9 @@ class Impostazioni : Fragment(), ProfileManager {
         }
         binding.accountLayout.setOnClickListener {
             replaceFragment(Profile())
+        }
+        binding.tornaIndietro.setOnClickListener {
+            requireActivity().bottomNavigationView.selectedItemId= R.id.home
         }
     }
 

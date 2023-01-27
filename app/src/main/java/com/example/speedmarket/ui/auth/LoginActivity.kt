@@ -27,8 +27,5 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
-        //supportActionBar?.setDisplayHomeAsUpEnabled(true) per tornare indietro nell' activity precedente
     }
-
-
 }

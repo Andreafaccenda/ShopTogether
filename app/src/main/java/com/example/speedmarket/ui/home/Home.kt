@@ -17,6 +17,7 @@ import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_app.*
 import java.util.ArrayList
 
 @AndroidEntryPoint
@@ -109,7 +110,7 @@ class Home : Fragment(), ProfileManager {
         getCategoriaData()
 
         binding.btnRicercaProdotto.setOnClickListener{
-            replaceFragment(CatalogoFragment())
+            requireActivity().bottomNavigationView.selectedItemId=R.id.catalogo
         }
         binding.txtOfferte.setOnClickListener{
             val bundle = Bundle()
@@ -117,7 +118,6 @@ class Home : Fragment(), ProfileManager {
             val fragment = CatalogoFragment()
             fragment.arguments= bundle
             replaceFragment(fragment)
-            //requireActivity().bottomNavigationView.selectedItemId=R.id.catalogo
         }
         categorieAdapter.onItemClick = {
            val bundle = Bundle()
@@ -125,7 +125,6 @@ class Home : Fragment(), ProfileManager {
             val fragment = CatalogoFragment()
             fragment.arguments= bundle
             replaceFragment(fragment)
-           // requireActivity().bottomNavigationView.selectedItemId=R.id.catalogo
         }
     }
     private fun getCategoriaData(){
