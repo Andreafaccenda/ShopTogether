@@ -32,7 +32,7 @@ class DettagliaCartaCreditoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(Profile())
         getUtente()
-        oberver()
+        observer()
         utentePagamento()
         popola()
 
@@ -52,7 +52,7 @@ class DettagliaCartaCreditoFragment : Fragment() {
         }
     }
     private fun popola(){
-        if(utente.pagamento.numero_carta == ""){
+        if(utente.pagamento.numero_carta != ""){
             binding.etNumeroCarta.setText(utente.pagamento.numero_carta)
             binding.etDataScadenza.setText(utente.pagamento.data_scadenza)
             binding.etDataScadenza.isEnabled = false
@@ -61,7 +61,7 @@ class DettagliaCartaCreditoFragment : Fragment() {
             binding.checkBoxSalva.isEnabled=false
         }
     }
-    private fun oberver() {
+    private fun observer() {
             viewModelAuth.updateUserInfo.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     is UiState.Loading -> {
