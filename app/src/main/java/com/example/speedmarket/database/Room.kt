@@ -58,7 +58,7 @@ abstract class ProductsDatabase: RoomDatabase() {
     }
 }
 
-@Database(entities = [DatabaseCarrello::class], version = 1, exportSchema = false)
+@Database(entities = [DatabaseCarrello::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class CarrelloDatabase: RoomDatabase() {
     abstract fun carrelloDao(): DaoCarrello

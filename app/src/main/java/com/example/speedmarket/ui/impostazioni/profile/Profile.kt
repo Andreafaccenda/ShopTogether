@@ -23,6 +23,8 @@ import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_app.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 
 @Suppress("DEPRECATION")
@@ -34,6 +36,7 @@ class Profile : Fragment(), ProfileManager {
         private const val PERMISSION_CODE = 101
     }
 
+    var isBackFromB = false
     lateinit var binding: FragmentProfileBinding
     private val viewModelAuth: AuthViewModel by viewModels()
     var modify: Boolean = false
@@ -42,10 +45,29 @@ class Profile : Fragment(), ProfileManager {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isBackFromB = true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isBackFromB) {
+            isBackFromB = false
+            aggiorna()
+        }
+    }
+
+    fun aggiorna(){
+        val tr = fragmentManager!!.beginTransaction()
+        tr.replace(R.id.frame_layout, Profile());
+        tr.commit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -131,7 +153,7 @@ class Profile : Fragment(), ProfileManager {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){

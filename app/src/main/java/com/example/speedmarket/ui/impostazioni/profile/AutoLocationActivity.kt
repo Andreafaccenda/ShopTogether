@@ -29,7 +29,8 @@ import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
 import java.net.URL
-@Suppress("DEPRECATION")
+import java.util.*
+
 @AndroidEntryPoint
 class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
@@ -40,9 +41,9 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     private val viewModelAuth: AuthViewModel by viewModels()
     override var utente: Utente? = null
     lateinit var residenza : Indirizzo
-    private var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+    var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
     private val key: String = "AjgIV-JLQzwYoMye7R1YrnbSFkY3dp7SFyUNyOZ7cQnliNDeqU45MW2jFdP9aKcJ"
-    private var addressList : MutableList<String> = mutableListOf()
+    var AddressList : MutableList<String> = mutableListOf()
     val PERMISSION_ID = 1010
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,25 +53,19 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         getUserSession()
         observer()
-        updateUI(false)
+        update_UI(false)
+        binding.salvaResidenza.isChecked = true
+        binding.salvaResidenza.isEnabled = false
         binding.imageEdit.setOnClickListener {
-            updateUI(true)
+            update_UI(true)
         }
-        binding.salvaResidenza.setOnClickListener{
-           if(addressList.isNotEmpty()) {
-               utente!!.residenza=residenza
-               viewModelAuth.updateUserInfo(utente!!)
-               observerUpdate()
-               finish()
-           }
 
-        }
         binding.btFetchLocation.setOnClickListener {
-            requestPermission()
+            RequestPermission()
             getLastLocation()
         }
     }
-    private fun observerUpdate(){
+    private fun observer_update(){
         viewModelAuth.updateUserInfo.observe(this) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -105,12 +100,12 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     }
     fun getLastLocation(){
-        if(checkPermission()){
+        if(CheckPermission()){
             if(isLocationEnabled()){
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
                     val location: Location? = task.result
                     if(location == null){
-                        newLocationData()
+                        NewLocationData()
                     }else{
                         fromXML(location.latitude,location.longitude)
                     }
@@ -119,12 +114,12 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
                 showAlert()
             }
         }else{
-            requestPermission()
+            RequestPermission()
         }
     }
 
 
-    fun newLocationData(){
+    fun NewLocationData(){
         val locationRequest =  LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 0
@@ -139,52 +134,53 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     private val locationCallback = object : LocationCallback(){
         override fun onLocationResult(locationResult: LocationResult) {
+            var lastLocation: Location = locationResult.lastLocation
 
         }
     }
     fun fromXML(latitude : Double, longitude : Double){
         try {
             StrictMode.setThreadPolicy(policy)
-            addressList.clear()
+            AddressList.clear()
             var selezione = false
-            val xmlData: InputStream =
+            val xml_data: InputStream =
                 URL("https://dev.virtualearth.net/REST/v1/Locations/$latitude,$longitude?o=xml&key=$key").openStream()
             val factory: XmlPullParserFactory = XmlPullParserFactory.newInstance()
             val parser: XmlPullParser = factory.newPullParser()
-            parser.setInput(xmlData, null)
+            parser.setInput(xml_data, null)
             var event = parser.eventType
             while (event != XmlPullParser.END_DOCUMENT) {
-                val tagName = parser.name
+                val tag_name = parser.name
                 when (event) {
                     XmlPullParser.START_TAG -> {
-                        if (tagName.equals("AddressLine", ignoreCase = true) ||
-                            tagName.equals("AdminDistrict2",ignoreCase = true) ||
-                            tagName.equals("Locality", ignoreCase = true) ||
-                            tagName.equals("PostalCode",ignoreCase = true)) selezione = true
+                        if (tag_name.equals("AddressLine", ignoreCase = true) ||
+                            tag_name.equals("AdminDistrict2",ignoreCase = true) ||
+                            tag_name.equals("Locality", ignoreCase = true) ||
+                            tag_name.equals("PostalCode",ignoreCase = true)) selezione = true
                     }
                     XmlPullParser.TEXT -> {
                         if(selezione)
-                            if(parser.text != "") addressList.add(parser.text)
-                            else addressList.add("0")
+                            if(parser.text != "") AddressList.add(parser.text)
+                            else AddressList.add("0")
                     }
                     XmlPullParser.END_TAG -> { selezione = false }
                 }
                 event = parser.next()
             }
-            updateLayoutMaps()
+            update_layoutMaps()
         }catch(e:Exception){
-            addressList.clear()
-            addressList.add("0")
+            AddressList.clear()
+            AddressList.add("0")
         }
     }
 
-    private fun checkPermission():Boolean{
+    private fun CheckPermission():Boolean{
         //questa funzione ritorna un booleano
         //true: se hai i permessi
         //false
         if(
-            ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         ){
             return true
         }
@@ -193,11 +189,11 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     }
 
-    fun requestPermission(){
+    fun RequestPermission(){
         //this function will allows us to tell the user to requesut the necessary permsiion if they are not garented
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
             PERMISSION_ID
         )
     }
@@ -231,14 +227,14 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Attiva la posizione")
             .setMessage("Hai disattivato la tua posizione.\nPer favore attivala ")
-            .setPositiveButton(getString(R.string.gps)) { _, _ ->
+            .setPositiveButton(getString(R.string.gps)) { paramDialogInterface, paramInt ->
                 val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(myIntent)
             }
-            .setNegativeButton("Esci") { _, _ -> }
+            .setNegativeButton("Esci") { paramDialogInterface, paramInt -> }
         dialog.show()
     }
-    private fun updateUI(abilita : Boolean){
+    private fun update_UI(abilita : Boolean){
         binding.etCitta.isEnabled=abilita
         binding.etCap.isEnabled=abilita
         binding.etProvincia.isEnabled=abilita
@@ -247,30 +243,47 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     private fun getAttributo(indice: Int): String{
         try{
-            if(this.addressList[indice] == "0") return ""
-            return this.addressList[indice]
+            if(this.AddressList[indice].equals("0")) return ""
+            return this.AddressList[indice]
         }catch(e:Exception){
             return ""
         }
     }
 
-    private fun updateLayoutMaps(){
-        val viaECivico = getAttributo(0).split(" ")
+    private fun update_layoutMaps(){
+        val via_e_civico = getAttributo(0).split(" ")
         var via = ""
-        for(elem in viaECivico) if(!elem.equals(viaECivico.last(),true)) via+="$elem "
+        for(elem in via_e_civico) if(!elem.equals(via_e_civico.last(),true)) via+="$elem "
         binding.etCitta.setText(getAttributo(2))
         binding.etCap.setText(getAttributo(3))
         binding.etProvincia.setText(getAttributo(1))
         binding.etVia.setText(via)
-        binding.etNumeroCivico.setText(viaECivico.last())
-        residenza= Indirizzo(getAttributo(2),getAttributo(1),getAttributo(3),via,viaECivico.last())
+        binding.etNumeroCivico.setText(via_e_civico.last())
+    }
 
+    private fun controllaContenutoCaselle(): Boolean{
+        if(binding.etCitta.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etCap.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etProvincia.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etVia.text.filter { !it.isWhitespace() }.equals("") ||
+           binding.etNumeroCivico.text.filter { !it.isWhitespace() }.equals("")) return false
+        residenza= Indirizzo(binding.etCitta.text.toString(),
+            binding.etProvincia.text.toString(),
+            binding.etCap.text.toString(),
+            binding.etVia.text.toString(),
+            binding.etNumeroCivico.text.toString())
+        return true
     }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
+        if (controllaContenutoCaselle() && binding.salvaResidenza.isChecked) {
+            utente!!.residenza = residenza
+            viewModelAuth.updateUserInfo(utente!!)
+            observer_update()
+            finish()
+        }
     }
     override fun updateUI() {}
 }
