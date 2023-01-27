@@ -84,8 +84,8 @@ class CarrelloRepositoryImp(
             }
     }
 
-    override fun getCarrelloLocal(id: String): LiveData<DatabaseCarrello> {
-        return carrelloDao.getCarrello(id)
+    override fun updateCarrelloLocal(carrello: Carrello) {
+        carrelloDao.update(carrello.toDatabaseCarrello())
     }
 
     override fun getListaCarrelliLocal(): LiveData<List<Carrello>> {

@@ -10,6 +10,6 @@ interface CarrelloRepository {
     fun getCarrello(utente: Utente?, result: (UiState<Carrello>) -> Unit)
     fun deleteCarrello(carrello: Carrello, result: (UiState<String>) -> Unit)
     fun updateCarrello(carrello: Carrello, result: (UiState<String>) -> Unit)
-    fun getCarrelloLocal(id: String): LiveData<DatabaseCarrello>
+    fun updateCarrelloLocal(carrello: Carrello)
     fun getListaCarrelliLocal(): LiveData<List<Carrello>>
 }

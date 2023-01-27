@@ -31,6 +31,9 @@ interface DaoCarrello {
     @Query("select * from databasecarrello where id=:id")
     fun getCarrello(id: String): LiveData<DatabaseCarrello>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCarrello(carrello: DatabaseCarrello)
+
     @Delete
     fun delete(carrello: DatabaseCarrello)
 

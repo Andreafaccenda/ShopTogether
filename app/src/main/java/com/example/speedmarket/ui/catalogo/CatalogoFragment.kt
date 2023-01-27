@@ -36,9 +36,7 @@ class CatalogoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(!isOnline(requireContext())) {
-            dialogInternet()
-        }
+        if(!isOnline(requireContext())) dialogInternet()
         setupOnBackPressed()
         binding.catalogoVuoto.hide()
         val args = this.arguments
@@ -78,33 +76,92 @@ class CatalogoFragment : Fragment() {
             }
         })
     }
+
     private fun observer() {
-        if(!isOnline(requireContext())) {
-        }
-        viewModel.prodotto.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                }
-                is UiState.Failure -> {
-                    toast(state.error)
-                }
-                is UiState.Success ->{
-                  if(this.nomeCategoria == "null") adapter.updateList(state.data.toMutableList())
-                  else adapter.filtraListaCategoria(this.nomeCategoria,state.data.toMutableList())
-                    if(offerta)adapter.filtraListaOfferta(state.data.toMutableList())
-                    if(filtri[3]!= "vuoto") adapter.filtraListaqrCode(filtri[3],state.data.toMutableList())
-                    if(filtri[0]!="vuoto")adapter.filtraListaPrezzo(filtri[0],state.data.toMutableList())
-                    if(filtri[1]!="vuoto")adapter.filtraListaMarchio(filtri[1],state.data.toMutableList())
-                    if(filtri[2]!="vuoto") adapter.filtraListaSottoCategoria(filtri[2],state.data.toMutableList())
-                    if(filtri[1]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraListaMarchioPrezzo(filtri[0],filtri[1],state.data.toMutableList())
-                    if(filtri[2]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraListaCategoriaPrezzo(filtri[0],filtri[2],state.data.toMutableList())
-                    if(filtri[2]!="vuoto"&&filtri[1]!="vuoto")adapter.filtraListaCategoriaMarchio(filtri[1],filtri[2],state.data.toMutableList())
-                    if(filtri[2]!="vuoto"&&filtri[1]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraLista(filtri[0],filtri[1],filtri[2],state.data.toMutableList())
-                    if(adapter.itemCount<= 0) {binding.catalogoVuoto.show()}
+        if (isOnline(requireContext())) {
+            viewModel.prodotto.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                    }
+                    is UiState.Failure -> {
+                        toast(state.error)
+                    }
+                    is UiState.Success -> {
+                        if (this.nomeCategoria == "null") adapter.updateList(state.data.toMutableList())
+                        else adapter.filtraListaCategoria(this.nomeCategoria,
+                            state.data.toMutableList())
+                        if (offerta) adapter.filtraListaOfferta(state.data.toMutableList())
+                        if (filtri[3] != "vuoto") adapter.filtraListaqrCode(filtri[3],
+                            state.data.toMutableList())
+                        if (filtri[0] != "vuoto") adapter.filtraListaPrezzo(filtri[0],
+                            state.data.toMutableList())
+                        if (filtri[1] != "vuoto") adapter.filtraListaMarchio(filtri[1],
+                            state.data.toMutableList())
+                        if (filtri[2] != "vuoto") adapter.filtraListaSottoCategoria(filtri[2],
+                            state.data.toMutableList())
+                        if (filtri[1] != "vuoto" && filtri[0] != "vuoto") adapter.filtraListaMarchioPrezzo(
+                            filtri[0],
+                            filtri[1],
+                            state.data.toMutableList())
+                        if (filtri[2] != "vuoto" && filtri[0] != "vuoto") adapter.filtraListaCategoriaPrezzo(
+                            filtri[0],
+                            filtri[2],
+                            state.data.toMutableList())
+                        if (filtri[2] != "vuoto" && filtri[1] != "vuoto") adapter.filtraListaCategoriaMarchio(
+                            filtri[1],
+                            filtri[2],
+                            state.data.toMutableList())
+                        if (filtri[2] != "vuoto" && filtri[1] != "vuoto" && filtri[0] != "vuoto") adapter.filtraLista(
+                            filtri[0],
+                            filtri[1],
+                            filtri[2],
+                            state.data.toMutableList())
+                        if (adapter.itemCount <= 0) {
+                            binding.catalogoVuoto.show()
+                        }
                     }
                 }
             }
+        } else {
+            val categoria = this.nomeCategoria
+            viewModel.prodottiLocal.observe(viewLifecycleOwner) { prodotti ->
+                prodotti?.apply {
+                    if(categoria == "null") adapter.updateList(prodotti.toMutableList())
+                    else adapter.filtraListaCategoria(categoria, prodotti.toMutableList())
+                    if (offerta) adapter.filtraListaOfferta(prodotti.toMutableList())
+                    if (filtri[3] != "vuoto") adapter.filtraListaqrCode(filtri[3],
+                        prodotti.toMutableList())
+                    if (filtri[0] != "vuoto") adapter.filtraListaPrezzo(filtri[0],
+                        prodotti.toMutableList())
+                    if (filtri[1] != "vuoto") adapter.filtraListaMarchio(filtri[1],
+                        prodotti.toMutableList())
+                    if (filtri[2] != "vuoto") adapter.filtraListaSottoCategoria(filtri[2],
+                        prodotti.toMutableList())
+                    if (filtri[1] != "vuoto" && filtri[0] != "vuoto") adapter.filtraListaMarchioPrezzo(
+                        filtri[0],
+                        filtri[1],
+                        prodotti.toMutableList())
+                    if (filtri[2] != "vuoto" && filtri[0] != "vuoto") adapter.filtraListaCategoriaPrezzo(
+                        filtri[0],
+                        filtri[2],
+                        prodotti.toMutableList())
+                    if (filtri[2] != "vuoto" && filtri[1] != "vuoto") adapter.filtraListaCategoriaMarchio(
+                        filtri[1],
+                        filtri[2],
+                        prodotti.toMutableList())
+                    if (filtri[2] != "vuoto" && filtri[1] != "vuoto" && filtri[0] != "vuoto") adapter.filtraLista(
+                        filtri[0],
+                        filtri[1],
+                        filtri[2],
+                        prodotti.toMutableList())
+                    if (adapter.itemCount <= 0) {
+                        binding.catalogoVuoto.show()
+                    }
+                }
+            }
+        }
     }
+
     private fun oberverSearchViewTextChange(testo : String) {
         viewModel.prodotto.observe(viewLifecycleOwner) { state ->
             when (state) {

@@ -58,7 +58,7 @@ class CarrelloFragment : Fragment() {
             toast("Per eliminare dei prodotti scorri da sinistra verso destra")
         }
         getUtente()
-        oberver()
+        observer()
         viewModelCarrello.getCarrello(utente)
         val args = this.arguments
         if (args.toString() == "null") {
@@ -78,43 +78,78 @@ class CarrelloFragment : Fragment() {
         }
     }
 
-    private fun oberver() {
-        viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                }
-                is UiState.Failure -> {
-                    toast(state.error)
-                }
-                is UiState.Success -> {
-                    this.carrello=state.data
-                    if(state.data.id == ""){
-                        if(prodottoCatalogo){
+    private fun observer() {
+        if (isOnline(requireContext())) {
+            viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                    }
+                    is UiState.Failure -> {
+                        toast(state.error)
+                    }
+                    is UiState.Success -> {
+                        this.carrello = state.data
+                        if (state.data.id == "") {
+                            if (prodottoCatalogo) {
                                 aggiornaCarrello(prodotto, utente)
                                 funzioneAdapter()
                                 viewModelCarrello.updateCarrello(carrello)
                                 controlloCoerenzaCarrello()
+                            }
+                        } else {
+                            if (this.carrello.stato == Carrello.Stato.incompleto) {
+                                if (prodottoCatalogo && this.carrello.lista_prodotti != null) {
+                                    if (controlloRidondanzaCarrello(prodotto))
+                                        toast("il tuo prodotto è gia inserito nel carrello")
+                                    else {
+                                        this.carrello.lista_prodotti?.add(prodotto)
+                                        updatePriceCart(this.carrello)
+                                        viewModelCarrello.updateCarrello(this.carrello)
+                                    }
+                                }
+                                funzioneAdapter()
+                                controlloCoerenzaCarrello()
+                                viewModelCarrello.updateCarrello(this.carrello)
+                            }
                         }
-                    }else{
-                        if(this.carrello.stato == Carrello.Stato.incompleto){
-                            if(prodottoCatalogo && this.carrello.lista_prodotti != null) {
+                    }
+                }
+            }
+        } else {
+            viewModelCarrello.carrelliLocal.observe(viewLifecycleOwner) { carrelli ->
+                carrelli?.apply {
+                    for (item in carrelli) {
+                        if (item.id == utente.id && item.stato == Carrello.Stato.incompleto)
+                            carrello = item
+                    }
+                    if (carrello.id == "") {
+                        if (prodottoCatalogo) {
+                            aggiornaCarrello(prodotto, utente)
+                            funzioneAdapter()
+                            viewModelCarrello.updateCarrelloLocal(carrello)
+                            controlloCoerenzaCarrello()
+                        }
+                    } else {
+                        if (carrello.stato == Carrello.Stato.incompleto) {
+                            if (prodottoCatalogo && carrello.lista_prodotti != null) {
                                 if (controlloRidondanzaCarrello(prodotto))
                                     toast("il tuo prodotto è gia inserito nel carrello")
                                 else {
-                                    this.carrello.lista_prodotti?.add(prodotto)
-                                    updatePriceCart(this.carrello)
-                                    viewModelCarrello.updateCarrello(this.carrello)
+                                    carrello.lista_prodotti?.add(prodotto)
+                                    updatePriceCart(carrello)
+                                    viewModelCarrello.updateCarrello(carrello)
                                 }
                             }
                             funzioneAdapter()
                             controlloCoerenzaCarrello()
-                            viewModelCarrello.updateCarrello(this.carrello)
+                            viewModelCarrello.updateCarrelloLocal(carrello)
                         }
                     }
                 }
             }
         }
     }
+
     fun getUtente() {
         viewModelAuth.getSession { user ->
             if (user != null) utente = user
@@ -124,7 +159,10 @@ class CarrelloFragment : Fragment() {
         adapter.onItemClick = {
             updateQuantitaOrdine(this.carrello, it)
             updatePriceCart(this.carrello)
-            viewModelCarrello.updateCarrello(this.carrello)
+            if (isOnline(requireContext()))
+                viewModelCarrello.updateCarrello(this.carrello)
+            else
+                viewModelCarrello.updateCarrelloLocal(this.carrello)
         }
     }
     fun aggiornaCarrello(prodotto: Prodotto, utente: Utente){

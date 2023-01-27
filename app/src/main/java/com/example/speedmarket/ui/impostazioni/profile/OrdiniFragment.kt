@@ -36,6 +36,7 @@ class OrdiniFragment : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(!isOnline(requireContext())) dialogInternet()
         setupOnBackPressedFragment(Profile())
         binding.turnBack.setOnClickListener{
             replaceFragment(Profile())
@@ -67,7 +68,6 @@ class OrdiniFragment : Fragment(), ProfileManager {
                 is UiState.Success -> {
                     utente = state.data
                     updateUI()
-
                 }
             }
         }

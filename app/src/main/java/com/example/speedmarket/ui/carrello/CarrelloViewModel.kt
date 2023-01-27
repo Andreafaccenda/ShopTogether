@@ -40,6 +40,10 @@ class CarrelloViewModel @Inject constructor(
         repository.getCarrello(utente) { _carrello.value = it }
     }
 
+    fun updateCarrelloLocal(carrello: Carrello) {
+        repository.updateCarrelloLocal(carrello)
+    }
+
     fun deleteCarrello(carrello: Carrello) {
         _deleteCarrello.value = UiState.Loading
         repository.deleteCarrello(carrello) { _deleteCarrello.value = it }
