@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Looper
 import android.os.StrictMode
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -279,7 +278,6 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        Log.d("Risultato", controllaContenutoCaselle().toString())
         if (controllaContenutoCaselle() && binding.salvaResidenza.isChecked) {
             utente!!.residenza = residenza
             viewModelAuth.updateUserInfo(utente!!)
