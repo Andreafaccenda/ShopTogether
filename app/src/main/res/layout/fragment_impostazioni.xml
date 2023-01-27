@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorBackgroundOrange">
         <ImageView
+            android:id="@+id/torna_indietro"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/arrow_back_white"

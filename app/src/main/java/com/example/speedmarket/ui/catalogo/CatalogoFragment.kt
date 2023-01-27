@@ -9,11 +9,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentCatalogoBinding
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.catalogo.filtri.Filtri
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_app.*
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -39,7 +41,7 @@ class CatalogoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(!isOnline(requireContext()))dialogInternet()
-        setupOnBackPressed()
+        setupOnBackPressed(R.id.home)
         binding.catalogoVuoto.hide()
         val args = this.arguments
         this.nomeCategoria = args?.get("nome_categoria").toString()

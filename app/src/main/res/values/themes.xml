@@ -13,12 +13,19 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BadgeDrawable" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorBackgroundOrange</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/colorThemeOrange</item>
+
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorAccent">@color/colorBackgroundOrange</item>
+        <item name="colorPrimaryDark">@color/black</item>
+
 
     </style>
 

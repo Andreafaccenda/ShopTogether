@@ -23,6 +23,7 @@ import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_app.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -178,10 +179,10 @@ fun Fragment.dialog(fragment: Fragment,str1:String,str2:String,str3:String) {
         dialog.dismiss()
     }
 }
-fun Fragment.setupOnBackPressed(){
+fun Fragment.setupOnBackPressed(id:Int){
     val callback=object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
-            startActivity(Intent(requireContext(), AppActivity::class.java))
+            requireActivity().bottomNavigationView.selectedItemId= id
         }
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
