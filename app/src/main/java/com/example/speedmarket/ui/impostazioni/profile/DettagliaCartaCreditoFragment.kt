@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.speedmarket.databinding.FragmentDettagliaCartaCreditoBinding
 import com.example.speedmarket.model.Utente
+import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.util.UiState
 import com.example.speedmarket.util.setupOnBackPressedFragment
@@ -15,11 +16,11 @@ import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DettagliaCartaCreditoFragment : Fragment() {
+class DettagliaCartaCreditoFragment : Fragment(), ProfileManager {
 
     lateinit var binding: FragmentDettagliaCartaCreditoBinding
     val viewModelAuth: AuthViewModel by viewModels()
-    private lateinit var utente : Utente
+    override var utente : Utente? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,13 +32,13 @@ class DettagliaCartaCreditoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(Profile())
-        getUtente()
-        observer()
+        getSession()
+        observerGetUser()
+        utente?.let { viewModelAuth.getUtente(it.id) }
+        observerUpdateUser()
         utentePagamento()
-        popola()
-
     }
-    private fun getUtente() {
+    private fun getSession() {
         viewModelAuth.getSession { user ->
             if (user != null) {
                 utente = user
@@ -46,37 +47,60 @@ class DettagliaCartaCreditoFragment : Fragment() {
     }
     private fun utentePagamento() {
         binding.checkBoxSalva.setOnClickListener {
-            utente.pagamento.numero_carta = binding.etNumeroCarta.text.toString()
-            utente.pagamento.data_scadenza = binding.etDataScadenza.text.toString()
-            viewModelAuth.updateUserInfo(utente)
+            if (checkCaselle()) {
+                utente?.pagamento!!.numero_carta = binding.etNumeroCarta.text.toString()
+                utente?.pagamento!!.data_scadenza = binding.etDataScadenza.text.toString()
+                viewModelAuth.updateUserInfo(utente!!)
+                binding.checkBoxSalva.isEnabled = false
+            } else {
+                binding.checkBoxSalva.isChecked = false
+                toast("Le informazioni inserite non sono complete")
+            }
         }
     }
-    private fun popola(){
-        if(utente.pagamento.numero_carta != ""){
-            binding.etNumeroCarta.setText(utente.pagamento.numero_carta)
-            binding.etDataScadenza.setText(utente.pagamento.data_scadenza)
-            binding.etDataScadenza.isEnabled = false
+    override fun updateUI(){
+        if(utente?.pagamento!!.numero_carta != ""){
+            binding.etNumeroCarta.setText(utente?.pagamento!!.numero_carta)
+            binding.etDataScadenza.setText(utente?.pagamento!!.data_scadenza)
             binding.etCvv.isEnabled = false
-            binding.checkBoxSalva.isChecked=true
-            binding.checkBoxSalva.isEnabled=false
         }
     }
-    private fun observer() {
-            viewModelAuth.updateUserInfo.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    is UiState.Loading -> {
-                    }
-                    is UiState.Failure -> {
-                        toast(state.error)
-                    }
-                    is UiState.Success -> {
-                        toast(state.data)
-                        binding.etNumeroCarta.isEnabled = false
-                        binding.etDataScadenza.isEnabled = false
-                        binding.etCvv.isEnabled = false
 
-                    }
+    private fun checkCaselle(): Boolean {
+        return !(binding.etNumeroCarta.text.isNullOrEmpty() || binding.etDataScadenza.text.isNullOrEmpty())
+    }
+
+    private fun observerGetUser() {
+        viewModelAuth.utente.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    utente = state.data!!
+                    updateUI()
                 }
             }
+        }
+    }
+
+    private fun observerUpdateUser() {
+        viewModelAuth.updateUserInfo.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    toast(state.data)
+                    binding.etNumeroCarta.isEnabled = false
+                    binding.etDataScadenza.isEnabled = false
+                    binding.etCvv.isEnabled = false
+                }
+            }
+        }
     }
 }
