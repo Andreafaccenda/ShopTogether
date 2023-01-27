@@ -1,8 +1,6 @@
 package com.example.speedmarket.ui.carrello.checkOut
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import com.example.speedmarket.databinding.FragmentRiepilogoBinding
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
-import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
@@ -50,15 +47,15 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(CarrelloFragment(),RiepilogoFragment())
+        setupOnBackPressedFragment(CarrelloFragment())
         observer()
         binding.layoutCarta.hide()
         binding.layoutSpedizione.hide()
         binding.btnInformationCarta.setOnClickListener {
-           show_layout_carta()
+           showLayoutCarta()
         }
         binding.btnInformationSpedizione.setOnClickListener {
-            show_layout_spedizione()
+            showLayoutSpedizione()
         }
         getUserSession()
         getUserObs()
@@ -68,7 +65,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         utente?.let { viewModelCarrello.getCarrello(it) }
 
         adapter.onItemClick={
-            var bottomSheetDialog = bottomSheetDialog(it)
+            val bottomSheetDialog = bottomSheetDialog(it)
             bottomSheetDialog.show()
             bottomSheetDialog.findViewById<Button>(R.id.btnChiudi)?.setOnClickListener {
                 bottomSheetDialog.dismiss()
@@ -82,7 +79,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         binding.recyclerViewRiepilogoCarrello.adapter=adapter
 
         binding.btnCarrelloCompletato.setOnClickListener{
-            if(check_edit_text()){
+            if(checkEditText()){
                 this.carrello.stato=Carrello.Stato.elaborazione
                 if(utente?.indirizzo_spedizione?.citta!!.isNotEmpty()){
                     this.carrello.indirizzoSpedizione= utente!!.indirizzo_spedizione
@@ -183,7 +180,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         }
     }
 
-    private fun show_layout_carta(){
+    private fun showLayoutCarta(){
         if(binding.layoutCarta.isShown){
            binding.btnInformationCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
            binding.layoutCarta.hide()
@@ -193,7 +190,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         }
     }
 
-    private fun show_layout_spedizione(){
+    private fun showLayoutSpedizione(){
         if(binding.layoutSpedizione.isShown){
             binding.btnInformationSpedizione.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
             binding.layoutSpedizione.hide()
@@ -209,7 +206,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
             }
         }
     }
-    private fun check_edit_text():Boolean{
+    private fun checkEditText():Boolean{
         var isValid =true
             if(binding.txtCitta.text.isNullOrEmpty()
                 || binding.txtProvincia.text.isNullOrEmpty()

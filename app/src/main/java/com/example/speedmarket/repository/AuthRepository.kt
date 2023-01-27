@@ -1,6 +1,5 @@
 package com.example.speedmarket.repository
 
-import android.graphics.Bitmap
 import android.net.Uri
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.UiState

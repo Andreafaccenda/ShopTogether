@@ -9,7 +9,7 @@ import coil.load
 import com.example.speedmarket.databinding.ViewHolderProdottoSimileBinding
 import com.example.speedmarket.model.Prodotto
 
-class ProdottoSimileAdapter() : RecyclerView.Adapter<ProdottoSimileAdapter.ProdottoSimileViewHolder>() {
+class ProdottoSimileAdapter : RecyclerView.Adapter<ProdottoSimileAdapter.ProdottoSimileViewHolder>() {
 
 
     private var list: MutableList<Prodotto> = arrayListOf()

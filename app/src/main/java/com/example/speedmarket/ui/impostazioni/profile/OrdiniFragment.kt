@@ -1,7 +1,6 @@
 package com.example.speedmarket.ui.impostazioni.profile
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.speedmarket.R
-import com.example.speedmarket.databinding.FragmentDettagliProdottoBinding
 import com.example.speedmarket.databinding.FragmentOrdiniBinding
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
-import com.example.speedmarket.ui.catalogo.ProdottoSimileAdapter
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.replaceFragment
-import com.example.speedmarket.util.setupOnBackPressedFragment
-import com.example.speedmarket.util.toast
+import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +28,7 @@ class OrdiniFragment : Fragment(), ProfileManager {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentOrdiniBinding.inflate(layoutInflater)
         return binding.root
@@ -44,7 +36,7 @@ class OrdiniFragment : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(Profile(),OrdiniFragment())
+        setupOnBackPressedFragment(Profile())
         binding.turnBack.setOnClickListener{
             replaceFragment(Profile())
         }

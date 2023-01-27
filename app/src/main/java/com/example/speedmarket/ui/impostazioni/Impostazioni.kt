@@ -1,27 +1,18 @@
 package com.example.speedmarket.ui.impostazioni
 
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.speedmarket.model.Utente
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.toast
 import androidx.fragment.app.viewModels
 import com.example.speedmarket.databinding.FragmentImpostazioniBinding
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.assistenzaClienti.AssistenzaClientiFragment
 import com.example.speedmarket.ui.impostazioni.profile.Profile
-import com.example.speedmarket.util.replaceFragment
-import com.example.speedmarket.util.setupOnBackPressed
+import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

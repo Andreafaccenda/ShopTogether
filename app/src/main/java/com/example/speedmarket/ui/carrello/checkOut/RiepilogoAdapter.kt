@@ -1,5 +1,6 @@
 package com.example.speedmarket.ui.carrello.checkOut
 
+import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,13 +9,12 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.speedmarket.databinding.ViewHolderRiepilogoCarrelloBinding
-import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
-class RiepilogoAdapter(): RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrelloViewHolder>(){
+class RiepilogoAdapter: RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrelloViewHolder>(){
 
 
     private var list: MutableList<Prodotto> = arrayListOf()
@@ -42,6 +42,7 @@ class RiepilogoAdapter(): RecyclerView.Adapter<RiepilogoAdapter.RiepilogoCarrell
     }
 
     inner class RiepilogoCarrelloViewHolder(val binding: ViewHolderRiepilogoCarrelloBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(item: Prodotto){
             bindImage(binding.imageProdotto,item.immagine)
             binding.txtNomeProdotto.text=item.nome

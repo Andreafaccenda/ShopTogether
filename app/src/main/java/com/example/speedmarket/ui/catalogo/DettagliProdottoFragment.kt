@@ -1,8 +1,6 @@
 package com.example.speedmarket.ui.catalogo
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,16 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentDettagliProdottoBinding
-import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
-import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.hide
-import com.example.speedmarket.util.replaceFragment
-import com.example.speedmarket.util.toast
+import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -39,7 +32,6 @@ class DettagliProdottoFragment : Fragment() {
     private lateinit var nome_categoria :String
     private lateinit var utente_corrente :Utente
     private lateinit var prodotto: Prodotto
-    private lateinit var carrello : Carrello
     val viewModel: ProdViewModel by viewModels()
     val viewModelAuth: AuthViewModel by viewModels()
     private val adapter by lazy { ProdottoSimileAdapter() }
@@ -189,7 +181,6 @@ class DettagliProdottoFragment : Fragment() {
                 val fragment = CatalogoFragment()
                 replaceFragment(fragment)
             }
-
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }

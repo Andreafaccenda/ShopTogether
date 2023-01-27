@@ -39,48 +39,20 @@ class AppActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.home -> {
-                    replaceFragment(Home())
-                    removeFragment(CatalogoFragment())
-                    removeFragment(Impostazioni())
-                    removeFragment(CarrelloFragment())
-                }
-                R.id.catalogo-> {
-                    replaceFragment(CatalogoFragment())
-                    removeFragment(Impostazioni())
-                    removeFragment(CarrelloFragment())
-                    removeFragment(Home())
-                }
-                R.id.impostazioni-> {
-                    replaceFragment(Impostazioni())
-                    removeFragment(CarrelloFragment())
-                    removeFragment(Home())
-                    removeFragment(CatalogoFragment())
-                }
-                R.id.carrello-> {
-                    replaceFragment(CarrelloFragment())
-                    removeFragment(Home())
-                    removeFragment(Impostazioni())
-                    removeFragment(CatalogoFragment())
-                }
+                R.id.home -> replaceFragment(Home())
+                R.id.catalogo-> replaceFragment(CatalogoFragment())
+                R.id.impostazioni->replaceFragment(Impostazioni())
+                R.id.carrello-> replaceFragment(CarrelloFragment())
                 else->{
-
                 }
             }
             true
         }
-
-
     }
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout,fragment)
         fragmentTransaction.commit()
-    }
-    private fun removeFragment(fragment: Fragment){
-        val transaction = supportFragmentManager?.beginTransaction()
-        transaction?.remove(fragment)
-        transaction?.commitAllowingStateLoss()
     }
 }

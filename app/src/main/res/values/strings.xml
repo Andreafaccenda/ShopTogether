@@ -210,7 +210,7 @@
         <item>Frutta secca</item>
         <item>Verdura fresca</item>
         <item>Semi</item>
-        <item>Legumi,cereali e funghi</item>
+        <item>Legumi cereali e funghi</item>
         <item>Frutta conservata</item>
     </string-array>
 
@@ -242,7 +242,7 @@
 
     <string-array name="Prep_dolci_e_salati">
         <item>Lieviti freschi</item>
-        <item>Basi,preparati e ingredienti</item>
+        <item>Basi preparati e ingredienti</item>
         <item>Pasticceria</item>
         <item>Zucchero e dolcificanti</item>
         <item>Farina</item>

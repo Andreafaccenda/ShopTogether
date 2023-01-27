@@ -21,7 +21,6 @@ import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.ui.carrello.CarrelloViewModel
 import com.example.speedmarket.ui.carrello.checkOut.RiepilogoAdapter
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +41,7 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentOrdineDetailsBinding.inflate(layoutInflater)
         return binding.root
@@ -60,13 +59,13 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
         binding.layoutInfoProfile.hide()
         binding.layoutChangeState.hide()
         binding.btnInformationCarta.setOnClickListener {
-            show_layout_carta()
+            showLayoutCarta()
         }
         binding.btnInformationSpedizione.setOnClickListener {
-            show_layout_spedizione()
+            showLayoutSpedizione()
         }
         binding.btnInformationUtente.setOnClickListener {
-            show_layout_profile()
+            showLayoutProfile()
         }
         observerUpdateUser()
         binding.cambiaStato.setOnClickListener{
@@ -95,7 +94,7 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
         recyclerView.adapter=adapter
         updateUI()
         adapter.onItemClick={
-            var bottomSheetDialog = bottomSheetDialog(it)
+            val bottomSheetDialog = bottomSheetDialog(it)
             bottomSheetDialog.show()
             bottomSheetDialog.findViewById<Button>(R.id.btnChiudi)?.setOnClickListener {
                 bottomSheetDialog.dismiss()
@@ -126,26 +125,25 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
         binding.totale.text="€${this.carrello.prezzo}"
         binding.spedizione.text="€5"
 
-        binding.etNumeroCarta.setText(this.carrello?.pagamento!!.numero_carta)
+        binding.etNumeroCarta.setText(this.carrello.pagamento!!.numero_carta)
         binding.etNumeroCarta.isEnabled=false
-        binding.etDataScadenza.setText(this.carrello?.pagamento!!.data_scadenza)
+        binding.etDataScadenza.setText(this.carrello.pagamento!!.data_scadenza)
         binding.etDataScadenza.isEnabled=false
         binding.layoutSpedizione.isEnabled=false
-        binding.txtCitta.setText(this.carrello?.indirizzoSpedizione!!.citta)
-        binding.txtProvincia.setText(this.carrello?.indirizzoSpedizione!!.provincia)
-        binding.txtCap.setText(this.carrello?.indirizzoSpedizione!!.cap)
-        binding.txtVia.setText(this.carrello?.indirizzoSpedizione!!.via)
-        binding.txtNumeroCivico.setText(this.carrello?.indirizzoSpedizione!!.numero_civico)
+        binding.txtCitta.setText(this.carrello.indirizzoSpedizione!!.citta)
+        binding.txtProvincia.setText(this.carrello.indirizzoSpedizione!!.provincia)
+        binding.txtCap.setText(this.carrello.indirizzoSpedizione!!.cap)
+        binding.txtVia.setText(this.carrello.indirizzoSpedizione!!.via)
+        binding.txtNumeroCivico.setText(this.carrello.indirizzoSpedizione!!.numero_civico)
     }
-    private fun calcolaPrezzo(prezzo :Float): String {
+    private fun calcolaPrezzo(prezzo: Float): String {
         val dec = DecimalFormat("#.##")
         dec.roundingMode = RoundingMode.DOWN
-        val prezzo = dec.format(prezzo)
 
-        return prezzo
+        return dec.format(prezzo)
 
     }
-    private fun show_layout_carta(){
+    private fun showLayoutCarta(){
         if(binding.layoutCarta.isShown){
             binding.btnInformationCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
             binding.layoutCarta.hide()
@@ -154,7 +152,7 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
             binding.layoutCarta.show()
         }
     }
-    private fun show_layout_profile(){
+    private fun showLayoutProfile(){
         if(binding.layoutInfoProfile.isShown){
             binding.btnInformationUtente.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
             binding.layoutInfoProfile.hide()
@@ -164,7 +162,7 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
         }
     }
 
-    private fun show_layout_spedizione(){
+    private fun showLayoutSpedizione(){
         if(binding.layoutSpedizione.isShown){
             binding.btnInformationSpedizione.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
             binding.layoutSpedizione.hide()

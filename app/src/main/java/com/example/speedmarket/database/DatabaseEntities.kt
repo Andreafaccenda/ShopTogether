@@ -2,8 +2,6 @@ package com.example.speedmarket.database
 
 import androidx.room.*
 import com.example.speedmarket.model.Carrello
-import com.example.speedmarket.model.Indirizzo
-import com.example.speedmarket.model.Pagamento
 import com.example.speedmarket.model.Prodotto
 
 

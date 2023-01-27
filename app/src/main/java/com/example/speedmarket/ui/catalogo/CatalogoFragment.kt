@@ -1,7 +1,6 @@
 package com.example.speedmarket.ui.catalogo
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +14,14 @@ import com.example.speedmarket.ui.catalogo.filtri.Filtri
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class CatalogoFragment : Fragment() {
 
     lateinit var binding: FragmentCatalogoBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var nome_categoria :String
+    private lateinit  var nomeCategoria :String
     private lateinit var filtri :ArrayList<String>
-    private lateinit var qrcode :String
     private var offerta =false
     val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { ProdottoAdapter() }
@@ -30,17 +29,20 @@ class CatalogoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentCatalogoBinding.inflate(layoutInflater)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(!isOnline(requireContext())) {
+            dialogInternet()
+        }
         setupOnBackPressed()
         binding.catalogoVuoto.hide()
         val args = this.arguments
-        this.nome_categoria = args?.get("nome_categoria").toString()
+        this.nomeCategoria = args?.get("nome_categoria").toString()
         this.offerta= args?.getBoolean("offerta") == true
         observer()
         binding.barraDiRicerca.clearFocus()
@@ -66,17 +68,19 @@ class CatalogoFragment : Fragment() {
         binding.barraDiRicerca.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val testo = query.toString()
-                oberver_searchView_text(testo)
+                oberverSearchViewText(testo)
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 val testo = newText.toString()
-                oberver_searchView_text_change(testo)
+                oberverSearchViewTextChange(testo)
                 return false
             }
         })
     }
     private fun observer() {
+        if(!isOnline(requireContext())) {
+        }
         viewModel.prodotto.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -84,9 +88,9 @@ class CatalogoFragment : Fragment() {
                 is UiState.Failure -> {
                     toast(state.error)
                 }
-                is UiState.Success -> {
-                  if(this.nome_categoria == "null") adapter.updateList(state.data.toMutableList())
-                  else adapter.filtraListaCategoria(this.nome_categoria,state.data.toMutableList())
+                is UiState.Success ->{
+                  if(this.nomeCategoria == "null") adapter.updateList(state.data.toMutableList())
+                  else adapter.filtraListaCategoria(this.nomeCategoria,state.data.toMutableList())
                     if(offerta)adapter.filtraListaOfferta(state.data.toMutableList())
                     if(filtri[3]!= "vuoto") adapter.filtraListaqrCode(filtri[3],state.data.toMutableList())
                     if(filtri[0]!="vuoto")adapter.filtraListaPrezzo(filtri[0],state.data.toMutableList())
@@ -96,14 +100,12 @@ class CatalogoFragment : Fragment() {
                     if(filtri[2]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraListaCategoriaPrezzo(filtri[0],filtri[2],state.data.toMutableList())
                     if(filtri[2]!="vuoto"&&filtri[1]!="vuoto")adapter.filtraListaCategoriaMarchio(filtri[1],filtri[2],state.data.toMutableList())
                     if(filtri[2]!="vuoto"&&filtri[1]!="vuoto"&&filtri[0]!="vuoto")adapter.filtraLista(filtri[0],filtri[1],filtri[2],state.data.toMutableList())
-                    if(adapter.itemCount<= 0) {
-                        binding.catalogoVuoto.show()
-                        }
+                    if(adapter.itemCount<= 0) {binding.catalogoVuoto.show()}
                     }
                 }
             }
     }
-    private fun oberver_searchView_text_change(testo : String) {
+    private fun oberverSearchViewTextChange(testo : String) {
         viewModel.prodotto.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -117,7 +119,7 @@ class CatalogoFragment : Fragment() {
             }
         }
     }
-    private fun oberver_searchView_text(testo : String) {
+    private fun oberverSearchViewText(testo : String) {
         viewModel.prodotto.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -131,6 +133,5 @@ class CatalogoFragment : Fragment() {
             }
         }
     }
-
 }
 

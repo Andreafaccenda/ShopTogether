@@ -1,6 +1,6 @@
 package com.example.speedmarket.ui.catalogo
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,7 +14,7 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
-class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder>(),
+class ProdottoAdapter : RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder>(),
     ProdottoAdapterInt {
 
 
@@ -86,7 +86,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
     override fun filtraListaPrezzo(prezzo: String, list: MutableList<Prodotto>) {
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
-            var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+            val price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
             if (price<=prezzo.toFloat()) {
                 listaAggiornata.add(prodotto)
             }
@@ -97,7 +97,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
 
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
-            if (prodotto.produttore.toLowerCase().equals(marchio.toLowerCase(), true)) {
+            if (prodotto.produttore.equals(marchio, true)) {
                 listaAggiornata.add(prodotto)
             }
         }
@@ -120,7 +120,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
             if (prodotto.produttore.equals(marchio, true)) {
-                var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+                val price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
                 if (price<=prezzo.toFloat()) {
                     listaAggiornata.add(prodotto)
                 }
@@ -134,7 +134,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
             if (prodotto.sub_categoria.equals(subCategoria, true)) {
-                var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+                val price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
                 if (price<=prezzo.toFloat()) {
                     listaAggiornata.add(prodotto)
                 }
@@ -159,7 +159,7 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
             if (prodotto.sub_categoria.equals(subCategoria, true)) {
-                var price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
+                val price =(prodotto.quantita*prodotto.prezzo_unitario*prodotto.offerta!!)
                 if (price<=prezzo.toFloat()) {
                     if (prodotto.produttore.equals(marchio, true)) {
                         listaAggiornata.add(prodotto)
@@ -196,21 +196,22 @@ class ProdottoAdapter(): RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder
     }
 
     inner class ProdottoViewHolder(val binding: ViewHolderProdottoBinding ) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(item: Prodotto){
             bindImage(binding.imageProdotto, item.immagine)
-            binding.txtProdotto.setText(item.nome)
-            binding.txtQuantit.setText(item.quantita.toString()+"Kg")
-            binding.txtPrezzo.setText(item.prezzo_unitario.toString()+"€/Kg")
+            binding.txtProdotto.text=item.nome
+            binding.txtQuantit.text=item.quantita.toString()+"Kg"
+            binding.txtPrezzo.text=item.prezzo_unitario.toString()+"€/Kg"
             if(item.offerta!! < 1){
-                binding.txtPrezzoUnitario.setText("Offerta:")
-                binding.txtPrezzoOfferta.setText((calcolaPrezzo(item.prezzo_unitario,item.quantita,
-                    item.offerta!!)+"€"))
-                binding.txtPrezzoOffertaSenzaSconto.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,
+                binding.txtPrezzoUnitario.text="Offerta:"
+                binding.txtPrezzoOfferta.text=(calcolaPrezzo(item.prezzo_unitario,item.quantita,
+                    item.offerta!!)+"€")
+                binding.txtPrezzoOffertaSenzaSconto.text=(calcolaPrezzo(item.prezzo_unitario,item.quantita,
                     1.0F
                 )+"€")
             }else {
                 binding.txtPrezzoUnitario.hide()
-                binding.txtPrezzoOfferta.setText(calcolaPrezzo(item.prezzo_unitario,item.quantita,
+                binding.txtPrezzoOfferta.text=(calcolaPrezzo(item.prezzo_unitario,item.quantita,
                     item.offerta!!)+"€")
                 binding.txtPrezzoOffertaSenzaSconto.hide()
                 binding.sbarraOfferta.hide()

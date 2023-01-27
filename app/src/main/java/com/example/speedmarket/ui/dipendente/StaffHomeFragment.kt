@@ -6,28 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
-import com.example.speedmarket.databinding.FragmentCatalogoBinding
 import com.example.speedmarket.databinding.FragmentStaffHomeBinding
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.ui.MainActivity
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.profile.OrdiniAdapter
 import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.createDialog
-import com.example.speedmarket.util.removeFragment
-import com.example.speedmarket.util.setupOnBackPressedExit
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class StaffHomeFragment : Fragment() {
@@ -40,7 +31,7 @@ class StaffHomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentStaffHomeBinding.inflate(layoutInflater)
         return binding.root
@@ -78,10 +69,10 @@ class StaffHomeFragment : Fragment() {
                 is UiState.Failure -> {
                 }
                 is UiState.Success -> {
-                    var lista = arrayListOf<Carrello>()
+                    val lista = arrayListOf<Carrello>()
                     for(user in state.data.toMutableList()){
                         if(user?.lista_carrelli!!.isNotEmpty()){
-                            for(carrello in user?.lista_carrelli!!){
+                            for(carrello in user.lista_carrelli!!){
                                 lista.add(carrello)
                             }
                         }

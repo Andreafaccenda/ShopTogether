@@ -15,14 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RecuperaPasswordFragment : Fragment() {
 
-        val TAG: String = "ForgotPasswordFragment"
         lateinit var binding: FragmentRecuperaPasswordBinding
         val viewModel: AuthViewModel by viewModels()
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-        ): View? {
+        ): View {
             binding = FragmentRecuperaPasswordBinding.inflate(layoutInflater)
             return binding.root
         }
@@ -41,16 +40,16 @@ class RecuperaPasswordFragment : Fragment() {
             viewModel.forgotPassword.observe(viewLifecycleOwner) { state ->
                 when(state){
                     is UiState.Loading -> {
-                        binding.btnInviaEmail.setText("")
+                        binding.btnInviaEmail.text=""
                         binding.recuperaPasswordProgressBar.show()
                     }
                     is UiState.Failure -> {
-                        binding.btnInviaEmail.setText("Invia email")
+                        binding.btnInviaEmail.text="Invia email"
                         binding.recuperaPasswordProgressBar.hide()
                         toast(state.error)
                     }
                     is UiState.Success -> {
-                        binding.btnInviaEmail.setText("Invia email")
+                        binding.btnInviaEmail.text="Invia email"
                         binding.recuperaPasswordProgressBar.hide()
                         toast(state.data)
                         view?.findNavController()?.navigate(R.id.action_recuperaPasswordFragment_to_accediFragment)

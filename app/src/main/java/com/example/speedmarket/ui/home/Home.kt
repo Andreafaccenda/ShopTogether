@@ -15,10 +15,7 @@ import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
-import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.replaceFragment
-import com.example.speedmarket.util.setupOnBackPressedExit
-import com.example.speedmarket.util.toast
+import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
@@ -45,7 +42,7 @@ class Home : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedExit(Home())
+        setupOnBackPressedExit()
         getUserSession()
         observer()
         utente?.let { viewModel.getUtente(it.id) }
@@ -76,7 +73,7 @@ class Home : Fragment(), ProfileManager {
             "Pesce e sushi",
             "Biscotti cereali e dolci",
             "Caffe e infusi",
-            "Preparazione dolci e salate",
+            "Preparazioni dolci e salate",
             "Animali domestici",
             "Panneteria e snack salati",
             "Condimenti e conserve",
@@ -111,10 +108,8 @@ class Home : Fragment(), ProfileManager {
         listaCategorie = arrayListOf()
         getCategoriaData()
 
-        binding.btnRicercaProdotto.setOnClickListener(){
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_layout, CatalogoFragment())
-            transaction?.commit()
+        binding.btnRicercaProdotto.setOnClickListener{
+            replaceFragment(CatalogoFragment())
         }
         binding.txtOfferte.setOnClickListener{
             val bundle = Bundle()
@@ -122,22 +117,17 @@ class Home : Fragment(), ProfileManager {
             val fragment = CatalogoFragment()
             fragment.arguments= bundle
             replaceFragment(fragment)
+            //requireActivity().bottomNavigationView.selectedItemId=R.id.catalogo
         }
         categorieAdapter.onItemClick = {
            val bundle = Bundle()
-            bundle.putString("nome_categoria",it.title.toString())
+            bundle.putString("nome_categoria",it.title)
             val fragment = CatalogoFragment()
             fragment.arguments= bundle
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_layout, fragment)
-            transaction?.commit()
-
+            replaceFragment(fragment)
+           // requireActivity().bottomNavigationView.selectedItemId=R.id.catalogo
         }
-
-
-
     }
-
     private fun getCategoriaData(){
         for(i in immagineId.indices){
             val categoria = Categorie(immagineId[i],categorie[i],sfondo[i])

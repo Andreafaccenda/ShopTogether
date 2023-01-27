@@ -2,22 +2,19 @@ package com.example.speedmarket.ui.dipendente
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityStaffBinding
-import com.example.speedmarket.util.createDialog
 import com.example.speedmarket.util.dialog
-import com.example.speedmarket.util.removeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.system.exitProcess
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class StaffActivity : AppCompatActivity() {
 
@@ -40,6 +37,7 @@ class StaffActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         val dialog = dialog()

@@ -2,47 +2,34 @@ package com.example.speedmarket.ui.impostazioni.profile
 
 import android.Manifest
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.os.StrictMode
 import android.provider.Settings
-import android.provider.Telephony.Mms.Addr
-import android.util.Log
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import com.example.speedmarket.R
-import com.example.speedmarket.databinding.ActivityAppBinding
 import com.example.speedmarket.databinding.ActivityAutoLocationBinding
 import com.example.speedmarket.model.Indirizzo
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.toast
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
 import java.net.URL
-import java.util.*
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
@@ -53,10 +40,9 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     private val viewModelAuth: AuthViewModel by viewModels()
     override var utente: Utente? = null
     lateinit var residenza : Indirizzo
-    var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-    lateinit var locationRequest: LocationRequest
+    private var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
     private val key: String = "AjgIV-JLQzwYoMye7R1YrnbSFkY3dp7SFyUNyOZ7cQnliNDeqU45MW2jFdP9aKcJ"
-    var AddressList : MutableList<String> = mutableListOf()
+    private var addressList : MutableList<String> = mutableListOf()
     val PERMISSION_ID = 1010
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,25 +52,25 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         getUserSession()
         observer()
-        update_UI(false)
+        updateUI(false)
         binding.imageEdit.setOnClickListener {
-            update_UI(true)
+            updateUI(true)
         }
         binding.salvaResidenza.setOnClickListener{
-           if(AddressList.isNotEmpty()) {
+           if(addressList.isNotEmpty()) {
                utente!!.residenza=residenza
                viewModelAuth.updateUserInfo(utente!!)
-               observer_update()
+               observerUpdate()
                finish()
            }
 
         }
         binding.btFetchLocation.setOnClickListener {
-            RequestPermission()
+            requestPermission()
             getLastLocation()
         }
     }
-    private fun observer_update(){
+    private fun observerUpdate(){
         viewModelAuth.updateUserInfo.observe(this) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -92,7 +78,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
                 is UiState.Failure -> {
                 }
                 is UiState.Success -> {
-                    Toast.makeText(this,state.data.toString(),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,state.data,Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -119,12 +105,12 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     }
     fun getLastLocation(){
-        if(CheckPermission()){
+        if(checkPermission()){
             if(isLocationEnabled()){
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
-                    var location: Location? = task.result
+                    val location: Location? = task.result
                     if(location == null){
-                        NewLocationData()
+                        newLocationData()
                     }else{
                         fromXML(location.latitude,location.longitude)
                     }
@@ -133,19 +119,19 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
                 showAlert()
             }
         }else{
-            RequestPermission()
+            requestPermission()
         }
     }
 
 
-    fun NewLocationData(){
-        var locationRequest =  LocationRequest()
+    fun newLocationData(){
+        val locationRequest =  LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 0
         locationRequest.fastestInterval = 0
         locationRequest.numUpdates = 1
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationProviderClient!!.requestLocationUpdates(
+        fusedLocationProviderClient.requestLocationUpdates(
             locationRequest,locationCallback, Looper.myLooper()
         )
     }
@@ -153,53 +139,52 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     private val locationCallback = object : LocationCallback(){
         override fun onLocationResult(locationResult: LocationResult) {
-            var lastLocation: Location = locationResult.lastLocation
 
         }
     }
     fun fromXML(latitude : Double, longitude : Double){
         try {
             StrictMode.setThreadPolicy(policy)
-            AddressList.clear()
+            addressList.clear()
             var selezione = false
-            val xml_data: InputStream =
+            val xmlData: InputStream =
                 URL("https://dev.virtualearth.net/REST/v1/Locations/$latitude,$longitude?o=xml&key=$key").openStream()
             val factory: XmlPullParserFactory = XmlPullParserFactory.newInstance()
             val parser: XmlPullParser = factory.newPullParser()
-            parser.setInput(xml_data, null)
+            parser.setInput(xmlData, null)
             var event = parser.eventType
             while (event != XmlPullParser.END_DOCUMENT) {
-                val tag_name = parser.name
+                val tagName = parser.name
                 when (event) {
                     XmlPullParser.START_TAG -> {
-                        if (tag_name.equals("AddressLine", ignoreCase = true) ||
-                            tag_name.equals("AdminDistrict2",ignoreCase = true) ||
-                            tag_name.equals("Locality", ignoreCase = true) ||
-                            tag_name.equals("PostalCode",ignoreCase = true)) selezione = true
+                        if (tagName.equals("AddressLine", ignoreCase = true) ||
+                            tagName.equals("AdminDistrict2",ignoreCase = true) ||
+                            tagName.equals("Locality", ignoreCase = true) ||
+                            tagName.equals("PostalCode",ignoreCase = true)) selezione = true
                     }
                     XmlPullParser.TEXT -> {
                         if(selezione)
-                            if(parser.text != "") AddressList.add(parser.text)
-                            else AddressList.add("0")
+                            if(parser.text != "") addressList.add(parser.text)
+                            else addressList.add("0")
                     }
                     XmlPullParser.END_TAG -> { selezione = false }
                 }
                 event = parser.next()
             }
-            update_layoutMaps()
+            updateLayoutMaps()
         }catch(e:Exception){
-            AddressList.clear()
-            AddressList.add("0")
+            addressList.clear()
+            addressList.add("0")
         }
     }
 
-    private fun CheckPermission():Boolean{
+    private fun checkPermission():Boolean{
         //questa funzione ritorna un booleano
         //true: se hai i permessi
         //false
         if(
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         ){
             return true
         }
@@ -208,11 +193,11 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     }
 
-    fun RequestPermission(){
+    fun requestPermission(){
         //this function will allows us to tell the user to requesut the necessary permsiion if they are not garented
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
             PERMISSION_ID
         )
     }
@@ -220,7 +205,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     fun isLocationEnabled():Boolean{
         //this function will return to us the state of the location service
         //if the gps or the network provider is enabled then it will return true otherwise it will return false
-        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
@@ -246,14 +231,14 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Attiva la posizione")
             .setMessage("Hai disattivato la tua posizione.\nPer favore attivala ")
-            .setPositiveButton(getString(R.string.gps)) { paramDialogInterface, paramInt ->
+            .setPositiveButton(getString(R.string.gps)) { _, _ ->
                 val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(myIntent)
             }
-            .setNegativeButton("Esci") { paramDialogInterface, paramInt -> }
+            .setNegativeButton("Esci") { _, _ -> }
         dialog.show()
     }
-    private fun update_UI(abilita : Boolean){
+    private fun updateUI(abilita : Boolean){
         binding.etCitta.isEnabled=abilita
         binding.etCap.isEnabled=abilita
         binding.etProvincia.isEnabled=abilita
@@ -262,26 +247,27 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     private fun getAttributo(indice: Int): String{
         try{
-            if(this.AddressList[indice].equals("0")) return ""
-            return this.AddressList[indice]
+            if(this.addressList[indice] == "0") return ""
+            return this.addressList[indice]
         }catch(e:Exception){
             return ""
         }
     }
 
-    private fun update_layoutMaps(){
-        val via_e_civico = getAttributo(0).split(" ")
+    private fun updateLayoutMaps(){
+        val viaECivico = getAttributo(0).split(" ")
         var via = ""
-        for(elem in via_e_civico) if(!elem.equals(via_e_civico.last(),true)) via+="$elem "
+        for(elem in viaECivico) if(!elem.equals(viaECivico.last(),true)) via+="$elem "
         binding.etCitta.setText(getAttributo(2))
         binding.etCap.setText(getAttributo(3))
         binding.etProvincia.setText(getAttributo(1))
         binding.etVia.setText(via)
-        binding.etNumeroCivico.setText(via_e_civico.last())
-        residenza= Indirizzo(getAttributo(2),getAttributo(1),getAttributo(3),via,via_e_civico.last())
+        binding.etNumeroCivico.setText(viaECivico.last())
+        residenza= Indirizzo(getAttributo(2),getAttributo(1),getAttributo(3),via,viaECivico.last())
 
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         finish()

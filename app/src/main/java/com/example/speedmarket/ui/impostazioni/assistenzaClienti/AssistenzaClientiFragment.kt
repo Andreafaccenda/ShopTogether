@@ -36,7 +36,7 @@ class AssistenzaClientiFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(Impostazioni(),AssistenzaClientiFragment())
+        setupOnBackPressedFragment(Impostazioni())
         recycleView()
         clickEvents()
         customMessage(getString(R.string.message_default))

@@ -39,7 +39,7 @@ class ProdRepositoryImp(
                     )
                 }
                 else {
-                    result.invoke(UiState.Failure("No such document"))
+                    result.invoke(UiState.Failure("Non abbastanza prodotti"))
                 }
             }.addOnFailureListener {
                 result.invoke(UiState.Failure(

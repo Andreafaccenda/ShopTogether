@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -23,14 +22,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AccediFragment : Fragment() {
 
-    val TAG: String = "RegisterFragment"
     lateinit var binding: FragmentAccediBinding
     val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAccediBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -64,16 +62,16 @@ class AccediFragment : Fragment() {
             viewModel.login.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     is UiState.Loading -> {
-                        binding.btnAccedi.setText("")
+                        binding.btnAccedi.text=""
                         binding.accediProgressBar.show()
                     }
                     is UiState.Failure -> {
-                        binding.btnAccedi.setText("Accedi")
+                        binding.btnAccedi.text="Accedi"
                         binding.accediProgressBar.hide()
                         toast(state.error)
                     }
                     is UiState.Success -> {
-                        binding.btnAccedi.setText("Accedi")
+                        binding.btnAccedi.text="Accedi"
                         binding.accediProgressBar.hide()
                         if(state.data == "Login staff conad effettuato con successo!") {
                             startActivity(Intent(requireContext(), StaffActivity::class.java))
@@ -90,7 +88,7 @@ class AccediFragment : Fragment() {
                 }
             }
         }
-        else toast(getString(R.string.no_connection))
+        else dialogInternet()
     }
     fun validation(): Boolean {
         var isValid = true
@@ -114,26 +112,6 @@ class AccediFragment : Fragment() {
         }
         return isValid
     }
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                return true
-            }
-        }
-        return false
-    }
-
 }
 
 

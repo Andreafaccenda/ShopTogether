@@ -3,7 +3,6 @@ package com.example.speedmarket.ui.impostazioni.profile
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,23 +10,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentDettaglioOrdineBinding
-import com.example.speedmarket.databinding.FragmentRiepilogoBinding
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.ProfileManager
-import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.carrello.checkOut.RiepilogoAdapter
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class DettaglioOrdineFragment : Fragment(),ProfileManager{
 
@@ -40,7 +36,7 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDettaglioOrdineBinding.inflate(layoutInflater)
         return binding.root
@@ -48,13 +44,13 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(OrdiniFragment(),DettaglioOrdineFragment())
+        setupOnBackPressedFragment(OrdiniFragment())
         args = this.arguments!!
         binding.turnBack.setOnClickListener{
             replaceFragment(OrdiniFragment())
         }
         adapter.onItemClick={
-            var bottomSheetDialog = bottomSheetDialog(it)
+            val bottomSheetDialog = bottomSheetDialog(it)
             bottomSheetDialog.show()
             bottomSheetDialog.findViewById<Button>(R.id.btnChiudi)?.setOnClickListener {
                 bottomSheetDialog.dismiss()

@@ -1,13 +1,11 @@
 package com.example.speedmarket.ui.catalogo.filtri
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +21,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentFiltriBinding
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
-import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
 import com.example.speedmarket.ui.catalogo.filtri.Scanner.BarcodeScanning
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class Filtri : Fragment() {
 
@@ -42,13 +40,13 @@ class Filtri : Fragment() {
     private val cameraPermissionRequestCode = 1
     private var selectedScanningSDK = BarcodeScanning.ScannerSDK.ZXING
     private lateinit var recyclerView: RecyclerView
-    private lateinit var filtri_adapter : MarchioAdapter
-    private lateinit var categoria_adapter : CategoriaAdapter
+    private lateinit var filtriAdapter : MarchioAdapter
+    private lateinit var categoriaAdapter : CategoriaAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentFiltriBinding.inflate(layoutInflater)
         return binding.root
@@ -56,15 +54,15 @@ class Filtri : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(CatalogoFragment(),Filtri())
+        setupOnBackPressedFragment(CatalogoFragment())
         binding.layoutScannerBarcode.hide()
         marchi = arrayListOf()
         marchi= requireContext().resources.getStringArray(R.array.marchi).toMutableList() as ArrayList<String>
         marchi.sort()
-        Ui_recyclerView()
-        Ui_recyclerView_Cat()
-        AdapterFuction()
-        AdapterCategoryFuction()
+        uiRecyclerView()
+        uiRecyclerViewCategoria()
+        adapterFuction()
+        adapterCategoryFuction()
         binding.btnScan.setOnClickListener {
             selectedScanningSDK = BarcodeScanning.ScannerSDK.ZXING
             startScanning()
@@ -77,99 +75,99 @@ class Filtri : Fragment() {
                 }
             }
         }
-        hide_layout(binding.layoutPrice)
+        hideLayout(binding.layoutPrice)
         binding.layoutMarchioChecked.hide()
-        hide_layout(binding.layoutCategoria)
-        hide_layout(binding.layoutMarchio)
-        hide_layout(binding.layoutCategoryChecked)
-        hide_layout(binding.layoutSubCategoria)
-        show_category(binding.btnFruttaVerdura)
-        show_category(binding.btnCarneSalumi)
-        show_category(binding.btnPesceSushi)
-        show_category(binding.btnFormaggiLatteUova)
-        show_category(binding.btnPreparazioneDolci)
-        show_category(binding.btnBiscottiCerealiDolci)
-        show_category(binding.btnCaffeInfusi)
-        show_category(binding.btnCondimentiConserve)
-        show_category(binding.btnPanetteriaSnacksalati)
-        show_category(binding.btnPastaRiso)
-        show_category(binding.btnSurgelatiGelati)
-        show_category(binding.btnPiattiPronti)
-        show_category(binding.btnAnimaliDomestici)
-        show_category(binding.btnVinoBirraAlcolici)
-        show_category(binding.btnBevande)
+        hideLayout(binding.layoutCategoria)
+        hideLayout(binding.layoutMarchio)
+        hideLayout(binding.layoutCategoryChecked)
+        hideLayout(binding.layoutSubCategoria)
+        showCategory(binding.btnFruttaVerdura)
+        showCategory(binding.btnCarneSalumi)
+        showCategory(binding.btnPesceSushi)
+        showCategory(binding.btnFormaggiLatteUova)
+        showCategory(binding.btnPreparazioneDolci)
+        showCategory(binding.btnBiscottiCerealiDolci)
+        showCategory(binding.btnCaffeInfusi)
+        showCategory(binding.btnCondimentiConserve)
+        showCategory(binding.btnPanetteriaSnacksalati)
+        showCategory(binding.btnPastaRiso)
+        showCategory(binding.btnSurgelatiGelati)
+        showCategory(binding.btnPiattiPronti)
+        showCategory(binding.btnAnimaliDomestici)
+        showCategory(binding.btnVinoBirraAlcolici)
+        showCategory(binding.btnBevande)
         binding.turnBack.setOnClickListener {
             replaceFragment(CatalogoFragment())
         }
         binding.btnPrice.setOnClickListener {
-            show_layout(binding.layoutPrice,binding.btnPrice)
-            hide_layout(binding.layoutCategoria)
-            hide_layout(binding.layoutMarchio)
-            hide_layout(binding.layoutSubCategoria)
+            showLayout(binding.layoutPrice,binding.btnPrice)
+            hideLayout(binding.layoutCategoria)
+            hideLayout(binding.layoutMarchio)
+            hideLayout(binding.layoutSubCategoria)
             listenerSeekBar()
         }
         binding.btnMarchio.setOnClickListener{
-            show_layout(binding.layoutMarchio,binding.btnMarchio)
-            hide_layout(binding.layoutCategoria)
-            hide_layout(binding.layoutSubCategoria)
-            hide_layout(binding.layoutPrice)
+            showLayout(binding.layoutMarchio,binding.btnMarchio)
+            hideLayout(binding.layoutCategoria)
+            hideLayout(binding.layoutSubCategoria)
+            hideLayout(binding.layoutPrice)
         }
         binding.btnCategoria.setOnClickListener{
-            show_layout(binding.layoutCategoria,binding.btnCategoria)
-            hide_layout(binding.layoutPrice)
-            hide_layout(binding.layoutMarchio)
-            hide_layout(binding.layoutSubCategoria)
-            hide_layout(binding.layoutCategoryChecked)
+            showLayout(binding.layoutCategoria,binding.btnCategoria)
+            hideLayout(binding.layoutPrice)
+            hideLayout(binding.layoutMarchio)
+            hideLayout(binding.layoutSubCategoria)
+            hideLayout(binding.layoutCategoryChecked)
         }
         binding.txtCategoria.setOnClickListener{
-            show_layout(binding.layoutCategoria,binding.btnCategoria)
-            hide_layout(binding.layoutSubCategoria)
-            hide_layout(binding.layoutPrice)
-            hide_layout(binding.layoutMarchio)
+            showLayout(binding.layoutCategoria,binding.btnCategoria)
+            hideLayout(binding.layoutSubCategoria)
+            hideLayout(binding.layoutPrice)
+            hideLayout(binding.layoutMarchio)
         }
 
         binding.btnMostra.setOnClickListener{
-            show_list()
+            showList()
         }
         binding.searchMarchio.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val testo = query.toString()
-                list_text_submit(testo)
+                listTextSubmit(testo)
                return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 val testo = newText.toString()
-                list_text_change(testo)
+                listTextChange(testo)
                 return false
             }
         })
     }
-    private fun list_text_submit(stringa:String){
+    private fun listTextSubmit(stringa:String){
         val listaAggiornata: ArrayList<String> = arrayListOf()
         listaAggiornata.clear()
         for(str in marchi){
             if(str.contains(stringa,ignoreCase = true))
                 listaAggiornata.add(str)
         }
-        if(listaAggiornata.isNullOrEmpty()) {
+        if(listaAggiornata.isEmpty()) {
             toast("Nessun marchio trovato")
-            filtri_adapter.updateList(listaAggiornata)
+            filtriAdapter.updateList(listaAggiornata)
         }
-        else filtri_adapter.updateList(listaAggiornata)
+        else filtriAdapter.updateList(listaAggiornata)
 
     }
-    private fun list_text_change(stringa:String){
+    private fun listTextChange(stringa:String){
         val listaAggiornata: ArrayList<String> = arrayListOf()
         listaAggiornata.clear()
         for(str in marchi){
             if(str.startsWith(stringa,ignoreCase = true))
                 listaAggiornata.add(str)
         }
-        if(listaAggiornata.isNullOrEmpty()) {
+        if(listaAggiornata.isEmpty()) {
             toast("Nessun marchio trovato")
-            filtri_adapter.updateList(listaAggiornata)
+            filtriAdapter.updateList(listaAggiornata)
         }
-        else filtri_adapter.updateList(listaAggiornata)
+        else filtriAdapter.updateList(listaAggiornata)
 
     }
 
@@ -179,19 +177,12 @@ class Filtri : Fragment() {
                 binding.txtPriceMax.text=p1.toString()
                 prezzo=binding.txtPriceMax.text.toString()
             }
-            override fun onStartTrackingTouch(p0: SeekBar?) {
-                if(p0!=null){
-                    var startPoint = p0.progress
-                }
-            }
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-                if(p0!=null){
-                    var endPoint = p0.progress
-                }
-            }
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
+
         })
     }
-    private fun show_layout(layout:LinearLayout, button: Button?){
+    private fun showLayout(layout:LinearLayout, button: Button?){
         if(layout.isShown){
             button?.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
             layout.hide()
@@ -200,126 +191,125 @@ class Filtri : Fragment() {
             layout.show()
         }
     }
-    private fun hide_layout(layout: LinearLayout){
+    private fun hideLayout(layout: LinearLayout){
         layout.hide()
     }
-    private fun Ui_recyclerView(){
+    private fun uiRecyclerView(){
         recyclerView = binding.recyclerViewMarchio
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
-        filtri_adapter = MarchioAdapter()
-        recyclerView.adapter = filtri_adapter
-        filtri_adapter.updateList(marchi)
+        filtriAdapter = MarchioAdapter()
+        recyclerView.adapter = filtriAdapter
+        filtriAdapter.updateList(marchi)
     }
-    private fun Ui_recyclerView_Cat(){
+    private fun uiRecyclerViewCategoria(){
         binding.recyclerViewCategoria.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewCategoria.setHasFixedSize(true)
-        categoria_adapter = CategoriaAdapter()
-        binding.recyclerViewCategoria.adapter = categoria_adapter
+        categoriaAdapter = CategoriaAdapter()
+        binding.recyclerViewCategoria.adapter = categoriaAdapter
     }
-    private fun AdapterFuction(){
-        filtri_adapter.onItemClick = {
+    private fun adapterFuction(){
+        filtriAdapter.onItemClick = {
             marchio = it
             binding.layoutMarchioChecked.show()
-            binding.filtroMarchio.text="${marchio} "
+            binding.filtroMarchio.text="$marchio "
             binding.rbMarchio.isChecked=true
-            show_layout(binding.layoutMarchio,binding.btnMarchio)
+            showLayout(binding.layoutMarchio,binding.btnMarchio)
             binding.btnMostra.setOnClickListener{
-                show_list()
+                showList()
             }
         }
     }
-    private fun AdapterCategoryFuction(){
-        categoria_adapter.onItemClick = {
+    private fun adapterCategoryFuction(){
+        categoriaAdapter.onItemClick = {
             categoria = it
-            hide_layout(binding.layoutSubCategoria)
-            hide_layout(binding.layoutCategoria)
+            hideLayout(binding.layoutSubCategoria)
+            hideLayout(binding.layoutCategoria)
             binding.subCategoria.text=categoria
-            show_layout(binding.layoutCategoryChecked,null)
+            showLayout(binding.layoutCategoryChecked,null)
             binding.btnMostra.setOnClickListener{
-                show_list()
+                showList()
             }
         }
     }
-    private fun show_list(){
+    private fun showList(){
         val bundle = Bundle()
         if(!binding.qrcode.text.isNullOrEmpty()) qrCode=binding.qrcode.text.toString()
-        var arrayList= arrayListOf(prezzo,marchio,categoria,qrCode)
+        val arrayList= arrayListOf(prezzo,marchio,categoria,qrCode)
         bundle.putStringArrayList("filtri",arrayList)
         val fragment = CatalogoFragment()
         fragment.arguments= bundle
         replaceFragment(fragment)
-
     }
-    private fun show_category(button :Button){
+    private fun showCategory(button :Button){
         button.setOnClickListener{
-            hide_layout(binding.layoutCategoria)
-            show_layout(binding.layoutSubCategoria,null)
+            hideLayout(binding.layoutCategoria)
+            showLayout(binding.layoutSubCategoria,null)
             binding.txtCategoria.text=button.text.toString()
-            when(button.text.toString().toLowerCase()){
+            when(button.text.toString().lowercase()){
                 "frutta e verdura"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Frutta_e_verdura).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Frutta_e_verdura).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "carne e salumi"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Carne_e_salumi).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Carne_e_salumi).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "pesce e sushi"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Pesce_e_sushi).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Pesce_e_sushi).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "formaggi latte uova"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Formaggi_latte_e_uova).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Formaggi_latte_e_uova).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "preparazione dolci e salati"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Prep_dolci_e_salati).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Prep_dolci_e_salati).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "biscotti,cereali e dolci"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Biscotti_cereali_e_dolci).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Biscotti_cereali_e_dolci).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "caffe e infusi"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Caffe_e_infusi).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Caffe_e_infusi).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "condimenti e conserve"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Condimenti_e_conserve).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Condimenti_e_conserve).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "panetteria e snack salati"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Panetteria_e_snack_salati).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Panetteria_e_snack_salati).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "pasta e riso"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Pasta_e_riso).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Pasta_e_riso).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "surgelati e gelati"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Surgelati_e_gelati).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Surgelati_e_gelati).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "piatti pronti"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Piattipronti).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Piattipronti).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "articoli per la casa"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Articoli_casa).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Articoli_casa).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "animali domestici"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Animali_domestici).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Animali_domestici).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "vino,birra e altri alcolici"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Vino_birra_altri_alcolici).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Vino_birra_altri_alcolici).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
                 "bevande"->{
-                    var categoria = requireContext().resources.getStringArray(R.array.Bevande).toMutableList() as ArrayList<String>
-                    categoria_adapter.updateList(categoria)
+                    val categoria = requireContext().resources.getStringArray(R.array.Bevande).toMutableList() as ArrayList<String>
+                    categoriaAdapter.updateList(categoria)
                 }
             }
 
@@ -342,6 +332,7 @@ class Filtri : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

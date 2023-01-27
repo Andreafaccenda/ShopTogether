@@ -24,7 +24,7 @@ class CategorieAdapter(private val List: ArrayList<Categorie>):
     override fun onBindViewHolder(holder: CategorieViewHolder, position: Int) {
        val currentItem = List[position]
         holder.titleImage.setImageResource(currentItem.immagine)
-        holder.txt_categoria.text= categorie.get(position)
+        holder.txtCategoria.text= categorie[position]
         holder.background.setBackgroundResource(currentItem.sfondo)
 
         holder.itemView.setOnClickListener{
@@ -38,7 +38,7 @@ class CategorieAdapter(private val List: ArrayList<Categorie>):
     class CategorieViewHolder(view : View) : RecyclerView.ViewHolder(view){
 
         val titleImage : ImageView = itemView.findViewById(R.id.image_category)
-        val txt_categoria : TextView = itemView.findViewById(R.id.title_category)
+        val txtCategoria : TextView = itemView.findViewById(R.id.title_category)
         val background : ConstraintLayout = itemView.findViewById(R.id.mainLayout)
 
     }

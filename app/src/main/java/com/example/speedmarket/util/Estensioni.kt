@@ -1,15 +1,15 @@
 package com.example.speedmarket.util
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.provider.Settings
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -17,18 +17,13 @@ import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import coil.load
 import com.example.speedmarket.R
-import com.example.speedmarket.databinding.ActivityAppBinding.bind
-import com.example.speedmarket.databinding.ActivityAppBinding.inflate
-import com.example.speedmarket.databinding.BottomSheetDailogBinding
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.AppActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import kotlin.system.exitProcess
 
 
 fun View.hide(){
@@ -39,20 +34,10 @@ fun View.show(){
     visibility = View.VISIBLE
 }
 
-fun View.disable(){
-    isEnabled = false
-}
-
-fun View.enabled(){
-    isEnabled = true
-}
-
 fun Fragment.toast(msg: String?){
 
     Toast.makeText(requireContext(),msg,Toast.LENGTH_LONG).show()
 }
-
-
 fun Fragment.createDialog(): Dialog {
         val dialog = Dialog(requireContext(), android.R.style.Theme_Dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -65,8 +50,57 @@ fun Fragment.createDialog(): Dialog {
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
         return dialog
+}
+fun Fragment.createDialogInternet(): Dialog {
+    val dialog = Dialog(requireContext(), android.R.style.Theme_Dialog)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.setContentView(R.layout.dialog_internet)
+    dialog.window?.setGravity(Gravity.CENTER)
+    dialog.window?.setLayout(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.WRAP_CONTENT
+    )
+    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.setCancelable(true)
+    return dialog
+}
+fun Fragment.dialogInternet() {
+
+    val dialog = createDialogInternet()
+    dialog.show()
+    val continua = dialog.findViewById<Button>(R.id.btn_continua)
+    continua.setOnClickListener{
+        dialog.dismiss()
     }
-fun Fragment.setupOnBackPressedExit(fragmentToremove : Fragment) {
+    val imageButton = dialog.findViewById<ImageButton>(R.id.image_close)
+    imageButton.setOnClickListener{
+        dialog.dismiss()
+    }
+    val impostazioni = dialog.findViewById<Button>(R.id.btn_impostazioni)
+    impostazioni.setOnClickListener{
+        val myIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+        startActivity(myIntent)
+        dialog.dismiss()
+    }
+}
+fun Fragment.isOnline(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities =
+        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    if (capabilities != null) {
+        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            return true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            return true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+            return true
+        }
+    }
+    return false
+}
+
+fun Fragment.setupOnBackPressedExit() {
     val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val dialog = createDialog()
@@ -74,8 +108,8 @@ fun Fragment.setupOnBackPressedExit(fragmentToremove : Fragment) {
             val button = dialog.findViewById<Button>(R.id.btn_esci)
             button.setOnClickListener {
                 requireActivity().finish()
-                removeFragment(fragmentToremove)
-                exitProcess(0)
+                requireActivity().moveTaskToBack(true)
+                System.exit(-1)
             }
             val imageButton = dialog.findViewById<ImageButton>(R.id.image_close)
             imageButton.setOnClickListener {
@@ -133,17 +167,12 @@ fun Fragment.calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float,
     }
 
 }
-fun Fragment.removeFragment(fragment: Fragment){
-    val transaction = fragmentManager?.beginTransaction()
-    transaction?.remove(fragment)
-    transaction?.commitAllowingStateLoss()
-}
 fun Fragment.dialog(fragment: Fragment,str1:String,str2:String,str3:String) {
 
     val dialog = createDialog()
     dialog.show()
     val button = dialog.findViewById<Button>(R.id.btn_esci)
-    button.setText(str3)
+    button.text=str3
     dialog.findViewById<TextView>(R.id.txt_esci).text=str1
     dialog.findViewById<TextView>(R.id.txt_conferma_di_voler_uscire).text=str2
     button.setOnClickListener{
@@ -155,21 +184,18 @@ fun Fragment.dialog(fragment: Fragment,str1:String,str2:String,str3:String) {
         dialog.dismiss()
     }
 }
-
 fun Fragment.setupOnBackPressed(){
     val callback=object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
             startActivity(Intent(requireContext(), AppActivity::class.java))
         }
-
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
-fun Fragment.setupOnBackPressedFragment(fragment:Fragment,fragmentToremove: Fragment){
+fun Fragment.setupOnBackPressedFragment(fragment:Fragment){
     val callback=object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
             replaceFragment(fragment)
-            removeFragment(fragmentToremove)
         }
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
@@ -180,13 +206,6 @@ fun Fragment.replaceFragment(fragment: Fragment){
     transaction?.replace(R.id.frame_layout, fragment)
     transaction?.commit()
 }
-
-val Int.dpToPx: Int
-    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
-
-val Int.pxToDp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
-
 fun String.isValidEmail() =
     isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 

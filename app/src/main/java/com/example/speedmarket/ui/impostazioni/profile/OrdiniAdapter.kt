@@ -1,21 +1,16 @@
 package com.example.speedmarket.ui.impostazioni.profile
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.speedmarket.databinding.ViewHolderCarrelloBinding
 import com.example.speedmarket.databinding.ViewHolderOrdiniBinding
 import com.example.speedmarket.model.Carrello
-import com.example.speedmarket.model.Prodotto
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.speedmarket.model.Carrello.Stato.*
 
 
-class OrdiniAdapter() : RecyclerView.Adapter<OrdiniAdapter.OrdiniViewHolder>() {
+class OrdiniAdapter : RecyclerView.Adapter<OrdiniAdapter.OrdiniViewHolder>() {
 
 
     private var list: MutableList<Carrello> = arrayListOf()
@@ -48,12 +43,14 @@ class OrdiniAdapter() : RecyclerView.Adapter<OrdiniAdapter.OrdiniViewHolder>() {
 
     inner class OrdiniViewHolder(val binding: ViewHolderOrdiniBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(item: Carrello) {
             binding.txtStatoOrdine.text="Stato: ${item.stato}"
             when(item.stato){
-                Carrello.Stato.elaborazione->binding.txtStatoOrdine.setTextColor(Color.RED)
-                Carrello.Stato.spedizione->binding.txtStatoOrdine.setTextColor(Color.parseColor("#FF9800"))
-                Carrello.Stato.consegnato->binding.txtStatoOrdine.setTextColor(Color.GREEN)
+                elaborazione ->binding.txtStatoOrdine.setTextColor(Color.RED)
+                spedizione ->binding.txtStatoOrdine.setTextColor(Color.parseColor("#FF9800"))
+                consegnato ->binding.txtStatoOrdine.setTextColor(Color.GREEN)
+                incompleto -> TODO()
             }
             binding.txtData.text="Data:${item.date}"
             binding.txtPrezzo.text="€ ${item.prezzo}"

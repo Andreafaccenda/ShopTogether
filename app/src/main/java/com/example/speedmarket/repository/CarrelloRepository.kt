@@ -1,7 +1,6 @@
 package com.example.speedmarket.repository
 
 import androidx.lifecycle.LiveData
-import com.example.speedmarket.database.DaoCarrello
 import com.example.speedmarket.database.DatabaseCarrello
 import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Utente

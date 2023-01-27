@@ -35,7 +35,7 @@ class PagamentoFragment : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(CarrelloFragment(),PagamentoFragment())
+        setupOnBackPressedFragment(CarrelloFragment())
         getUserSession()
         getUserObserver()
         utente?.let { viewModelAuth.getUtente(it.id) }

@@ -1,33 +1,23 @@
 package com.example.speedmarket.repository
 
-import android.app.Application
-import android.content.ContentResolver
-import android.content.Context
+
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.provider.MediaStore
-import com.example.speedmarket.database.DatabaseProdotto
-import com.example.speedmarket.database.asDomainModelProdotto
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.util.FireStoreCollection
 import com.example.speedmarket.util.SharedPrefConstants
 import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.toast
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.io.File
 
 
 class AuthRepositoryImp(
@@ -57,7 +47,7 @@ class AuthRepositoryImp(
                                         result.invoke(UiState.Failure("User register successfully but session failed to store"))
                                     }else{*/
                                 result.invoke(
-                                    UiState.Success("User register successfully!")
+                                    UiState.Success("Utente registrato correttamente!")
                                 )
 
                             }
@@ -68,13 +58,13 @@ class AuthRepositoryImp(
                     }
                 } else {
                     try {
-                        throw it.exception ?: java.lang.Exception("Invalid authentication")
+                        throw it.exception ?: java.lang.Exception("Autentificazione fallita")
                     } catch (e: FirebaseAuthWeakPasswordException) {
-                        result.invoke(UiState.Failure("Authentication failed, Password should be at least 6 characters"))
+                        result.invoke(UiState.Failure("Autentificazione fallita,password dovrebbe essere lunga almeno 8 caratteri"))
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        result.invoke(UiState.Failure("Authentication failed, Invalid email entered"))
+                        result.invoke(UiState.Failure("Autentificazione fallita,email inserita non valida"))
                     } catch (e: FirebaseAuthUserCollisionException) {
-                        result.invoke(UiState.Failure("Authentication failed, Email already registered."))
+                        result.invoke(UiState.Failure("Autentificazione fallita,email già registrata."))
                     } catch (e: Exception) {
                         result.invoke(UiState.Failure(e.message))
                     }
@@ -134,7 +124,7 @@ class AuthRepositoryImp(
                     )
                 }
                 else {
-                    result.invoke(UiState.Failure("No such document"))
+                    result.invoke(UiState.Failure("Non abbastanza utenti"))
                 }
             }.addOnFailureListener {
                 result.invoke(UiState.Failure(
@@ -169,7 +159,7 @@ class AuthRepositoryImp(
                     result.invoke(UiState.Failure(task.exception?.message))
                 }
             }.addOnFailureListener {
-                result.invoke(UiState.Failure("Authentication failed, Check email"))
+                result.invoke(UiState.Failure("Autentificazione fallita, controlla email"))
             }
     }
     override fun logout(result: () -> Unit) {
@@ -196,11 +186,11 @@ class AuthRepositoryImp(
     }
 
     override fun getSession(result: (Utente?) -> Unit) {
-        val user_str = appPreferences.getString(SharedPrefConstants.USER_SESSION,null)
-        if (user_str == null){
+        val userStr = appPreferences.getString(SharedPrefConstants.USER_SESSION,null)
+        if (userStr == null){
             result.invoke(null)
         }else{
-            val user = gson.fromJson(user_str,Utente::class.java)
+            val user = gson.fromJson(userStr,Utente::class.java)
             result.invoke(user)
         }
     }

@@ -1,20 +1,15 @@
 package com.example.speedmarket.ui.impostazioni.profile
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.speedmarket.R
-import com.example.speedmarket.databinding.FragmentCatalogoBinding
-import com.example.speedmarket.databinding.FragmentDettagliProdottoBinding
 import com.example.speedmarket.databinding.FragmentDettagliaCartaCreditoBinding
 import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.util.UiState
-import com.example.speedmarket.util.setupOnBackPressed
 import com.example.speedmarket.util.setupOnBackPressedFragment
 import com.example.speedmarket.util.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,17 +23,17 @@ class DettagliaCartaCreditoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDettagliaCartaCreditoBinding.inflate(layoutInflater)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(Profile(),DettagliaCartaCreditoFragment())
+        setupOnBackPressedFragment(Profile())
         getUtente()
         oberver()
-        utente_pagamento()
+        utentePagamento()
         popola()
 
     }
@@ -49,7 +44,7 @@ class DettagliaCartaCreditoFragment : Fragment() {
             }
         }
     }
-    private fun utente_pagamento() {
+    private fun utentePagamento() {
         binding.checkBoxSalva.setOnClickListener {
             utente.pagamento.numero_carta = binding.etNumeroCarta.text.toString()
             utente.pagamento.data_scadenza = binding.etDataScadenza.text.toString()
@@ -57,7 +52,7 @@ class DettagliaCartaCreditoFragment : Fragment() {
         }
     }
     private fun popola(){
-        if(utente.pagamento != null){
+        if(utente.pagamento.numero_carta == ""){
             binding.etNumeroCarta.setText(utente.pagamento.numero_carta)
             binding.etDataScadenza.setText(utente.pagamento.data_scadenza)
             binding.etDataScadenza.isEnabled = false

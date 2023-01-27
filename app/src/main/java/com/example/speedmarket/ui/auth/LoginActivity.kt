@@ -3,8 +3,6 @@ package com.example.speedmarket.ui.auth
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.example.speedmarket.R

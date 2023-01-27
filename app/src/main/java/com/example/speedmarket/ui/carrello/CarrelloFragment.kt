@@ -1,7 +1,6 @@
 package com.example.speedmarket.ui.carrello
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +22,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class CarrelloFragment : Fragment() {
 
@@ -31,7 +31,7 @@ class CarrelloFragment : Fragment() {
     private lateinit var utente: Utente
     private lateinit var prodotto: Prodotto
     private lateinit var carrello: Carrello
-    private var prodotto_catalogo =false
+    private var prodottoCatalogo =false
     private val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     val viewModel: ProdViewModel by viewModels()
@@ -41,7 +41,7 @@ class CarrelloFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentCarrelloBinding.inflate(layoutInflater)
         return binding.root
@@ -49,9 +49,10 @@ class CarrelloFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(!isOnline(requireContext())) dialogInternet()
         setupOnBackPressed()
         binding.txtSpedizione.setOnClickListener{
-            toast("La spedizione ha un prezzo di €5 per ordini inferiori ai €50")
+            toast("La Spedizione ha un prezzo di €5 per ordini inferiori ai €50")
         }
         binding.btnDelete.setOnClickListener{
             toast("Per eliminare dei prodotti scorri da sinistra verso destra")
@@ -61,10 +62,10 @@ class CarrelloFragment : Fragment() {
         viewModelCarrello.getCarrello(utente)
         val args = this.arguments
         if (args.toString() == "null") {
-            prodotto_catalogo = false
+            prodottoCatalogo = false
         } else {
             prodotto = args?.getSerializable("prodotto") as Prodotto
-            prodotto_catalogo = true
+            prodottoCatalogo = true
         }
 
         recyclerView = binding.recyclerViewCarrello
@@ -88,24 +89,24 @@ class CarrelloFragment : Fragment() {
                 is UiState.Success -> {
                     this.carrello=state.data
                     if(state.data.id == ""){
-                        if(prodotto_catalogo){
+                        if(prodottoCatalogo){
                                 aggiornaCarrello(prodotto, utente)
-                                FunzioneAdapter()
+                                funzioneAdapter()
                                 viewModelCarrello.updateCarrello(carrello)
                                 controlloCoerenzaCarrello()
                         }
                     }else{
                         if(this.carrello.stato == Carrello.Stato.incompleto){
-                            if(prodotto_catalogo && this.carrello.lista_prodotti != null) {
+                            if(prodottoCatalogo && this.carrello.lista_prodotti != null) {
                                 if (controlloRidondanzaCarrello(prodotto))
                                     toast("il tuo prodotto è gia inserito nel carrello")
                                 else {
                                     this.carrello.lista_prodotti?.add(prodotto)
-                                    update_price_cart(this.carrello)
+                                    updatePriceCart(this.carrello)
                                     viewModelCarrello.updateCarrello(this.carrello)
                                 }
                             }
-                            FunzioneAdapter()
+                            funzioneAdapter()
                             controlloCoerenzaCarrello()
                             viewModelCarrello.updateCarrello(this.carrello)
                         }
@@ -119,10 +120,10 @@ class CarrelloFragment : Fragment() {
             if (user != null) utente = user
         }
     }
-    fun FunzioneAdapter(){
+    fun funzioneAdapter(){
         adapter.onItemClick = {
-            update_quantita_ordine(this.carrello, it)
-            update_price_cart(this.carrello)
+            updateQuantitaOrdine(this.carrello, it)
+            updatePriceCart(this.carrello)
             viewModelCarrello.updateCarrello(this.carrello)
         }
     }
@@ -133,14 +134,14 @@ class CarrelloFragment : Fragment() {
         val sdf = SimpleDateFormat("dd/M/yyyy")
         val currentDate = sdf.format(Date())
         this.carrello.date = currentDate
-        update_price_cart(this.carrello)
+        updatePriceCart(this.carrello)
         this.carrello.stato = Carrello.Stato.incompleto
         this.carrello.indirizzoSpedizione= Indirizzo("","","","","")
         this.carrello.pagamento= Pagamento("","")
     }
     fun controlloCoerenzaCarrello(){
-        swipe_delete(this.carrello)
-        update_price_cart(this.carrello)
+        swipeDelete(this.carrello)
+        updatePriceCart(this.carrello)
         this.carrello.lista_prodotti?.let { adapter.updateList(it) }
     }
     fun controlloRidondanzaCarrello(prodotto: Prodotto):Boolean {
@@ -153,19 +154,19 @@ class CarrelloFragment : Fragment() {
         dec.roundingMode = RoundingMode.DOWN
         return dec.format(prezzo_totale)
     }
-    private fun swipe_delete(carrello: Carrello){
-        var deleteProduc: Prodotto? = null
+    private fun swipeDelete(carrello: Carrello){
+        var deleteProduc: Prodotto?
         val swipeToDeleteCallback =  object : SwipeToDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position= viewHolder.adapterPosition
                 deleteProduc= carrello.lista_prodotti?.get(position)
                 carrello.lista_prodotti?.remove(deleteProduc)
 
-                update_price_cart(carrello)
+                updatePriceCart(carrello)
                 viewModelCarrello.updateCarrello(carrello)
                 carrello.lista_prodotti?.let { adapter.updateList(it) }
                 //adapter.notifyItemRemoved(position)
-                update_price_cart(carrello)
+                updatePriceCart(carrello)
                 if(adapter.itemCount<= 0){
                     binding.txtPrezzoCarrello.text = "€0"
                     binding.txtTotaleSpesaCarrello.text =  "€0"
@@ -175,11 +176,11 @@ class CarrelloFragment : Fragment() {
                     deleteProduc!!.nome,Snackbar.LENGTH_LONG)
                     .setAction("Annulla") {
                         carrello.lista_prodotti?.add(deleteProduc!!)
-                        update_price_cart(carrello)
+                        updatePriceCart(carrello)
                         viewModelCarrello.updateCarrello(carrello)
                         carrello.lista_prodotti?.let { adapter.updateList(it) }
                         //adapter.notifyItemInserted(position)
-                        update_price_cart(carrello)
+                        updatePriceCart(carrello)
                     }.show()
             }
         }
@@ -188,7 +189,7 @@ class CarrelloFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }
-    fun update_price_cart(carrello:Carrello){
+    fun updatePriceCart(carrello:Carrello){
         var prezzo = 0.0F
         if(!carrello.lista_prodotti.isNullOrEmpty()) {
             for (elem in carrello.lista_prodotti!!) {
@@ -201,7 +202,7 @@ class CarrelloFragment : Fragment() {
         }else carrello.prezzo=""
     }
 
-    fun update_quantita_ordine(carrello: Carrello,it:Prodotto){
+    fun updateQuantitaOrdine(carrello: Carrello, it:Prodotto){
             var prodotto: Prodotto? =null
             viewModel.updateProduct(it)
             for (product in carrello.lista_prodotti!!) {
@@ -216,7 +217,7 @@ class CarrelloFragment : Fragment() {
                 //adapter.notifyItemInserted(position)
                 viewModelCarrello.updateCarrello(carrello)
             }
-            update_price_cart(carrello)
+            updatePriceCart(carrello)
     }
 }
 

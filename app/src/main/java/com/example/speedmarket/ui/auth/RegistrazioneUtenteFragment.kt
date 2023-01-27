@@ -17,10 +17,10 @@ import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
+@Suppress("UNREACHABLE_CODE")
 @AndroidEntryPoint
 class RegistrazioneUtenteFragment : Fragment() {
 
-    val TAG: String = "RegisterFragment"
     lateinit var binding: FragmentRegistrazioneUtenteBinding
     val viewModel: AuthViewModel by viewModels()
 
@@ -51,16 +51,16 @@ class RegistrazioneUtenteFragment : Fragment() {
         viewModel.register.observe(viewLifecycleOwner) { state ->
             when(state){
                 is UiState.Loading -> {
-                    binding.btnRegistrati.setText("")
+                    binding.btnRegistrati.text = ""
                     binding.registerProgress.show()
                 }
                 is UiState.Failure -> {
-                    binding.btnRegistrati.setText("Registrati")
+                    binding.btnRegistrati.text="Registrati"
                     binding.registerProgress.hide()
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    binding.btnRegistrati.setText("Registrati")
+                    binding.btnRegistrati.text="Registrati"
                     binding.registerProgress.hide()
                     toast(state.data)
                     view?.findNavController()?.navigate(R.id.action_registrazioneUtenteFragment_to_accediFragment)
@@ -102,7 +102,7 @@ class RegistrazioneUtenteFragment : Fragment() {
             false}
         binding.etPassword.text.toString().length < 8 ->{toast(getString(R.string.messaggio_password_invalida))
             false}
-        !binding.etPassword.text.toString().equals(binding.etRipetiPassword.text.toString())->{toast(getString(R.string.messaggio_password_diverse))
+        binding.etPassword.text.toString() != binding.etRipetiPassword.text.toString() ->{toast(getString(R.string.messaggio_password_diverse))
             false}
         else ->{ true}
     }

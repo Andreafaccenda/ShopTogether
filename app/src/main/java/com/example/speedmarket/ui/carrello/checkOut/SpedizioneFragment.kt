@@ -15,7 +15,6 @@ import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_riepilogo.*
 
 @AndroidEntryPoint
 class SpedizioneFragment : Fragment(), ProfileManager {
@@ -34,7 +33,7 @@ class SpedizioneFragment : Fragment(), ProfileManager {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressedFragment(CarrelloFragment(),SpedizioneFragment())
+        setupOnBackPressedFragment(CarrelloFragment())
         binding.layoutSalva.hide()
         getUserSession()
         getUserObserver()
