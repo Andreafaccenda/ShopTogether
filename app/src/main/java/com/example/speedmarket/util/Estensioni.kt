@@ -21,6 +21,7 @@ import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.AppActivity
+import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -120,18 +121,11 @@ fun Fragment.setupOnBackPressedExit() {
     }
     requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
-fun Activity.dialog(): Dialog {
-    val dialog = Dialog(this, android.R.style.Theme_Dialog)
-    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-    dialog.setContentView(R.layout.dialog)
-    dialog.window?.setGravity(Gravity.CENTER)
-    dialog.window?.setLayout(
-        WindowManager.LayoutParams.MATCH_PARENT,
-        WindowManager.LayoutParams.WRAP_CONTENT
-    )
-    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    dialog.setCancelable(true)
-    return dialog
+fun Fragment.reload(fragment: Fragment){
+        val transaction = fragmentManager!!.beginTransaction()
+        transaction.replace(R.id.frame_layout,fragment);
+        transaction.commit()
+
 }
 fun Fragment.bottomSheetDialog(prodotto:Prodotto):BottomSheetDialog{
     val bottomSheetDialog = BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme)

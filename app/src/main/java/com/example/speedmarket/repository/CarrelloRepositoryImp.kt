@@ -31,6 +31,7 @@ class CarrelloRepositoryImp(
                    var carrello = DatabaseCarrello()
                    for (document in it) {
                        carrello = document.toObject(DatabaseCarrello::class.java)
+                       carrelloDao.insertCarrello(carrello)
                    }
                    result.invoke(
                        UiState.Success(carrello.toCarrello())

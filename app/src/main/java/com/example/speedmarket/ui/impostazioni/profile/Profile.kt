@@ -50,26 +50,17 @@ class Profile : Fragment(), ProfileManager {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         return binding.root
     }
-
     override fun onPause() {
         super.onPause()
         isBackFromB = true
     }
-
     override fun onResume() {
         super.onResume()
         if (isBackFromB) {
             isBackFromB = false
-            aggiorna()
+           reload(Profile())
         }
     }
-
-    fun aggiorna(){
-        val tr = fragmentManager!!.beginTransaction()
-        tr.replace(R.id.frame_layout, Profile());
-        tr.commit()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(Impostazioni())

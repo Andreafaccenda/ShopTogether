@@ -34,16 +34,18 @@ class ProdottoSimileAdapter : RecyclerView.Adapter<ProdottoSimileAdapter.Prodott
         notifyDataSetChanged()
     }
 
-     fun filtraListaCategoria(tipo: String, list: MutableList<Prodotto>) {
+     fun filtraCategoriaAndRemove(tipo: String, list: MutableList<Prodotto>,prodottoRemove: Prodotto) {
         val listaAggiornata: MutableList<Prodotto> = arrayListOf()
         for (prodotto in list) {
             if (prodotto.categoria.equals(tipo, true)) {
-                listaAggiornata.add(prodotto)
+                if(prodotto.id != prodottoRemove.id)
+                    listaAggiornata.add(prodotto)
             }
         }
-        updateList(listaAggiornata)
 
+        updateList(listaAggiornata)
     }
+
 
     override fun getItemCount(): Int {
         return list.size

@@ -120,6 +120,7 @@
     <string name="chiudi">Chiudi</string>
     <string name="informazioni_utente">Informazioni utente</string>
     <string name="aggiungi_prodotto">Aggiungi prodotto</string>
+    <string name="dettagli_prodotto">Dettagli prodotto</string>
 
     <string-array name="marchi">
         <item>Conad</item>

@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentDettagliProdottoBinding
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.model.Utente
@@ -29,34 +28,37 @@ class DettagliProdottoFragment : Fragment() {
 
     lateinit var binding: FragmentDettagliProdottoBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var nome_categoria :String
-    private lateinit var utente_corrente :Utente
+    private lateinit var nomeCategoria :String
+    private lateinit var utenteCorrente :Utente
     private lateinit var prodotto: Prodotto
+    var isBackFromB = false
     val viewModel: ProdViewModel by viewModels()
     val viewModelAuth: AuthViewModel by viewModels()
     private val adapter by lazy { ProdottoSimileAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDettagliProdottoBinding.inflate(layoutInflater)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupOnBackPressed()
+        if(!isOnline(requireContext()))dialogInternet()
+        setupOnBackPressedFragment(CatalogoFragment())
         val args = this.arguments
-       /*viewModelAuth.prodottiLocal.observe(viewLifecycleOwner) { products ->
-            products?.apply {
-                for (i in products)
-                    Log.d("lista", i.disponibilita.toString())
-            }
-        }*/
         this.prodotto = args?.getSerializable("prodotto") as Prodotto
-        this.nome_categoria=this.prodotto.categoria
+        this.nomeCategoria=this.prodotto.categoria
         oberver()
         viewModel.getProducts()
+        adapter.onItemClick={
+            val bundle = Bundle()
+            bundle.putSerializable("prodotto",it)
+            val fragment = DettagliProdottoFragment()
+            fragment.arguments= bundle
+            replaceFragment(fragment)
+        }
         binding.title.text = this.prodotto.nome
         binding.prezzo.text = "€${
             calcolaPrezzo(
@@ -65,13 +67,11 @@ class DettagliProdottoFragment : Fragment() {
                 this.prodotto.offerta!!
             )
         }"
-        bindImage(binding.immagineProdotto, this.prodotto.immagine)
+        bindImage(binding.imageProdotto, this.prodotto.immagine)
         binding.txtDescrizione.text = this.prodotto.descrizione
         binding.txtDataScadenza.text = "Data di scadenza: ${this.prodotto.data_scadenza}"
-        binding.txtTornaIndietro.setOnClickListener {
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_layout, CatalogoFragment())
-            transaction?.commit()
+        binding.tornaIndietro.setOnClickListener {
+            replaceFragment(CatalogoFragment())
         }
         binding.txtAggiungiCarrello.setOnClickListener {
 
@@ -95,19 +95,19 @@ class DettagliProdottoFragment : Fragment() {
         }else {
 
             binding.imagePiu.setOnClickListener {
-                if(check_quantita(binding.txtQuantitProdotto.text.toString().toInt())){
-                        var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
-                        quantita_ordinata += 1
-                        binding.txtQuantitProdotto.text = quantita_ordinata.toString()
+                if(checkQuantita(binding.txtQuantitProdotto.text.toString().toInt())){
+                        var quantitaOrdinata = binding.txtQuantitProdotto.text.toString().toInt()
+                        quantitaOrdinata += 1
+                        binding.txtQuantitProdotto.text = quantitaOrdinata.toString()
                         this.prodotto.unita_ordinate = binding.txtQuantitProdotto.text.toString().toInt()
                     }
 
             }
             binding.imageMeno.setOnClickListener {
                 if (binding.txtQuantitProdotto.text.toString().toInt() > 1) {
-                    var quantita_ordinata = binding.txtQuantitProdotto.text.toString().toInt()
-                    quantita_ordinata -= 1
-                    binding.txtQuantitProdotto.text = quantita_ordinata.toString()
+                    var quantitaOrdinata = binding.txtQuantitProdotto.text.toString().toInt()
+                    quantitaOrdinata -= 1
+                    binding.txtQuantitProdotto.text = quantitaOrdinata.toString()
 
                     this.prodotto.unita_ordinate =
                         binding.txtQuantitProdotto.text.toString().toInt()
@@ -122,15 +122,27 @@ class DettagliProdottoFragment : Fragment() {
         }
     }
     private fun oberver() {
-        viewModel.prodotto.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
+        if (isOnline(requireContext())) {
+            viewModel.prodotto.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                    }
+                    is UiState.Failure -> {
+                        toast(state.error)
+                    }
+                    is UiState.Success -> {
+                        adapter.filtraCategoriaAndRemove(this.nomeCategoria,
+                            state.data.toMutableList(),
+                            this.prodotto)
+                    }
                 }
-                is UiState.Failure -> {
-                    toast(state.error)
-                }
-                is UiState.Success -> {
-                    adapter.filtraListaCategoria(this.nome_categoria,state.data.toMutableList())
+            }
+        } else {
+            viewModel.prodottiLocal.observe(viewLifecycleOwner) { prodotti ->
+                prodotti?.apply {
+                    adapter.filtraCategoriaAndRemove(nomeCategoria,
+                        prodotti.toMutableList(),
+                        prodotto)
                 }
             }
         }
@@ -156,7 +168,7 @@ class DettagliProdottoFragment : Fragment() {
             imgView.load(imgUri)
         }
     }
-    private fun check_quantita(numero:Int):Boolean{
+    private fun checkQuantita(numero:Int):Boolean{
 
                 if(numero<this.prodotto.disponibilita){
                     return true
@@ -170,19 +182,21 @@ class DettagliProdottoFragment : Fragment() {
         super.onStart()
         viewModelAuth.getSession { user ->
             if (user != null) {
-                this.utente_corrente=user
+                this.utenteCorrente=user
 
             }
         }
     }
-    private fun setupOnBackPressed(){
-        val callback=object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                val fragment = CatalogoFragment()
-                replaceFragment(fragment)
-            }
+    override fun onPause() {
+        super.onPause()
+        isBackFromB = true
+    }
+    override fun onResume() {
+        super.onResume()
+        if (isBackFromB) {
+            isBackFromB = false
+            reload(DettagliProdottoFragment())
         }
-        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 }
 

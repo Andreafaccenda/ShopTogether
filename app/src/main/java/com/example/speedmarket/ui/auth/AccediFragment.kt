@@ -16,6 +16,7 @@ import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentAccediBinding
 import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.dipendente.StaffActivity
+import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,7 @@ class AccediFragment : Fragment() {
 
     lateinit var binding: FragmentAccediBinding
     val viewModel: AuthViewModel by viewModels()
+    var isBackFromB = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +36,7 @@ class AccediFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressedExit()
         getDatiSalvati()
         observer()
         binding.btnAccedi.setOnClickListener {
@@ -111,6 +114,17 @@ class AccediFragment : Fragment() {
             }
         }
         return isValid
+    }
+    override fun onPause() {
+        super.onPause()
+        isBackFromB = true
+    }
+    override fun onResume() {
+        super.onResume()
+        if (isBackFromB) {
+            isBackFromB = false
+            reload(AccediFragment())
+        }
     }
 }
 

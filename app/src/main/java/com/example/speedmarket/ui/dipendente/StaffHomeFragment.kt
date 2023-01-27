@@ -18,6 +18,7 @@ import com.example.speedmarket.ui.MainActivity
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.profile.OrdiniAdapter
 import com.example.speedmarket.util.UiState
+import com.example.speedmarket.util.setupOnBackPressedExit
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,6 +40,7 @@ class StaffHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnBackPressedExit()
         viewModelAuth.getListUser()
         observer()
         recyclerView = binding.recyclerViewOrdini

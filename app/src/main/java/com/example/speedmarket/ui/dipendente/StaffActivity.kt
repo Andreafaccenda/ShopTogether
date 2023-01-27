@@ -36,22 +36,4 @@ class StaffActivity : AppCompatActivity() {
             )
         }
     }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val dialog = dialog()
-        dialog.show()
-        val button = dialog.findViewById<Button>(R.id.btn_esci)
-        button.setOnClickListener {
-            it.findNavController().popBackStack(R.id.staffHomeFragment,false)
-            it.findNavController().popBackStack(R.id.ordineDetailsFragment,false)
-            finish()
-            exitProcess(0)
-        }
-        val imageButton = dialog.findViewById<ImageButton>(R.id.image_close)
-        imageButton.setOnClickListener {
-            dialog.dismiss()
-        }
-    }
 }

@@ -32,6 +32,7 @@ class CarrelloFragment : Fragment() {
     private lateinit var prodotto: Prodotto
     private lateinit var carrello: Carrello
     private var prodottoCatalogo =false
+    private var isBackFromB = false
     private val viewModelAuth: AuthViewModel by viewModels()
     val viewModelCarrello: CarrelloViewModel by viewModels()
     val viewModel: ProdViewModel by viewModels()
@@ -257,6 +258,18 @@ class CarrelloFragment : Fragment() {
             }
             updatePriceCart(carrello)
     }
+    override fun onPause() {
+        super.onPause()
+        isBackFromB = true
+    }
+    override fun onResume() {
+        super.onResume()
+        if (isBackFromB) {
+            isBackFromB = false
+            reload(CarrelloFragment())
+        }
+    }
+
 }
 
 
