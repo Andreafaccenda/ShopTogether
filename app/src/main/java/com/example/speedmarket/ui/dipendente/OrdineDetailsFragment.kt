@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_ordine_details.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 @AndroidEntryPoint
-class OrdineDetailsFragment : Fragment(),ProfileManager{
+class OrdineDetailsFragment : Fragment(), ProfileManager{
 
     lateinit var binding :FragmentOrdineDetailsBinding
     private val args : OrdineDetailsFragmentArgs by navArgs()
@@ -67,24 +67,26 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
         binding.btnInformationUtente.setOnClickListener {
             showLayoutProfile()
         }
+        getUserObserver()
+        viewModelAuth.getUtente(carrello.id)
         observerUpdateUser()
         binding.cambiaStato.setOnClickListener{
            binding.layoutChangeState.show()
             binding.radioGroupStato.setOnCheckedChangeListener { _, _ ->
                 if(ordine_consegnato.isChecked){
                     updateStateCarrello(Carrello.Stato.consegnato)
-                    ordine_consegnato.isChecked=false
-                    binding.layoutChangeState.hide()
+                    ordine_consegnato.isEnabled = false
+         //           binding.layoutChangeState.hide()
                 }
                 if(ordine_elaborazione.isChecked){
                     updateStateCarrello(Carrello.Stato.elaborazione)
-                    ordine_elaborazione.isChecked=false
-                    binding.layoutChangeState.hide()
+                    ordine_elaborazione.isEnabled=false
+        //            binding.layoutChangeState.hide()
                 }
                 if(ordine_spedizione.isChecked){
                     updateStateCarrello(Carrello.Stato.spedizione)
-                    ordine_spedizione.isChecked=false
-                    binding.layoutChangeState.hide()
+                    ordine_spedizione.isEnabled=false
+        //            binding.layoutChangeState.hide()
                 }
             }
         }
@@ -92,7 +94,6 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter=adapter
-        updateUI()
         adapter.onItemClick={
             val bottomSheetDialog = bottomSheetDialog(it)
             bottomSheetDialog.show()
@@ -107,9 +108,8 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
             toast("Copied to clipboard")
         }
     }
+
     override fun updateUI() {
-        getUserObserver()
-        viewModelAuth.getUtente(this.carrello.id)
         binding.idProfile.text="ID:${utente?.id}"
         binding.nomeProfile.text="Nome:${utente?.nome}"
         binding.cognomeProfile.text="Cognome:${utente?.cognome}"
@@ -135,14 +135,21 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
         binding.txtCap.setText(this.carrello.indirizzoSpedizione!!.cap)
         binding.txtVia.setText(this.carrello.indirizzoSpedizione!!.via)
         binding.txtNumeroCivico.setText(this.carrello.indirizzoSpedizione!!.numero_civico)
+
+        if (this.carrello.stato == Carrello.Stato.consegnato)
+            ordine_consegnato.isChecked = true
+        else if (this.carrello.stato == Carrello.Stato.spedizione)
+            ordine_spedizione.isChecked = true
+        else if (this.carrello.stato == Carrello.Stato.elaborazione)
+            ordine_elaborazione.isChecked = true
     }
+
     private fun calcolaPrezzo(prezzo: Float): String {
         val dec = DecimalFormat("#.##")
         dec.roundingMode = RoundingMode.DOWN
-
         return dec.format(prezzo)
-
     }
+
     private fun showLayoutCarta(){
         if(binding.layoutCarta.isShown){
             binding.btnInformationCarta.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
@@ -152,6 +159,7 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
             binding.layoutCarta.show()
         }
     }
+
     private fun showLayoutProfile(){
         if(binding.layoutInfoProfile.isShown){
             binding.btnInformationUtente.setCompoundDrawablesWithIntrinsicBounds(requireContext().resources.getDrawable(R.drawable.chiudi,context!!.theme), null, null, null)
@@ -171,6 +179,7 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
             binding.layoutSpedizione.show()
         }
     }
+
     private fun getUserObserver() {
         viewModelAuth.utente.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -186,7 +195,8 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
             }
         }
     }
-    private fun updateStateCarrello(stato:Carrello.Stato){
+
+    private fun updateStateCarrello(stato: Carrello.Stato){
         for(carrello in utente?.lista_carrelli!!){
             if(carrello == this.carrello){
                 carrello.stato=stato
@@ -204,18 +214,17 @@ class OrdineDetailsFragment : Fragment(),ProfileManager{
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    toast(state.data)
-
+                    toast("Ordine modificato con successo!")
                 }
             }
         }
     }
+
     private fun setupOnBackPressedFragment(){
         val callback=object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 view?.findNavController()?.navigate(R.id.action_ordineDetailsFragment_to_staffHomeFragment)
             }
-
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
