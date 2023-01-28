@@ -29,6 +29,7 @@ class DettagliaCartaCreditoFragment : Fragment(), ProfileManager {
         binding = FragmentDettagliaCartaCreditoBinding.inflate(layoutInflater)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupOnBackPressedFragment(Profile())
@@ -38,6 +39,7 @@ class DettagliaCartaCreditoFragment : Fragment(), ProfileManager {
         observerUpdateUser()
         utentePagamento()
     }
+
     private fun getSession() {
         viewModelAuth.getSession { user ->
             if (user != null) {
@@ -58,6 +60,7 @@ class DettagliaCartaCreditoFragment : Fragment(), ProfileManager {
             }
         }
     }
+
     override fun updateUI(){
         if(utente?.pagamento!!.numero_carta != ""){
             binding.etNumeroCarta.setText(utente?.pagamento!!.numero_carta)
