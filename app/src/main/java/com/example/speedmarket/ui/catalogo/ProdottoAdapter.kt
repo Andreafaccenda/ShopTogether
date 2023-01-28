@@ -228,7 +228,7 @@ class ProdottoAdapter : RecyclerView.Adapter<ProdottoAdapter.ProdottoViewHolder>
     }
 
     fun calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float): String {
-        val dec = DecimalFormat("#.##")
+        val dec = DecimalFormat("##0.00")
         return if(offerta < 1) {
             dec.roundingMode = RoundingMode.DOWN
             val prezzo = dec.format(prezzo_unitario * quantita * offerta)

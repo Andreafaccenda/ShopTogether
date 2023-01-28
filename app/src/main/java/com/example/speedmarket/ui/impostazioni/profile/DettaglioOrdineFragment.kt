@@ -84,7 +84,7 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
         binding.spedizione.text="€5"
         }
     private fun calcolaPrezzo(prezzo :Float): String {
-        val dec = DecimalFormat("#.##")
+        val dec = DecimalFormat("##0.00")
             dec.roundingMode = RoundingMode.DOWN
             val prezzo = dec.format(prezzo)
 

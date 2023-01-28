@@ -192,7 +192,7 @@ class CarrelloFragment : Fragment() {
         return false
     }
     fun calcolaPrezzo(prezzo_totale: Float): String {
-        val dec = DecimalFormat("#.##")
+        val dec = DecimalFormat("##0.00")
         dec.roundingMode = RoundingMode.DOWN
         return dec.format(prezzo_totale)
     }

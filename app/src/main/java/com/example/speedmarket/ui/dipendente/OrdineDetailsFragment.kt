@@ -145,7 +145,7 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
     }
 
     private fun calcolaPrezzo(prezzo: Float): String {
-        val dec = DecimalFormat("#.##")
+        val dec = DecimalFormat("##0.00")
         dec.roundingMode = RoundingMode.DOWN
         return dec.format(prezzo)
     }
