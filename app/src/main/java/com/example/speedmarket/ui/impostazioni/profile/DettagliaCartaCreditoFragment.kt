@@ -25,7 +25,7 @@ class DettagliaCartaCreditoFragment : Fragment(), ProfileManager {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
+
         binding = FragmentDettagliaCartaCreditoBinding.inflate(layoutInflater)
         return binding.root
     }
