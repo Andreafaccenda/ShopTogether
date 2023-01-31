@@ -34,6 +34,7 @@ class OrdiniAdapter : RecyclerView.Adapter<OrdiniAdapter.OrdiniViewHolder>() {
 
     fun updateList(list: MutableList<Carrello>) {
         this.list = list
+        this.list.reverse()
         notifyDataSetChanged()
     }
 

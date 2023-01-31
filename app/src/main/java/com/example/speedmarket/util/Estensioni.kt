@@ -17,6 +17,7 @@ import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.model.Prodotto
@@ -100,6 +101,14 @@ fun Fragment.isOnline(context: Context): Boolean {
         }
     }
     return false
+}
+fun Fragment.setupOnBackPressedFragmentNav(id:Int){
+    val callback=object : OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
+            view?.findNavController()?.navigate(id)
+        }
+    }
+    requireActivity().onBackPressedDispatcher.addCallback(callback)
 }
 
 fun Fragment.setupOnBackPressedExit() {

@@ -34,7 +34,7 @@ class RegistrazioneUtenteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupOnBackPressedFragmentNav(R.id.action_registrazioneUtenteFragment_to_accediFragment)
         observer()
         binding.btnRegistrati.setOnClickListener {
             if (validation()) {

@@ -49,7 +49,7 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.setupOnBackPressedFragment()
+        setupOnBackPressedFragmentNav(R.id.action_ordineDetailsFragment_to_staffHomeFragment)
         carrello=args.carrello
         binding.turnBack.setOnClickListener{
             view.findNavController().navigate(R.id.action_ordineDetailsFragment_to_staffHomeFragment)
@@ -220,12 +220,4 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
         }
     }
 
-    private fun setupOnBackPressedFragment(){
-        val callback=object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                view?.findNavController()?.navigate(R.id.action_ordineDetailsFragment_to_staffHomeFragment)
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(callback)
-    }
 }

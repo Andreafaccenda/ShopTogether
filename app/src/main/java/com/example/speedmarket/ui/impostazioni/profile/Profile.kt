@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.activity_app.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class Profile : Fragment(), ProfileManager {
 
@@ -140,7 +139,6 @@ class Profile : Fragment(), ProfileManager {
         }
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -166,7 +164,6 @@ class Profile : Fragment(), ProfileManager {
         startActivityForResult(intent,IMAGE_REQUEST_CODE)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == IMAGE_REQUEST_CODE && resultCode==RESULT_OK){

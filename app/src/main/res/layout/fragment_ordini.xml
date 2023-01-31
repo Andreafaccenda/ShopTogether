@@ -35,15 +35,26 @@
                     android:padding="10dp"
                     android:textSize="20sp"
                     android:textColor="@color/colorSecondaryText"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
             </LinearLayout>
-
+        <TextView
+            android:id="@+id/txt_filtro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_160sdp"
+            android:padding="@dimen/_5sdp"
+            android:drawableStart="@drawable/recente"
+            android:text="Dal piu recente"
+            android:textStyle="italic"
+            android:textAlignment="viewStart"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="#717171" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_Ordini"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

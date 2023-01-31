@@ -28,6 +28,7 @@ class RecuperaPasswordFragment : Fragment() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
+            setupOnBackPressedFragmentNav(R.id.action_recuperaPasswordFragment_to_accediFragment)
             observer()
             binding.btnInviaEmail.setOnClickListener {
                 if (validation()){
