@@ -25,10 +25,15 @@ class CatalogoFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit  var nomeCategoria :String
     private lateinit var filtri :ArrayList<String>
+    private lateinit var listaProdotti: List<Prodotto>
     private var offerta =false
     var isBackFromB = false
     val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { ProdottoAdapter() }
+
+    /**
+     * Per UI Test commentare riga 77, 82, 110 e 111.
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,15 +45,14 @@ class CatalogoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(!isOnline(requireContext()))dialogInternet()
+        if(!isOnline(requireContext())) dialogInternet()
         setupOnBackPressed(R.id.home)
         binding.catalogoVuoto.hide()
         val args = this.arguments
         this.nomeCategoria = args?.get("nome_categoria").toString()
         this.offerta= args?.getBoolean("offerta") == true
-        observer()
+        observeLocal()
         binding.barraDiRicerca.clearFocus()
-        viewModel.getProducts()
         recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
@@ -70,17 +74,18 @@ class CatalogoFragment : Fragment() {
         binding.barraDiRicerca.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val testo = query.toString()
-                oberverSearchViewText(testo)
+                adapter.filtraListaNome(testo, listaProdotti.toMutableList())
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 val testo = newText.toString()
-                oberverSearchViewTextChange(testo)
+                adapter.filtraListaNomeChange(testo, listaProdotti.toMutableList())
                 return false
             }
         })
     }
-    private fun observer() {
+
+    private fun observeRemote() {
         if (isOnline(requireContext())) {
             viewModel.prodotto.observe(viewLifecycleOwner) { state ->
                 when (state) {
@@ -90,18 +95,28 @@ class CatalogoFragment : Fragment() {
                         toast(state.error)
                     }
                     is UiState.Success -> {
-                       adapterFiltro(state.data.toMutableList())
+                        listaProdotti = state.data
+                        adapterFiltro(listaProdotti.toMutableList())
                     }
-                }
-            }
-        } else {
-            viewModel.prodottiLocal.observe(viewLifecycleOwner) { prodotti ->
-                prodotti?.apply {
-                    adapterFiltro(prodotti.toMutableList())
                 }
             }
         }
     }
+
+    private fun observeLocal() {
+        viewModel.prodottiLocal.observe(viewLifecycleOwner) { prodotti ->
+            prodotti?.apply {
+                if (prodotti.isEmpty()) {
+                    observeRemote()
+                    viewModel.getProducts()
+                    return@observe
+                }
+                listaProdotti = prodotti
+                adapterFiltro(listaProdotti.toMutableList())
+            }
+        }
+    }
+
     private fun adapterFiltro(mutableList: MutableList<Prodotto>){
         if(nomeCategoria == "null") adapter.updateList(mutableList)
         else adapter.filtraListaCategoria(nomeCategoria, mutableList)
@@ -122,34 +137,16 @@ class CatalogoFragment : Fragment() {
             binding.catalogoVuoto.show()
         }
     }
-    private fun oberverSearchViewTextChange(testo : String) {
-        viewModel.prodotto.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                }
-                is UiState.Failure -> {
-                    toast(state.error)
-                }
-                is UiState.Success -> {
-                    adapter.filtraListaNomeChange(testo,state.data.toMutableList())
-                }
+
+    private fun observerTest() {
+        viewModel.prodottiLocal.observe(viewLifecycleOwner) { prodotti ->
+            prodotti?.apply {
+                if(nomeCategoria == "null") adapter.updateList(prodotti.toMutableList())
+                else adapter.filtraListaCategoria(nomeCategoria, prodotti.toMutableList())
             }
         }
     }
-    private fun oberverSearchViewText(testo : String) {
-        viewModel.prodotto.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                }
-                is UiState.Failure -> {
-                    toast(state.error)
-                }
-                is UiState.Success -> {
-                    adapter.filtraListaNome(testo,state.data.toMutableList())
-                }
-            }
-        }
-    }
+
     override fun onPause() {
         super.onPause()
         isBackFromB = true

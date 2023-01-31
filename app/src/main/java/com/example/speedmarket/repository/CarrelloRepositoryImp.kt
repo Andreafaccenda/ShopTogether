@@ -17,8 +17,8 @@ class CarrelloRepositoryImp(
 
     private val carrelloDao = CarrelloDatabase.getInstance(application).carrelloDao() //db locale
 
-    // lista carrelli db locale
-    private val carrelli: LiveData<List<Carrello>> = Transformations.map(carrelloDao
+    // lista carrelliLocale db locale
+    private val carrelliLocale: LiveData<List<Carrello>> = Transformations.map(carrelloDao
         .getCarrelli()) {
         it.asDomainModelCarrello()
     }
@@ -90,6 +90,6 @@ class CarrelloRepositoryImp(
     }
 
     override fun getListaCarrelliLocal(): LiveData<List<Carrello>> {
-        return carrelli
+        return carrelliLocale
     }
 }

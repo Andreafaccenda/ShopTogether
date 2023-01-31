@@ -1,11 +1,8 @@
 package com.example.speedmarket.database
 
 import android.content.Context
-import android.provider.ContactsContract.Data
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.speedmarket.model.Carrello
-import com.example.speedmarket.model.Prodotto
 
 @Dao
 interface DaoProdotto {
@@ -13,7 +10,7 @@ interface DaoProdotto {
     fun getProdotti(): LiveData<List<DatabaseProdotto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertProdotti(prodotti: DatabaseProdotto)
+    fun insertProdotto(prodotto: DatabaseProdotto)
 
     @Delete
     fun delete(prodotto: DatabaseProdotto)

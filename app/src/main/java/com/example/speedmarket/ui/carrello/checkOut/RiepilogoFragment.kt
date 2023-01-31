@@ -62,7 +62,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
         utente?.let { viewModelAuth.getUtente(it.id) }
 
         getCarrelloObserver()
-        utente?.let { viewModelCarrello.getCarrello(it) }
+  //      utente?.let { viewModelCarrello.getCarrello(it) }
 
         adapter.onItemClick={
             val bottomSheetDialog = bottomSheetDialog(it)
@@ -72,7 +72,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
             }
         }
         getProdottiObs()
-        viewModelProdotto.getProducts()
+   //     viewModelProdotto.getProducts()
         recyclerView = binding.recyclerViewRiepilogoCarrello
         recyclerView.layoutManager =  LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
@@ -126,7 +126,7 @@ class RiepilogoFragment : Fragment(), ProfileManager {
     }
 
     private fun getCarrelloObserver() {
-        viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
+     /*   viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                 }
@@ -139,11 +139,22 @@ class RiepilogoFragment : Fragment(), ProfileManager {
                     binding.txtPrezzo.text="€${state.data.prezzo}"
                 }
             }
+        } */
+        viewModelCarrello.carrelliLocal.observe(viewLifecycleOwner) { carrelli ->
+            carrelli?.apply {
+                for (item in carrelli) {
+                    if (item.id == utente?.id && item.stato == Carrello.Stato.incompleto) {
+                        carrello = item
+                        carrello.lista_prodotti?.let { adapter.updateList(it)}
+                        binding.txtPrezzo.text="€${carrello.prezzo}"
+                    }
+                }
+            }
         }
     }
 
     private fun getProdottiObs() {
-        viewModelProdotto.prodotto.observe(viewLifecycleOwner) { state ->
+      /*  viewModelProdotto.prodotto.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                 }
@@ -153,6 +164,11 @@ class RiepilogoFragment : Fragment(), ProfileManager {
                 is UiState.Success -> {
                     this.prodotti=state.data.toMutableList()
                 }
+            }
+        } */
+        viewModelProdotto.prodottiLocal.observe(viewLifecycleOwner) { listaProdotti ->
+            listaProdotti?.apply {
+                prodotti = listaProdotti.toMutableList()
             }
         }
     }

@@ -1,11 +1,8 @@
 package com.example.speedmarket.ui.auth
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +13,9 @@ import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentAccediBinding
 import com.example.speedmarket.ui.AppActivity
 import com.example.speedmarket.ui.dipendente.StaffActivity
-import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class AccediFragment : Fragment() {
@@ -27,9 +24,19 @@ class AccediFragment : Fragment() {
     val viewModel: AuthViewModel by viewModels()
     var isBackFromB = false
 
+    /**
+     * Per UI Test commentare riga 47, 48, 51 e, dopo riga 51, aggiungere le seguenti istruzioni:
+     *
+     *  val intent = Intent(requireContext(), AppActivity::class.java)
+        intent.putExtra("Username", "Benvenuto,")
+        startActivity(intent)
+        activity?.finish()
+     *
+     */
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentAccediBinding.inflate(layoutInflater)
         return binding.root
@@ -39,7 +46,7 @@ class AccediFragment : Fragment() {
         setupOnBackPressedExit()
         getDatiSalvati()
         observer()
-        binding.btnAccedi.setOnClickListener {
+        binding.btnAccediLogIn.setOnClickListener {
             if (validation()) {
                 viewModel.login(email = binding.etEmail.text.toString(),password = binding.etPassword.text.toString())
             }
@@ -65,16 +72,16 @@ class AccediFragment : Fragment() {
             viewModel.login.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     is UiState.Loading -> {
-                        binding.btnAccedi.text=""
+                        binding.btnAccediLogIn.text=""
                         binding.accediProgressBar.show()
                     }
                     is UiState.Failure -> {
-                        binding.btnAccedi.text="Accedi"
+                        binding.btnAccediLogIn.text="Accedi"
                         binding.accediProgressBar.hide()
                         toast(state.error)
                     }
                     is UiState.Success -> {
-                        binding.btnAccedi.text="Accedi"
+                        binding.btnAccediLogIn.text="Accedi"
                         binding.accediProgressBar.hide()
                         if(state.data == "Login staff conad effettuato con successo!") {
                             startActivity(Intent(requireContext(), StaffActivity::class.java))

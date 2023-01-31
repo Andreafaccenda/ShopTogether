@@ -34,6 +34,7 @@ class DettagliProdottoFragment : Fragment() {
     val viewModel: ProdViewModel by viewModels()
     val viewModelAuth: AuthViewModel by viewModels()
     private val adapter by lazy { ProdottoSimileAdapter() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,8 +50,7 @@ class DettagliProdottoFragment : Fragment() {
         val args = this.arguments
         this.prodotto = args?.getSerializable("prodotto") as Prodotto
         this.nomeCategoria=this.prodotto.categoria
-        oberver()
-        viewModel.getProducts()
+        observer()
         adapter.onItemClick={
             val bundle = Bundle()
             bundle.putSerializable("prodotto",it)
@@ -120,29 +120,13 @@ class DettagliProdottoFragment : Fragment() {
 
         }
     }
-    private fun oberver() {
-        if (isOnline(requireContext())) {
-            viewModel.prodotto.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    is UiState.Loading -> {
-                    }
-                    is UiState.Failure -> {
-                        toast(state.error)
-                    }
-                    is UiState.Success -> {
-                        adapter.filtraCategoriaAndRemove(this.nomeCategoria,
-                            state.data.toMutableList(),
-                            this.prodotto)
-                    }
-                }
-            }
-        } else {
-            viewModel.prodottiLocal.observe(viewLifecycleOwner) { prodotti ->
-                prodotti?.apply {
-                    adapter.filtraCategoriaAndRemove(nomeCategoria,
-                        prodotti.toMutableList(),
-                        prodotto)
-                }
+
+    private fun observer() {
+        viewModel.prodottiLocal.observe(viewLifecycleOwner) { prodotti ->
+            prodotti?.apply {
+                adapter.filtraCategoriaAndRemove(nomeCategoria,
+                    prodotti.toMutableList(),
+                    prodotto)
             }
         }
     }

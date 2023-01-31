@@ -33,6 +33,10 @@ class Home : Fragment(), ProfileManager {
     private lateinit var categorieAdapter : CategorieAdapter
     override var utente: Utente? = null
 
+    /**
+     * Per UI Test commentare riga 52, 53 e aggiungere riga 54.
+     */
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +51,7 @@ class Home : Fragment(), ProfileManager {
         getUserSession()
         observer()
         utente?.let { viewModel.getUtente(it.id) }
+     //   updateUI()
         immagineId = arrayOf(
            R.drawable.cat_1,
            R.drawable.cat_2,

@@ -1,6 +1,7 @@
 package com.example.speedmarket.ui.carrello
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +41,9 @@ class CarrelloFragment : Fragment() {
     val viewModel: ProdViewModel by viewModels()
     private val adapter by lazy { CarrelloAdapter() }
 
+    /**
+     * Per UI Test commentare riga 68, 69 e aggiungere riga 70.
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,8 +65,9 @@ class CarrelloFragment : Fragment() {
             toast("Per eliminare dei prodotti scorri da sinistra verso destra")
         }
         getUtente()
-        observer()
+        observeRemote()
         viewModelCarrello.getCarrello(utente)
+   //     observeLocal()
         val args = this.arguments
         if (args.toString() == "null") {
             prodottoCatalogo = false
@@ -81,7 +86,7 @@ class CarrelloFragment : Fragment() {
         }
     }
 
-    private fun observer() {
+    private fun observeRemote() {
         if (isOnline(requireContext())) {
             viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
                 when (state) {
@@ -98,12 +103,17 @@ class CarrelloFragment : Fragment() {
                                 funzioneAdapter()
                                 viewModelCarrello.updateCarrello(carrello)
                                 controlloCoerenzaCarrello()
+                            } else {
+                                if(adapter.itemCount<= 0) {
+                                    binding.layoutCarrello.hide()
+                                    binding.textView5.text = "Il tuo carrello è vuoto!"
+                                }
                             }
                         } else {
                             if (this.carrello.stato == Carrello.Stato.incompleto) {
                                 if (prodottoCatalogo && this.carrello.lista_prodotti != null) {
                                     if (controlloRidondanzaCarrello(prodotto))
-                                        toast("il tuo prodotto è gia inserito nel carrello")
+                                        toast("il tuo prodotto è gia presente nel carrello")
                                     else {
                                         this.carrello.lista_prodotti?.add(prodotto)
                                         updatePriceCart(this.carrello)
@@ -119,34 +129,37 @@ class CarrelloFragment : Fragment() {
                 }
             }
         } else {
-            viewModelCarrello.carrelliLocal.observe(viewLifecycleOwner) { carrelli ->
-                carrelli?.apply {
-                    for (item in carrelli) {
-                        if (item.id == utente.id && item.stato == Carrello.Stato.incompleto)
-                            carrello = item
+            observeLocal()
+            return
+        }
+    }
+
+    private fun observeLocal() {
+        viewModelCarrello.carrelliLocal.observe(viewLifecycleOwner) { carrelli ->
+            carrelli?.apply {
+                for (item in carrelli) {
+                    if (item.id == utente.id)
+                        carrello = item
+                }
+                if (carrello.id == "") {
+                    if (prodottoCatalogo) {
+                        aggiornaCarrello(prodotto, utente)
+                        controlloCoerenzaCarrello()
                     }
-                    if (carrello.id == "") {
-                        if (prodottoCatalogo) {
-                            aggiornaCarrello(prodotto, utente)
-                            funzioneAdapter()
-                            viewModelCarrello.updateCarrelloLocal(carrello)
-                            controlloCoerenzaCarrello()
-                        }
-                    } else {
-                        if (carrello.stato == Carrello.Stato.incompleto) {
-                            if (prodottoCatalogo && carrello.lista_prodotti != null) {
-                                if (controlloRidondanzaCarrello(prodotto))
-                                    toast("il tuo prodotto è gia inserito nel carrello")
-                                else {
-                                    carrello.lista_prodotti?.add(prodotto)
-                                    updatePriceCart(carrello)
-                                    viewModelCarrello.updateCarrello(carrello)
-                                }
+                } else {
+                    if (carrello.stato == Carrello.Stato.incompleto) {
+                        if (prodottoCatalogo && carrello.lista_prodotti != null) {
+                            prodottoCatalogo = if (controlloRidondanzaCarrello(prodotto)) {
+                                toast("il tuo prodotto è già presente nel carrello")
+                                false
+                            } else {
+                                carrello.lista_prodotti?.add(prodotto)
+                                updatePriceCart(carrello)
+                                viewModelCarrello.updateCarrelloLocal(carrello)
+                                false
                             }
-                            funzioneAdapter()
-                            controlloCoerenzaCarrello()
-                            viewModelCarrello.updateCarrelloLocal(carrello)
                         }
+                        controlloCoerenzaCarrello()
                     }
                 }
             }
@@ -162,13 +175,10 @@ class CarrelloFragment : Fragment() {
         adapter.onItemClick = {
             updateQuantitaOrdine(this.carrello, it)
             updatePriceCart(this.carrello)
-            if (isOnline(requireContext()))
-                viewModelCarrello.updateCarrello(this.carrello)
-            else
-                viewModelCarrello.updateCarrelloLocal(this.carrello)
+            viewModelCarrello.updateCarrello(this.carrello)
         }
     }
-    fun aggiornaCarrello(prodotto: Prodotto, utente: Utente){
+    private fun aggiornaCarrello(prodotto: Prodotto, utente: Utente){
         this.carrello.lista_prodotti = arrayListOf()
         this.carrello.lista_prodotti?.add(prodotto)
         this.carrello.id = utente.id
@@ -185,6 +195,10 @@ class CarrelloFragment : Fragment() {
         updatePriceCart(this.carrello)
         this.carrello.lista_prodotti?.let { adapter.updateList(it)
         requireActivity().bottomNavigationView.getOrCreateBadge(R.id.carrello).number=this.carrello.lista_prodotti!!.size}
+        if (adapter.itemCount <= 0) {
+            binding.layoutCarrello.hide()
+            binding.textView5.text = "Il tuo carrello è vuoto!"
+        }
     }
     fun controlloRidondanzaCarrello(prodotto: Prodotto):Boolean {
         for (elem in this.carrello.lista_prodotti!!)
@@ -203,17 +217,19 @@ class CarrelloFragment : Fragment() {
                 val position= viewHolder.adapterPosition
                 deleteProduc= carrello.lista_prodotti?.get(position)
                 carrello.lista_prodotti?.remove(deleteProduc)
-
-                updatePriceCart(carrello)
-                viewModelCarrello.updateCarrello(carrello)
-                carrello.lista_prodotti?.let { adapter.updateList(it) }
-                requireActivity().bottomNavigationView.getOrCreateBadge(R.id.carrello).number=carrello.lista_prodotti!!.size
-                //adapter.notifyItemRemoved(position)
-                updatePriceCart(carrello)
                 if(adapter.itemCount<= 0){
-                    binding.txtPrezzoCarrello.text = "€0"
-                    binding.txtTotaleSpesaCarrello.text =  "€0"
-                    binding.txtPrezzoIva.text="€0"
+                    viewModelCarrello.deleteCarrello(carrello)
+                    binding.layoutCarrello.hide()
+                    binding.textView5.text = "Il tuo carrello è vuoto!"
+                    requireActivity().bottomNavigationView
+                        .getOrCreateBadge(R.id.carrello).number = 0
+                } else {
+                    updatePriceCart(carrello)
+                    viewModelCarrello.updateCarrello(carrello)
+                    carrello.lista_prodotti?.let { adapter.updateList(it) }
+                    requireActivity().bottomNavigationView.getOrCreateBadge(R.id.carrello)
+                        .number=carrello.lista_prodotti!!.size
+                    updatePriceCart(carrello)
                 }
                 Snackbar.make(recyclerView,
                     deleteProduc!!.nome,Snackbar.LENGTH_LONG)
@@ -231,7 +247,6 @@ class CarrelloFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
     }
     fun updatePriceCart(carrello:Carrello){
         var prezzo = 0.0F
@@ -263,6 +278,7 @@ class CarrelloFragment : Fragment() {
             }
             updatePriceCart(carrello)
     }
+
     override fun onPause() {
         super.onPause()
         isBackFromB = true
@@ -274,7 +290,6 @@ class CarrelloFragment : Fragment() {
             reload(CarrelloFragment())
         }
     }
-
 }
 
 

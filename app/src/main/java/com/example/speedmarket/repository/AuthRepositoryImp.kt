@@ -25,14 +25,14 @@ class AuthRepositoryImp(
     val database: FirebaseFirestore,
     val storage: StorageReference,
     val appPreferences: SharedPreferences,
-    val gson: Gson
-    ) : AuthRepository {
+    val gson: Gson,
+) : AuthRepository {
 
     override fun registerUser(
         email: String,
         password: String,
         utente: Utente,
-        result: (UiState<String>) -> Unit
+        result: (UiState<String>) -> Unit,
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
@@ -164,7 +164,8 @@ class AuthRepositoryImp(
     }
     override fun logout(result: () -> Unit) {
         auth.signOut()
-        appPreferences.edit().putString(SharedPrefConstants.USER_SESSION,null).apply()
+        appPreferences.edit().putString(SharedPrefConstants.USER_SESSION, null).apply()
+        appPreferences.edit().putString(SharedPrefConstants.LOCAL_SHARED_PREF, null).apply()
         result.invoke()
     }
 

@@ -9,7 +9,7 @@
     tools:context=".ui.auth.AccediFragment">
 
     <Button
-        android:id="@+id/btnAccedi"
+        android:id="@+id/btnAccediLogIn"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="56dp"
@@ -135,10 +135,10 @@
         android:elevation="10dp"
         android:indeterminateTint="@color/white"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAccedi"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAccediLogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnAccedi" />
+        app:layout_constraintTop_toTopOf="@+id/btnAccediLogIn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

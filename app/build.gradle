@@ -9,7 +9,7 @@ buildscript {
     dependencies {
 
         // Add the dependency for the Google services Gradle plugin
-        classpath 'com.google.gms:google-services:4.3.13'
+        classpath 'com.google.gms:google-services:4.3.15'
         classpath 'com.android.tools.build:gradle:3.2.1'
 
     }
@@ -21,7 +21,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
-    id'androidx.navigation.safeargs'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -61,21 +61,12 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
 
 
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
-    implementation 'com.google.firebase:firebase-firestore:24.4.1'
-    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     implementation 'androidx.benchmark:benchmark-common:1.0.0'
     implementation 'androidx.databinding:baseLibrary:3.2.0-alpha11'
-    implementation 'com.google.firebase:firebase-storage:20.1.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-    implementation platform ('com.google.firebase:firebase-bom:31.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation "androidx.activity:activity-ktx:1.2.2"
@@ -88,11 +79,15 @@ dependencies {
 
 
     //Firebase
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.2'
     implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
-    implementation 'com.google.firebase:firebase-firestore:24.4.1'
+    implementation 'com.google.firebase:firebase-firestore:24.4.2'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
+    implementation platform ('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
 
     //Coil
     implementation 'io.coil-kt:coil:2.2.2'
@@ -112,6 +107,21 @@ dependencies {
 
     //Gson
     implementation 'com.google.code.gson:gson:2.9.0'
+
+    //Espresso & Test
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.5.1')  {
+        exclude (group: "com.google.protobuf", module: "protobuf-lite")
+    }
+    androidTestImplementation ('androidx.test.espresso:espresso-accessibility:3.5.1')  {
+        exclude group: "com.google.protobuf", module: "protobuf-lite"
+    }
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1')
+    androidTestImplementation('androidx.test:runner:1.5.2')
+    androidTestImplementation('androidx.test:rules:1.5.0')
+    implementation 'androidx.test:monitor:1.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //Circle imageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'

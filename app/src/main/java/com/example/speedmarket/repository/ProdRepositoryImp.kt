@@ -19,7 +19,7 @@ class ProdRepositoryImp(
     private val productDao = ProductsDatabase.getInstance(application).prodottoDao() //db locale
 
     // lista dei prodotti nel db locale
-    private val products: LiveData<List<Prodotto>> = Transformations.map(productDao
+    private val prodottiLocale: LiveData<List<Prodotto>> = Transformations.map(productDao
     .getProdotti()) {
         it.asDomainModelProdotto()
     }
@@ -33,7 +33,7 @@ class ProdRepositoryImp(
                     for (field in document) {
                         val product = field.toObject(DatabaseProdotto::class.java)
                         products.add(product)
-                        productDao.insertProdotti(product)
+                        productDao.insertProdotto(product)
                     }
                     result.invoke(
                         UiState.Success(products.asDomainModelProdotto())
@@ -49,7 +49,7 @@ class ProdRepositoryImp(
     }
 
     override fun getProductsLocal(): LiveData<List<Prodotto>> {
-        return products
+        return prodottiLocale
     }
 
     override fun addProduct(prodotto: Prodotto, result: (UiState<String>) -> Unit) {
@@ -57,7 +57,7 @@ class ProdRepositoryImp(
         document
             .set(prodotto)
             .addOnSuccessListener {
-                productDao.insertProdotti(prodotto.toDatabaseProdotto())
+                productDao.insertProdotto(prodotto.toDatabaseProdotto())
                 result.invoke(
                     UiState.Success( "Prodotto registrato con successo!"))
             }

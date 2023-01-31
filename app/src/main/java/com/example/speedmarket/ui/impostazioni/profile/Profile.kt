@@ -11,6 +11,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -67,7 +68,7 @@ class Profile : Fragment(), ProfileManager {
         updateUserObserver()
         utente?.let { updateUI() }
         editTextModify(modify)
-        binding.layoutUploadImage.setOnClickListener{
+        binding.layoutUploadImage.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(
                         requireContext(),
