@@ -181,6 +181,7 @@ class Profile : Fragment(), ProfileManager {
     }
 
     private fun uploadImage(uri: Uri) {
+        isBackFromB=false
         viewModelAuth.uploadImage(uri, utente!!) { state ->
             when (state) {
                 is UiState.Loading -> {
