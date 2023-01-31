@@ -23,8 +23,6 @@ import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_app.*
-import kotlinx.android.synthetic.main.activity_login.*
 
 
 @AndroidEntryPoint

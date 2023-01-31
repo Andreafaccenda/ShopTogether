@@ -31,6 +31,7 @@ import java.io.InputStream
 import java.net.URL
 import java.util.*
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
@@ -43,7 +44,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     lateinit var residenza : Indirizzo
     var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
     private val key: String = "AjgIV-JLQzwYoMye7R1YrnbSFkY3dp7SFyUNyOZ7cQnliNDeqU45MW2jFdP9aKcJ"
-    var AddressList : MutableList<String> = mutableListOf()
+    var addressList : MutableList<String> = mutableListOf()
     val PERMISSION_ID = 1010
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +58,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         binding.salvaResidenza.isChecked = true
         binding.salvaResidenza.isEnabled = false
         binding.imageEdit.setOnClickListener {
+            binding.etCitta.requestFocus()
             update_UI(true)
         }
 
@@ -65,7 +67,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
             getLastLocation()
         }
     }
-    private fun observer_update(){
+    private fun observerUpdate(){
         viewModelAuth.updateUserInfo.observe(this) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -100,12 +102,12 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     }
     fun getLastLocation(){
-        if(CheckPermission()){
+        if(checkPermission()){
             if(isLocationEnabled()){
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
                     val location: Location? = task.result
                     if(location == null){
-                        NewLocationData()
+                        newLocationData()
                     }else{
                         fromXML(location.latitude,location.longitude)
                     }
@@ -119,7 +121,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     }
 
 
-    fun NewLocationData(){
+    fun newLocationData(){
         val locationRequest =  LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 0
@@ -134,53 +136,51 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     private val locationCallback = object : LocationCallback(){
         override fun onLocationResult(locationResult: LocationResult) {
-            var lastLocation: Location = locationResult.lastLocation
-
         }
     }
     fun fromXML(latitude : Double, longitude : Double){
         try {
             StrictMode.setThreadPolicy(policy)
-            AddressList.clear()
+            addressList.clear()
             var selezione = false
-            val xml_data: InputStream =
+            val xmldata: InputStream =
                 URL("https://dev.virtualearth.net/REST/v1/Locations/$latitude,$longitude?o=xml&key=$key").openStream()
             val factory: XmlPullParserFactory = XmlPullParserFactory.newInstance()
             val parser: XmlPullParser = factory.newPullParser()
-            parser.setInput(xml_data, null)
+            parser.setInput(xmldata, null)
             var event = parser.eventType
             while (event != XmlPullParser.END_DOCUMENT) {
-                val tag_name = parser.name
+                val tagName = parser.name
                 when (event) {
                     XmlPullParser.START_TAG -> {
-                        if (tag_name.equals("AddressLine", ignoreCase = true) ||
-                            tag_name.equals("AdminDistrict2",ignoreCase = true) ||
-                            tag_name.equals("Locality", ignoreCase = true) ||
-                            tag_name.equals("PostalCode",ignoreCase = true)) selezione = true
+                        if (tagName.equals("AddressLine", ignoreCase = true) ||
+                            tagName.equals("AdminDistrict2",ignoreCase = true) ||
+                            tagName.equals("Locality", ignoreCase = true) ||
+                            tagName.equals("PostalCode",ignoreCase = true)) selezione = true
                     }
                     XmlPullParser.TEXT -> {
                         if(selezione)
-                            if(parser.text != "") AddressList.add(parser.text)
-                            else AddressList.add("0")
+                            if(parser.text != "") addressList.add(parser.text)
+                            else addressList.add("0")
                     }
                     XmlPullParser.END_TAG -> { selezione = false }
                 }
                 event = parser.next()
             }
-            update_layoutMaps()
+            updateLayoutMaps()
         }catch(e:Exception){
-            AddressList.clear()
-            AddressList.add("0")
+            addressList.clear()
+            addressList.add("0")
         }
     }
 
-    private fun CheckPermission():Boolean{
+    private fun checkPermission():Boolean{
         //questa funzione ritorna un booleano
         //true: se hai i permessi
         //false
         if(
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         ){
             return true
         }
@@ -193,7 +193,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         //this function will allows us to tell the user to requesut the necessary permsiion if they are not garented
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),
             PERMISSION_ID
         )
     }
@@ -239,18 +239,19 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         binding.etCap.isEnabled=abilita
         binding.etProvincia.isEnabled=abilita
         binding.etVia.isEnabled=abilita
+        binding.etNumeroCivico.isEnabled=abilita
     }
 
     private fun getAttributo(indice: Int): String{
         try{
-            if(this.AddressList[indice].equals("0")) return ""
-            return this.AddressList[indice]
+            if(this.addressList[indice] == "0") return ""
+            return this.addressList[indice]
         }catch(e:Exception){
             return ""
         }
     }
 
-    private fun update_layoutMaps(){
+    private fun updateLayoutMaps(){
         val via_e_civico = getAttributo(0).split(" ")
         var via = ""
         for(elem in via_e_civico) if(!elem.equals(via_e_civico.last(),true)) via+="$elem "
@@ -281,7 +282,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         if (controllaContenutoCaselle() && binding.salvaResidenza.isChecked) {
             utente!!.residenza = residenza
             viewModelAuth.updateUserInfo(utente!!)
-            observer_update()
+            observerUpdate()
             finish()
         }
     }
