@@ -53,11 +53,10 @@ class SpedizioneFragment : Fragment(), ProfileManager {
     }
 
     override fun updateUI() {
-        if(utente?.residenza!!.citta.isNotEmpty())
-            setResidenza()
-        else if (utente?.indirizzo_spedizione!!.citta.isNotEmpty())
+        if (utente?.indirizzo_spedizione!!.citta.isNotEmpty())
             setIndirizzoSpedizione()
-
+        else if (utente?.residenza!!.citta.isNotEmpty())
+            setResidenza()
         else {
             dialog(
                 Profile(),

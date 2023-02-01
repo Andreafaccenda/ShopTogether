@@ -129,6 +129,7 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
         binding.etNumeroCarta.isEnabled=false
         binding.etDataScadenza.setText(this.carrello.pagamento!!.data_scadenza)
         binding.etDataScadenza.isEnabled=false
+        binding.etCvv.isEnabled = false
         binding.layoutSpedizione.isEnabled=false
         binding.txtCitta.setText(this.carrello.indirizzoSpedizione!!.citta)
         binding.txtProvincia.setText(this.carrello.indirizzoSpedizione!!.provincia)
