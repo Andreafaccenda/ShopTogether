@@ -543,7 +543,7 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
-                                android:inputType="date"
+                                android:inputType="numberPassword"
                                 android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />

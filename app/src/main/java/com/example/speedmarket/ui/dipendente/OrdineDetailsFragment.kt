@@ -125,7 +125,7 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
         binding.totale.text="€${this.carrello.prezzo}"
         binding.spedizione.text="€5"
 
-        binding.etNumeroCarta.setText(this.carrello.pagamento!!.numero_carta)
+        binding.etNumeroCarta.setText(getNumeroCarta(this.carrello.pagamento!!.numero_carta))
         binding.etNumeroCarta.isEnabled=false
         binding.etDataScadenza.setText(this.carrello.pagamento!!.data_scadenza)
         binding.etDataScadenza.isEnabled=false
@@ -143,6 +143,10 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
             ordine_spedizione.isChecked = true
         else if (this.carrello.stato == Carrello.Stato.elaborazione)
             ordine_elaborazione.isChecked = true
+    }
+
+    private fun getNumeroCarta(numero: String): String{
+        return "************${numero.takeLast(4)}"
     }
 
     private fun calcolaPrezzo(prezzo: Float): String {

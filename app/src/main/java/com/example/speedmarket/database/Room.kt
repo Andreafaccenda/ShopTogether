@@ -38,7 +38,7 @@ interface DaoCarrello {
     fun update(carrello: DatabaseCarrello)
 }
 
-@Database(entities = [DatabaseProdotto::class], version = 1, exportSchema = false)
+@Database(entities = [DatabaseProdotto::class], version = 2, exportSchema = false)
 abstract class ProductsDatabase: RoomDatabase() {
     abstract fun prodottoDao(): DaoProdotto
 
