@@ -22,6 +22,8 @@ import com.example.speedmarket.ui.catalogo.ProdViewModel
 import com.example.speedmarket.ui.home.Home
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class RiepilogoFragment : Fragment(), ProfileManager {
@@ -80,6 +82,9 @@ class RiepilogoFragment : Fragment(), ProfileManager {
 
         binding.btnCarrelloCompletato.setOnClickListener{
             if(checkEditText()){
+                val sdf = SimpleDateFormat("dd/M/yyyy")
+                val currentDate = sdf.format(Date())
+                this.carrello.date = currentDate
                 this.carrello.stato=Carrello.Stato.elaborazione
                 if(utente?.indirizzo_spedizione?.citta!!.isNotEmpty()){
                     this.carrello.indirizzoSpedizione= utente!!.indirizzo_spedizione

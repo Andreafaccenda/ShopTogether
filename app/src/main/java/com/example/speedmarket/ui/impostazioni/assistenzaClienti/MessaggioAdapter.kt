@@ -1,19 +1,16 @@
 package com.example.speedmarket.ui.impostazioni.assistenzaClienti
 
 
-import android.graphics.Color.parseColor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.speedmarket.R
-import com.example.speedmarket.model.Carrello
 import com.example.speedmarket.model.Messaggio
 import com.example.speedmarket.util.Constants.CLICK_ID
 import com.example.speedmarket.util.Constants.RECEIVE_ID
 import com.example.speedmarket.util.Constants.SEND_ID
-import com.google.type.Color
 
 class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHolder>() {
 
@@ -39,12 +36,12 @@ class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHold
     override fun onBindViewHolder(holder: MessaggioViewHolder, position: Int) {
         val currentMessage = messagesList[position]
         holder.message_toClick.setOnClickListener{
-            onItemClick?.invoke(currentMessage.messaggio)
+            onItemClick?.invoke(currentMessage.testo)
         }
         when (currentMessage.id) {
             SEND_ID -> {
                 holder.message.apply {
-                    text = currentMessage.messaggio
+                    text = currentMessage.testo
                     visibility = View.VISIBLE
                 }
                 holder.message_box.visibility = View.GONE
@@ -52,7 +49,7 @@ class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHold
             }
             RECEIVE_ID -> {
                 holder.message_box.apply {
-                    text = currentMessage.messaggio
+                    text = currentMessage.testo
                     visibility = View.VISIBLE
                 }
                 holder.message.visibility = View.GONE
@@ -60,7 +57,7 @@ class MessaggioAdapter : RecyclerView.Adapter<MessaggioAdapter.MessaggioViewHold
             }
             CLICK_ID->{
                 holder.message_toClick.apply {
-                    text = currentMessage.messaggio
+                    text = currentMessage.testo
                     visibility = View.VISIBLE
                 }
                 holder.message.visibility = View.GONE

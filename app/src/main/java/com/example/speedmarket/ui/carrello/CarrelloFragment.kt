@@ -182,9 +182,6 @@ class CarrelloFragment : Fragment() {
         this.carrello.lista_prodotti = arrayListOf()
         this.carrello.lista_prodotti?.add(prodotto)
         this.carrello.id = utente.id
-        val sdf = SimpleDateFormat("dd/M/yyyy")
-        val currentDate = sdf.format(Date())
-        this.carrello.date = currentDate
         updatePriceCart(this.carrello)
         this.carrello.stato = Carrello.Stato.incompleto
         this.carrello.indirizzoSpedizione= Indirizzo("","","","","")

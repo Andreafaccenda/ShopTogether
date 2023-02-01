@@ -14,7 +14,7 @@ class CategorieAdapter(private val List: ArrayList<Categorie>):
 
     var onItemClick : ((Categorie) -> Unit)? = null
     private var categorie = arrayListOf("Frutta Verdura", "Carne Affettati", "Formaggi Latte", "Surgelati Gelati","Pesce Sushi","Biscotti Cereali","Caffe   Infusi",
-        "Preparaz. Dolci","Animali","Pannetteria Snack","Condimenti Conserve","Articoli Casa","Pasta     Riso","Vino Birra Alcolici","Bevande","Piatti pronti")
+        "Preparaz. Dolci","Animali","Panetteria Snack","Condimenti Conserve","Articoli Casa","Pasta     Riso","Vino Birra Alcolici","Bevande","Piatti pronti")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategorieViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_categorie,parent,false)
