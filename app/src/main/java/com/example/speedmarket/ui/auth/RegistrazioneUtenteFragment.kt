@@ -81,7 +81,7 @@ class RegistrazioneUtenteFragment : Fragment() {
             pagamento = Pagamento("",""),
             indirizzo_spedizione = Indirizzo("","","","",""),
             lista_carrelli = arrayListOf(),
-            numero_telefono = 0,
+            numero_telefono = "",
             genere = "",
             profileCompleted = false
         )

@@ -11,7 +11,7 @@ data class Utente(
     var indirizzo_spedizione: Indirizzo = Indirizzo("","","","",""),
     var pagamento: Pagamento = Pagamento("",""),
     var lista_carrelli: MutableList<Carrello>? = arrayListOf(),
-    var numero_telefono: Long = 0,
+    var numero_telefono: String = "",
     var genere: String = "",
     var profileCompleted: Boolean = false){
 

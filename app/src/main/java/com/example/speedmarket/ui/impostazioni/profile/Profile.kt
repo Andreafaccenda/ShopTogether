@@ -107,7 +107,7 @@ class Profile : Fragment(), ProfileManager {
             binding.btnSave.setOnClickListener{
                 if(validation()) {
                     utente?.profileCompleted=true
-                    utente?.numero_telefono = binding.etTelefono.text.toString().toLong()
+                    utente?.numero_telefono = binding.etTelefono.text.toString()
                     utente?.residenza!!.citta = binding.etCitta.text.toString()
                     utente?.residenza!!.provincia = binding.etProvincia.text.toString()
                     utente?.residenza!!.cap = binding.etCap.text.toString()
@@ -219,7 +219,7 @@ class Profile : Fragment(), ProfileManager {
     override fun updateUI() {
         binding.etNome.setText(utente?.nome)
         binding.etCognome.setText(utente?.cognome)
-        if(utente?.numero_telefono!! <=0){
+        if(utente?.numero_telefono!!.isEmpty()){
             binding.etTelefono.setText("")
         }
         else {
