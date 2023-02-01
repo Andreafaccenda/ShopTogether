@@ -34,6 +34,7 @@ class Impostazioni : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().bottomNavigationView.menu.findItem(R.id.impostazioni).isChecked = true
         setupOnBackPressed(R.id.home)
         getUserSession()
         observer()

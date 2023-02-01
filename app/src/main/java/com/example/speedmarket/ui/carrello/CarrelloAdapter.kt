@@ -27,7 +27,6 @@ class CarrelloAdapter: RecyclerView.Adapter<CarrelloAdapter.CarrelloViewHolder>(
     override fun onBindViewHolder(holder: CarrelloViewHolder, position: Int) {
         val item = list[position]
         holder.bind(item)
-
         holder.itemView.setOnClickListener{
             holder.binding.piu.setOnClickListener {
                 if(item.unita_ordinate < item.disponibilita){

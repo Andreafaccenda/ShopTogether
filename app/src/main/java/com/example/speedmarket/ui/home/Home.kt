@@ -47,6 +47,7 @@ class Home : Fragment(), ProfileManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().bottomNavigationView.menu.findItem(R.id.home).isChecked = true
         setupOnBackPressedExit()
         getUserSession()
         observer()

@@ -1,11 +1,13 @@
 package com.example.speedmarket.ui.catalogo
 
+import android.content.res.ColorStateList
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +39,7 @@ class CatalogoFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentCatalogoBinding.inflate(layoutInflater)
@@ -45,6 +47,7 @@ class CatalogoFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().bottomNavigationView.menu.findItem(R.id.catalogo).isChecked = true
         if(!isOnline(requireContext())) dialogInternet()
         setupOnBackPressed(R.id.home)
         binding.catalogoVuoto.hide()

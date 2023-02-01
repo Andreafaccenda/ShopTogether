@@ -15,6 +15,7 @@ import com.example.speedmarket.databinding.FragmentCarrelloBinding
 import com.example.speedmarket.model.*
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.checkOut.CheckOutFragment
+import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
 import com.example.speedmarket.ui.catalogo.ProdViewModel
 import com.example.speedmarket.util.*
 import com.google.android.material.snackbar.Snackbar
@@ -56,18 +57,19 @@ class CarrelloFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(!isOnline(requireContext())) dialogInternet()
+        if (!isOnline(requireContext())) dialogInternet()
+        requireActivity().bottomNavigationView.menu.findItem(R.id.carrello).isChecked = true
         setupOnBackPressed(R.id.home)
-        binding.txtSpedizione.setOnClickListener{
+        binding.txtSpedizione.setOnClickListener {
             toast("La Spedizione ha un prezzo di €5 per ordini inferiori ai €50")
         }
-        binding.btnDelete.setOnClickListener{
+        binding.btnDelete.setOnClickListener {
             toast("Per eliminare dei prodotti scorri da sinistra verso destra")
         }
         getUtente()
         observeRemote()
         viewModelCarrello.getCarrello(utente)
-   //     observeLocal()
+        //     observeLocal()
         val args = this.arguments
         if (args.toString() == "null") {
             prodottoCatalogo = false
@@ -81,11 +83,10 @@ class CarrelloFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         binding.recyclerViewCarrello.adapter = adapter
 
-        binding.btnCheckOut.setOnClickListener{
+        binding.btnCheckOut.setOnClickListener {
             replaceFragment(CheckOutFragment())
         }
     }
-
     private fun observeRemote() {
         if (isOnline(requireContext())) {
             viewModelCarrello.carrello.observe(viewLifecycleOwner) { state ->
