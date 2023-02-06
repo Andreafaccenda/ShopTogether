@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityAppBinding
-import com.example.speedmarket.model.Carrello
-import com.example.speedmarket.model.Utente
 import com.example.speedmarket.ui.catalogo.CatalogoFragment
-import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.CarrelloFragment
 import com.example.speedmarket.ui.home.Home
 import com.example.speedmarket.ui.impostazioni.Impostazioni
@@ -44,8 +40,6 @@ class AppActivity : AppCompatActivity() {
                 R.id.catalogo-> replaceFragment(CatalogoFragment())
                 R.id.impostazioni->replaceFragment(Impostazioni())
                 R.id.carrello-> replaceFragment(CarrelloFragment())
-                else->{
-                }
             }
             true
         }

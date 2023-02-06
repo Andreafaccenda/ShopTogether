@@ -1,22 +1,19 @@
 package com.example.speedmarket.util
 
-import android.util.Log
-import com.example.speedmarket.R
-
 object FireStoreCollection{
-    val UTENTI = "Utenti"
-    val PRODOTTI = "Prodotti"
-    val CARRELLI = "Carrelli"
+    const val UTENTI = "Utenti"
+    const val PRODOTTI = "Prodotti"
+    const val CARRELLI = "Carrelli"
 }
 object SharedPrefConstants {
-    val LOCAL_SHARED_PREF = "local_shared_pref"
-    val USER_SESSION = "user_session"
+    const val LOCAL_SHARED_PREF = "local_shared_pref"
+    const val USER_SESSION = "user_session"
 }
 object FireStoreDocumentField {
-    val ID = "id"
+    const val ID = "id"
 }
 object FirebaseStorageConstants {
-    val ROOT_DIRECTORY = "immagini"
+    const val ROOT_DIRECTORY = "immagini"
 }
 object Constants {
     const val SEND_ID = "SEND_ID"
@@ -47,8 +44,6 @@ object BotResponse {
             message.contains("ho bisogno di un'altra informazione")->{"Seleziona una delle seguenti opzioni per richiedere supporto:(ordine)"}
             else->{"Mi dispiace, non ho capito la tua richiesta."}
         }
-
-        return "Mi dispiace, non ho capito la tua richiesta."
     }
 
 }

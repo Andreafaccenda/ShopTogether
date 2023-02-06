@@ -10,5 +10,4 @@ interface ProdRepository {
     fun deleteProduct(prodotto: Prodotto, result: (UiState<String>) -> Unit)
     fun updateProduct(prodotto: Prodotto, result: (UiState<String>) -> Unit)
     fun getProductsLocal(): LiveData<List<Prodotto>>
-    //...
 }

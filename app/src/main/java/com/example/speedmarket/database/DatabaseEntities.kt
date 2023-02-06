@@ -21,6 +21,7 @@ data class DatabaseProdotto(
     val offerta: Float?,
     val disponibilita : Int,
     val unita_ordinate : Int) {
+
     constructor(): this("","","","","","",0.0f,
     0.0f,"","",0.0f,0,0)
 }
@@ -34,16 +35,6 @@ data class DatabaseCarrello(
     var date :String,
     var stato:Carrello.Stato) {
     constructor(): this("",null,"","", Carrello.Stato.incompleto)
-}
-@Entity
-data class DatabaseIndirizzo(
-    @PrimaryKey
-    var citta : String,
-    var provincia : String,
-    var cap : String,
-    var via : String,
-    var numero_civico : String){
-    constructor(): this("","","","","")
 }
 
 fun List<DatabaseProdotto>.asDomainModelProdotto(): List<Prodotto> {

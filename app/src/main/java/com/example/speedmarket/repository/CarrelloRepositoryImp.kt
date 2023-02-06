@@ -43,23 +43,6 @@ class CarrelloRepositoryImp(
                }
        }
 
- /*   override fun addCarrello(
-        carrello: Carrello,
-        result: (UiState<String>) -> Unit) {
-        val document = database.collection(FireStoreCollection.CARRELLI).document()
-        carrello.id = document.id
-        document
-            .set(carrello)
-            .addOnSuccessListener {
-                carrelloDao.insertCarrello()
-                result.invoke(
-                    UiState.Success("Carrello registrato con successo!"))
-            }
-            .addOnFailureListener {
-                result.invoke(UiState.Failure(it.localizedMessage))
-            }
-    } */
-
     override fun deleteCarrello(carrello: Carrello, result: (UiState<String>) -> Unit) {
         database.collection(FireStoreCollection.CARRELLI).document(carrello.id)
             .delete()

@@ -4,15 +4,9 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import com.example.speedmarket.R
 import com.example.speedmarket.databinding.ActivityStaffBinding
-import com.example.speedmarket.util.dialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.system.exitProcess
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint

@@ -11,7 +11,6 @@ import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentImpostazioniBinding
 import com.example.speedmarket.ui.ProfileManager
 import com.example.speedmarket.ui.auth.AuthViewModel
-import com.example.speedmarket.ui.home.Home
 import com.example.speedmarket.ui.impostazioni.assistenzaClienti.AssistenzaClientiFragment
 import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.example.speedmarket.util.*

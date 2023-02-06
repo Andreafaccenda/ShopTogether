@@ -23,9 +23,9 @@ import kotlinx.coroutines.withContext
 class AuthRepositoryImp(
     val auth: FirebaseAuth,
     val database: FirebaseFirestore,
-    val storage: StorageReference,
-    val appPreferences: SharedPreferences,
-    val gson: Gson,
+    private val storage: StorageReference,
+    private val appPreferences: SharedPreferences,
+    private val gson: Gson,
 ) : AuthRepository {
 
     override fun registerUser(
@@ -36,16 +36,11 @@ class AuthRepositoryImp(
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-
                 if (it.isSuccessful) {
                     utente.id = it.result.user?.uid ?: ""
                     updateUserInfo(utente) { state ->
                         when (state) {
                             is UiState.Success -> {
-                                /*storeSession(id = it.result.user?.uid ?: "") {
-                                    if (it == null){
-                                        result.invoke(UiState.Failure("User register successfully but session failed to store"))
-                                    }else{*/
                                 result.invoke(
                                     UiState.Success("Utente registrato correttamente!")
                                 )

@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -27,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_ordine_details.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
+
 @AndroidEntryPoint
 class OrdineDetailsFragment : Fragment(), ProfileManager{
 
@@ -42,7 +42,6 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentOrdineDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -76,17 +75,14 @@ class OrdineDetailsFragment : Fragment(), ProfileManager{
                 if(ordine_consegnato.isChecked){
                     updateStateCarrello(Carrello.Stato.consegnato)
                     ordine_consegnato.isEnabled = false
-         //           binding.layoutChangeState.hide()
                 }
                 if(ordine_elaborazione.isChecked){
                     updateStateCarrello(Carrello.Stato.elaborazione)
                     ordine_elaborazione.isEnabled=false
-        //            binding.layoutChangeState.hide()
                 }
                 if(ordine_spedizione.isChecked){
                     updateStateCarrello(Carrello.Stato.spedizione)
                     ordine_spedizione.isEnabled=false
-        //            binding.layoutChangeState.hide()
                 }
             }
         }

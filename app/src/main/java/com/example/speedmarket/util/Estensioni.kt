@@ -1,6 +1,5 @@
 package com.example.speedmarket.util
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -21,8 +20,6 @@ import androidx.navigation.findNavController
 import coil.load
 import com.example.speedmarket.R
 import com.example.speedmarket.model.Prodotto
-import com.example.speedmarket.ui.AppActivity
-import com.example.speedmarket.ui.impostazioni.profile.Profile
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_app.*
 import java.math.RoundingMode
@@ -86,7 +83,7 @@ fun Fragment.dialogInternet() {
         dialog.dismiss()
     }
 }
-fun Fragment.isOnline(context: Context): Boolean {
+fun isOnline(context: Context): Boolean {
     val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val capabilities =
@@ -144,7 +141,10 @@ fun Fragment.bottomSheetDialog(prodotto:Prodotto):BottomSheetDialog{
         ?.let { bindImage(it,prodotto.immagine) }
     bottomSheetDialog.findViewById<TextView>(R.id.descrizione_prodotto)?.text = "Descrizione:${prodotto.descrizione}"
     bottomSheetDialog.findViewById<TextView>(R.id.scadenza_prodotto)?.text = "Data di scadenza: ${prodotto.data_scadenza}"
-    bottomSheetDialog.findViewById<TextView>(R.id.prezzo)?.text = "€${calcolaPrezzo(prodotto.prezzo_unitario, prodotto.quantita, prodotto.offerta!!, prodotto.unita_ordinate)}"
+    bottomSheetDialog.findViewById<TextView>(R.id.prezzo)?.text = "€${calcolaPrezzo(prodotto.prezzo_unitario,
+        prodotto.quantita,
+        prodotto.offerta!!,
+        prodotto.unita_ordinate)}"
     bottomSheetDialog.findViewById<TextView>(R.id.categoria_prodotto)?.text="Categoria:${prodotto.categoria}"
     bottomSheetDialog.findViewById<TextView>(R.id.produttore_prodotto)?.text="Marchio:${prodotto.produttore}"
     bottomSheetDialog.findViewById<TextView>(R.id.txt_quantità_prodotto)?.text= prodotto.unita_ordinate.toString()
@@ -157,7 +157,7 @@ fun Fragment.bindImage(imgView: ImageView, imgUrl: String?) {
         imgView.load(imgUri)
     }
 }
-fun Fragment.calcolaPrezzo(prezzo_unitario:Float, quantita:Float, offerta:Float,unita_ordinate:Int): String {
+fun calcolaPrezzo(prezzo_unitario: Float, quantita: Float, offerta: Float, unita_ordinate: Int): String {
     val dec = DecimalFormat("##0.00")
     return if(offerta < 1) {
         dec.roundingMode = RoundingMode.DOWN

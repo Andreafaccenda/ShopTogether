@@ -69,7 +69,7 @@ class RegistrazioneUtenteFragment : Fragment() {
         }
     }
 
-    fun getUtenteObj(): Utente {
+    private fun getUtenteObj(): Utente {
         return Utente(
             id = "",
             nome = binding.etNome.text.toString(),
@@ -87,25 +87,24 @@ class RegistrazioneUtenteFragment : Fragment() {
         )
     }
 
-    fun validation(): Boolean {
-
-    return when{
-        binding.etNome.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_nome))
-            false}
-        binding.etCognome.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_cognome))
-            false}
-        binding.etEmail.text.isNullOrEmpty() -> { toast(getString(R.string.messaggio_email))
-            false}
-        !binding.etEmail.text.toString().isValidEmail() -> {toast(getString(R.string.email_invalida))
-            false}
-        binding.etPassword.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_password))
-            false}
-        binding.etPassword.text.toString().length < 8 ->{toast(getString(R.string.messaggio_password_invalida))
-            false}
-        binding.etPassword.text.toString() != binding.etRipetiPassword.text.toString() ->{toast(getString(R.string.messaggio_password_diverse))
-            false}
-        else ->{ true}
+    private fun validation(): Boolean {
+        return when{
+            binding.etNome.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_nome))
+                false}
+            binding.etCognome.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_cognome))
+                false}
+            binding.etEmail.text.isNullOrEmpty() -> { toast(getString(R.string.messaggio_email))
+                false}
+            !binding.etEmail.text.toString().isValidEmail() -> {toast(getString(R.string.email_invalida))
+                false}
+            binding.etPassword.text.isNullOrEmpty() -> {toast(getString(R.string.messaggio_inserisci_password))
+                false}
+            binding.etPassword.text.toString().length < 8 ->{toast(getString(R.string.messaggio_password_invalida))
+                false}
+            binding.etPassword.text.toString() != binding.etRipetiPassword.text.toString() ->{toast(getString(R.string.messaggio_password_diverse))
+                false}
+            else ->{ true}
+        }
+        return true
     }
-    return true
-}
 }

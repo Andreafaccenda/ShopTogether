@@ -39,7 +39,6 @@ class DettagliProdottoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentDettagliProdottoBinding.inflate(layoutInflater)
         return binding.root
     }

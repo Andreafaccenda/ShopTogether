@@ -101,7 +101,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         }
 
     }
-    fun getLastLocation(){
+    private fun getLastLocation(){
         if(checkPermission()){
             if(isLocationEnabled()){
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
@@ -121,7 +121,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
     }
 
 
-    fun newLocationData(){
+    private fun newLocationData(){
         val locationRequest =  LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 0
@@ -138,7 +138,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         override fun onLocationResult(locationResult: LocationResult) {
         }
     }
-    fun fromXML(latitude : Double, longitude : Double){
+    private fun fromXML(latitude : Double, longitude : Double){
         try {
             StrictMode.setThreadPolicy(policy)
             addressList.clear()
@@ -189,7 +189,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
 
     }
 
-    fun RequestPermission(){
+    private fun RequestPermission(){
         //this function will allows us to tell the user to requesut the necessary permsiion if they are not garented
         ActivityCompat.requestPermissions(
             this,
@@ -198,7 +198,7 @@ class AutoLocationActivity: AppCompatActivity(),ProfileManager {
         )
     }
 
-    fun isLocationEnabled():Boolean{
+    private fun isLocationEnabled():Boolean{
         //this function will return to us the state of the location service
         //if the gps or the network provider is enabled then it will return true otherwise it will return false
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager

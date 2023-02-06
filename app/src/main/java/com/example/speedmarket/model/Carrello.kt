@@ -1,5 +1,4 @@
 package com.example.speedmarket.model
-
 import java.io.Serializable
 
 data class Carrello(
@@ -11,7 +10,14 @@ data class Carrello(
     var indirizzoSpedizione: Indirizzo?,
     var pagamento: Pagamento?
 ) : Serializable {
-    constructor(): this("",null,"","", stato =Stato.incompleto,null,null)
+    constructor(): this("",null,"","",
+        stato =Stato.incompleto,null,null)
 
-    enum class Stato{consegnato,spedizione,elaborazione,incompleto}
+    enum class Stato{consegnato, spedizione, elaborazione, incompleto}
 }
+
+
+
+
+
+

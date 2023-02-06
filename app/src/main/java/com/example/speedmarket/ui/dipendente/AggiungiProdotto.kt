@@ -6,11 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
-import com.example.speedmarket.databinding.FragmentAccediBinding
 import com.example.speedmarket.databinding.FragmentAggiungiProdottoBinding
-import com.example.speedmarket.databinding.FragmentOrdineDetailsBinding
 import com.example.speedmarket.model.Prodotto
 import com.example.speedmarket.ui.catalogo.ProdViewModel
 import com.example.speedmarket.util.UiState
@@ -26,8 +23,7 @@ class AggiungiProdotto : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentAggiungiProdottoBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -40,7 +36,7 @@ class AggiungiProdotto : Fragment() {
         }
     }
     private fun addProduct():Prodotto{
-       var prodotto=Prodotto()
+       val prodotto=Prodotto()
        prodotto.id=binding.etId.text.toString()
         prodotto.nome=binding.etNome.text.toString()
         prodotto.produttore=binding.etProduttore.text.toString()

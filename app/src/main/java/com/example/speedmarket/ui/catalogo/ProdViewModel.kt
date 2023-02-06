@@ -21,8 +21,6 @@ class ProdViewModel @Inject constructor(
         get() = _prodotto
 
     private val _updateProdotto = MutableLiveData<UiState<String>>()
-    val updateProduct: LiveData<UiState<String>>
-        get() = _updateProdotto
 
     private val _addProduct = MutableLiveData<UiState<String>>()
     val addProduct: LiveData<UiState<String>>

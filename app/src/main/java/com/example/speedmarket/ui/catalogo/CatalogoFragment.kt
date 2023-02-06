@@ -1,9 +1,7 @@
 package com.example.speedmarket.ui.catalogo
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -41,7 +39,6 @@ class CatalogoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentCatalogoBinding.inflate(layoutInflater)
         return binding.root
     }

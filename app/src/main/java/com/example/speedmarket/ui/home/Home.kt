@@ -34,7 +34,7 @@ class Home : Fragment(), ProfileManager {
     override var utente: Utente? = null
 
     /**
-     * Per UI Test commentare riga 52, 53 e aggiungere riga 54.
+     * Per UI Test commentare riga 53, 54 e aggiungere riga 55.
      */
 
     override fun onCreateView(

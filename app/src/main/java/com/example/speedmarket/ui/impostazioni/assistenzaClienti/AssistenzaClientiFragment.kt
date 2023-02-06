@@ -5,14 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.speedmarket.R
 import com.example.speedmarket.databinding.FragmentAssistenzaClientiBinding
 import com.example.speedmarket.model.Messaggio
-import com.example.speedmarket.model.Utente
-import com.example.speedmarket.ui.ProfileManager
-import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.*
 import com.example.speedmarket.util.Constants.CLICK_ID
@@ -29,8 +25,7 @@ class AssistenzaClientiFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentAssistenzaClientiBinding.inflate(layoutInflater)
         return binding.root
     }

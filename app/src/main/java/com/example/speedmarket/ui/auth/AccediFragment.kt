@@ -1,7 +1,6 @@
 package com.example.speedmarket.ui.auth
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +24,7 @@ class AccediFragment : Fragment() {
     var isBackFromB = false
 
     /**
-     * Per UI Test commentare riga 47, 48, 51 e, dopo riga 51, aggiungere le seguenti istruzioni:
+     * Per UI Test commentare riga 46, 47, 50 e, dopo riga 50, aggiungere le seguenti istruzioni:
      *
      *  val intent = Intent(requireContext(), AppActivity::class.java)
         intent.putExtra("Username", "Benvenuto,")

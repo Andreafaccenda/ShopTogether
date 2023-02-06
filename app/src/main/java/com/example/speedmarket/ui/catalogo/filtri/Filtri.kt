@@ -47,7 +47,6 @@ class Filtri : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentFiltriBinding.inflate(layoutInflater)
         return binding.root
     }

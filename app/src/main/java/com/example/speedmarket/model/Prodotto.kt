@@ -18,7 +18,13 @@ data class Prodotto(
     var unita_ordinate : Int
 ) : Serializable
 {
-    constructor(): this("","","","","","",0.0f,
-        0.0f,"","",0.0f,0,0)
+    constructor(): this("","","","","","",
+        0.0f, 0.0f,"","",
+        0.0f,0,0)
 }
+
+
+
+
+
 

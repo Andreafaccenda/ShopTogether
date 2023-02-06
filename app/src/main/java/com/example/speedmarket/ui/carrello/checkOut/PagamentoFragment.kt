@@ -28,7 +28,6 @@ class PagamentoFragment : Fragment(), ProfileManager {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentPagamentoBinding.inflate(layoutInflater)
         return binding.root
     }

@@ -1,7 +1,6 @@
 package com.example.speedmarket.ui.carrello
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.example.speedmarket.databinding.FragmentCarrelloBinding
 import com.example.speedmarket.model.*
 import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.carrello.checkOut.CheckOutFragment
-import com.example.speedmarket.ui.catalogo.DettagliProdottoFragment
 import com.example.speedmarket.ui.catalogo.ProdViewModel
 import com.example.speedmarket.util.*
 import com.google.android.material.snackbar.Snackbar
@@ -23,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_app.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -43,14 +40,13 @@ class CarrelloFragment : Fragment() {
     private val adapter by lazy { CarrelloAdapter() }
 
     /**
-     * Per UI Test commentare riga 68, 69 e aggiungere riga 70.
+     * Per UI Test commentare riga 66, 67 e aggiungere riga 68.
      */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentCarrelloBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -172,7 +168,7 @@ class CarrelloFragment : Fragment() {
             if (user != null) utente = user
         }
     }
-    fun funzioneAdapter(){
+    private fun funzioneAdapter(){
         adapter.onItemClick = {
             updateQuantitaOrdine(this.carrello, it)
             updatePriceCart(this.carrello)
@@ -188,7 +184,7 @@ class CarrelloFragment : Fragment() {
         this.carrello.indirizzoSpedizione= Indirizzo("","","","","")
         this.carrello.pagamento= Pagamento("","")
     }
-    fun controlloCoerenzaCarrello(){
+    private fun controlloCoerenzaCarrello(){
         swipeDelete(this.carrello)
         updatePriceCart(this.carrello)
         this.carrello.lista_prodotti?.let { adapter.updateList(it)
@@ -198,7 +194,7 @@ class CarrelloFragment : Fragment() {
             binding.textView5.text = "Il tuo carrello è vuoto!"
         }
     }
-    fun controlloRidondanzaCarrello(prodotto: Prodotto):Boolean {
+    private fun controlloRidondanzaCarrello(prodotto: Prodotto):Boolean {
         for (elem in this.carrello.lista_prodotti!!)
             if (elem.id == prodotto.id) return true
         return false
@@ -259,7 +255,7 @@ class CarrelloFragment : Fragment() {
         }else carrello.prezzo=""
     }
 
-    fun updateQuantitaOrdine(carrello: Carrello, it:Prodotto){
+    private fun updateQuantitaOrdine(carrello: Carrello, it:Prodotto){
             var prodotto: Prodotto? =null
             viewModel.updateProduct(it)
             for (product in carrello.lista_prodotti!!) {
@@ -269,9 +265,7 @@ class CarrelloFragment : Fragment() {
             }
             if (prodotto != null) {
                 carrello.lista_prodotti!!.remove(prodotto)
-                //adapter.notifyItemRemoved(position)
                 carrello.lista_prodotti!!.add(it)
-                //adapter.notifyItemInserted(position)
                 viewModelCarrello.updateCarrello(carrello)
             }
             updatePriceCart(carrello)

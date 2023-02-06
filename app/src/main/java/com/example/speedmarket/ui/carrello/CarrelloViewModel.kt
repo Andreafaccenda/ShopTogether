@@ -23,12 +23,8 @@ class CarrelloViewModel @Inject constructor(
         get() = _carrello
 
     private val _updateCarrello = MutableLiveData<UiState<String>>()
-    val updateCarrello: LiveData<UiState<String>>
-        get() = _updateCarrello
 
     private val _deleteCarrello = MutableLiveData<UiState<String>>()
-    val deleteCarrello: LiveData<UiState<String>>
-        get() = _deleteCarrello
 
     fun updateCarrello(carrello: Carrello) {
         _updateCarrello.value = UiState.Loading

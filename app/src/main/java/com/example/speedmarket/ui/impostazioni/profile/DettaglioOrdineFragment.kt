@@ -37,7 +37,6 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentDettaglioOrdineBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -85,11 +84,9 @@ class DettaglioOrdineFragment : Fragment(),ProfileManager{
         }
     private fun calcolaPrezzo(prezzo :Float): String {
         val dec = DecimalFormat("##0.00")
-            dec.roundingMode = RoundingMode.DOWN
-            val prezzo = dec.format(prezzo)
-
+        dec.roundingMode = RoundingMode.DOWN
+        val prezzo = dec.format(prezzo)
         return prezzo
-
     }
 
 

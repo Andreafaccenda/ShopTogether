@@ -11,7 +11,6 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,7 +23,6 @@ import com.example.speedmarket.ui.auth.AuthViewModel
 import com.example.speedmarket.ui.impostazioni.Impostazioni
 import com.example.speedmarket.util.*
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class Profile : Fragment(), ProfileManager {
