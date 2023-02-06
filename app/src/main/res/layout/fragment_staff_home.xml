@@ -84,24 +84,11 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_addproduct"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_white"
-                        android:drawableStart="@drawable/add"
-                        android:padding="5dp"
-                        android:text="Aggiungi prodotti"
-                        android:textColor="@color/yellow"
-                        android:textSize="12sp" />
-
-                    <Button
                         android:id="@+id/btn_logOut"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="1"
+                        android:layout_marginStart="250dp"
+                        android:layout_weight="0"
                         android:background="@drawable/button_white"
                         android:drawableStart="@drawable/logout_orange"
                         android:padding="5dp"

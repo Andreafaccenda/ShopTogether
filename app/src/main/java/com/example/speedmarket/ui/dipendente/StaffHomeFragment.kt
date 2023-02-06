@@ -54,9 +54,6 @@ class StaffHomeFragment : Fragment() {
                 it.findNavController().popBackStack(R.id.ordineDetailsFragment,false)
             }
         }
-        binding.btnAddproduct.setOnClickListener{
-            it.findNavController().navigate(R.id.action_staffHomeFragment_to_aggiungiProdotto)
-        }
         adapter.onItemClick= {
             val directions = StaffHomeFragmentDirections.actionStaffHomeFragmentToOrdineDetailsFragment(it)
             findNavController().navigate(directions)
