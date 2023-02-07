@@ -156,6 +156,7 @@ class Profile : Fragment(), ProfileManager {
     }
 
     private fun immagineGalleria() {
+        isBackFromB=false
         val intent = Intent(Intent.ACTION_PICK)
         intent.type="image/*"
         startActivityForResult(intent,IMAGE_REQUEST_CODE)
